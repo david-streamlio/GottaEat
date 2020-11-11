@@ -1,0 +1,18 @@
+@namespace("com.gottaeat.domain.common")
+
+protocol CommonsProtocol {
+
+  record LatLon {
+    double latitude;
+    double longitude;
+  }
+
+  record Address {
+    string street; 
+    string city; 
+    string state; 
+    string zip;
+    union { null, LatLon } geo;
+  }
+  
+}

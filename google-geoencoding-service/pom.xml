@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <parent>
+    <groupId>com.gottaeat</groupId>
+    <artifactId>GottaEat</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  
+  <artifactId>google-geoencoding-service</artifactId>
+  <name>GottaEat :: Google Geo-Encoding Service</name>
+  
+  <!-- 
+  <groupId>com.gottaeat.services.geoencoding.google</groupId>
+   -->
+
+  <properties>
+  	<resilience4j.version>1.3.1</resilience4j.version>
+  </properties>
+  
+    <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.nifi</groupId>
+				<artifactId>nifi-nar-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+    		<groupId>io.github.resilience4j</groupId>
+    		<artifactId>resilience4j-all</artifactId>
+    		<version>${resilience4j.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.gottaeat</groupId>
+    		<artifactId>domain-schema</artifactId>
+    		<version>${revision}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+  			<artifactId>jsr311-api</artifactId>
+  			<version>1.1.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.10</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>com.squareup.okhttp3</groupId>
+    		<artifactId>okhttp</artifactId>
+    		<version>4.5.0</version>
+		</dependency>
+		
+	</dependencies>
+	
+</project>

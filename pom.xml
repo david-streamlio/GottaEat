@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>com.gottaeat</groupId>
+  <artifactId>GottaEat</artifactId>
+  <packaging>pom</packaging>
+  <name>GottaEat :: Parent</name>
+  <version>1.0.0</version>
+
+    <properties>
+        <revision>1.0.0</revision>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <lombok.version>1.18.4</lombok.version>
+        <pulsar.version>2.6.1</pulsar.version>
+        <resilience4j.version>1.4.0</resilience4j.version>
+    </properties>
+
+    <modules>
+      <module>cache-lookup</module>
+      <module>credit-card-authorization-service</module>
+      <module>customer-mobile-app-simulator</module>
+      <module>domain-schema</module>
+      <module>geo-encoding</module>
+      <module>google-geoencoding-service</module>
+      <module>order-solicitation-service</module>
+      <module>order-validation-service</module>
+      <module>payment-service</module>
+      <module>paypal-authorization-service</module>
+      <module>resilience</module>
+    </modules>
+    
+    <dependencies>
+        <dependency>
+			<groupId>org.apache.pulsar</groupId>
+			<artifactId>pulsar-client</artifactId>
+			<version>${pulsar.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.pulsar</groupId>
+			<artifactId>pulsar-functions-api</artifactId>
+			<version>${pulsar.version}</version>
+		</dependency>
+		
+        <dependency>
+    		<groupId>junit</groupId>
+    		<artifactId>junit</artifactId>
+    		<version>4.13.1</version>
+    		<scope>test</scope>
+		</dependency>
+    </dependencies>
+  
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <encoding>UTF-8</encoding>
+                        <showDeprecation>true</showDeprecation>
+                        <showWarnings>true</showWarnings>
+                        <optimize>true</optimize>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.nifi</groupId>
+                    <artifactId>nifi-nar-maven-plugin</artifactId>
+                    <version>1.2.0</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <finalName>${project.artifactId}-${project.version}</finalName>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>default-nar</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>nar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                
+                <plugin>
+				   <groupId>org.apache.maven.plugins</groupId>
+				   <artifactId>maven-resources-plugin</artifactId>
+				   <version>3.1.0</version>
+			    </plugin>
+			
+           </plugins>
+        </pluginManagement>
+    </build>
+</project>
