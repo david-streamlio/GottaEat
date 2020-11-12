@@ -11,7 +11,11 @@
         <revision>1.0.0</revision>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        
+        <httpclient.version>4.5.10</httpclient.version>
+        <junit.version>4.13.1</junit.version>
         <lombok.version>1.18.4</lombok.version>
+        <okhttp.version>4.5.0</okhttp.version>
         <pulsar.version>2.6.1</pulsar.version>
         <resilience4j.version>1.4.0</resilience4j.version>
     </properties>
@@ -46,7 +50,7 @@
         <dependency>
     		<groupId>junit</groupId>
     		<artifactId>junit</artifactId>
-    		<version>4.13.1</version>
+    		<version>${junit.version}</version>
     		<scope>test</scope>
 		</dependency>
     </dependencies>

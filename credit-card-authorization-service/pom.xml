@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>com.gottaeat</groupId>
     		<artifactId>domain-schema</artifactId>
-    		<version>${revision}</version>
+    		<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
@@ -50,13 +50,13 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.10</version>
+			<version>${httpclient.version}</version>
 		</dependency>
 		
 		<dependency>
     		<groupId>com.squareup.okhttp3</groupId>
     		<artifactId>okhttp</artifactId>
-    		<version>4.5.0</version>
+    		<version>${okhttp.version}</version>
 		</dependency>
 		
 	</dependencies>

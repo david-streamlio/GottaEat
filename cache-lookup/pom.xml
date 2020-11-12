@@ -13,6 +13,7 @@
 
   <properties>
   	<ignite.version>2.8.1</ignite.version>
+  	<mysql.version>8.0.20</mysql.version>
   </properties>
   
     <build>
@@ -20,7 +21,6 @@
 			<plugin>
 				<groupId>org.apache.nifi</groupId>
 				<artifactId>nifi-nar-maven-plugin</artifactId>
-				<version>1.2.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -49,13 +49,13 @@
 		<dependency>
 			<groupId>com.gottaeat</groupId>
     		<artifactId>domain-schema</artifactId>
-    		<version>${revision}</version>
+    		<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
            <groupId>mysql</groupId>
            <artifactId>mysql-connector-java</artifactId>
-           <version>8.0.20</version>
+           <version>${mysql.version}</version>
         </dependency>
 
 	</dependencies>

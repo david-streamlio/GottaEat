@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>com.gottaeat</groupId>
     		<artifactId>domain-schema</artifactId>
-    		<version>${revision}</version>
+    		<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
