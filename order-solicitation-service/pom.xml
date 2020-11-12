@@ -3,7 +3,7 @@
    <parent>
     <groupId>com.gottaeat</groupId>
     <artifactId>GottaEat</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
   </parent>
 
   <artifactId>order-solicitation-service</artifactId>
