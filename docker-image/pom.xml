@@ -21,14 +21,21 @@
              <images>
                 <image>
                    <name>pia/gotta-eat</name>
-                   <build> <!--  
-                     <dockerFileDir>/src/main/docker</dockerFileDir> -->
+                   <build> 
+                     <dockerFileDir>microservices</dockerFileDir>
                      <assembly>
                        <targetDir>/connectors</targetDir>
                        <mode>dir</mode>
-                       <descriptor>/src/main/docker/assembly.xml</descriptor>
+                       <descriptor>microservices/assembly.xml</descriptor>
                      </assembly>
                    </build>
+                </image>
+                
+                <image>
+                	<name>pia/gotta-eat-db</name>
+                	<build>
+                	  <dockerFileDir>database</dockerFileDir>
+                	</build>
                 </image>
               </images>
            </configuration>
