@@ -3,8 +3,6 @@ Code for the fictitious food delivery company GottaEat used in the Pulsar In Act
 
 ## Build Instructions
 
-
- 
 This project leverages the [Continuous delivery friendly version of Maven](https://maven.apache.org/maven-ci-friendly.html), which allows us to dynamically specify the project version
 via a property, e.g.
 

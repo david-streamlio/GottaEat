@@ -1,0 +1,38 @@
+lassName: com.manning.pulsar.chapter4.functions.sdk.KeywordFilterFunction
+tenant: gottaeat
+namespace: payments
+name: credit-card-auth-service
+inputs:
+- persistent://gottaeat/orders/validated-orders
+output: persistent://gottaeat/payments/authorized
+userConfig: 
+
+
+##################################
+# Processing 
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/payments/credit-card-auth-service-log
+processingGuarantees: ATLEAST_ONCE
+retainOrdering: false
+timeoutMs: 30000
+subName: credit-card-auth-service-sub
+cleanupSubscription: true
+
+##################################
+# Function instance resources
+##################################
+CPU: 2.0
+disk: 50000
+ram: 200000000
+# parallelism: 3
+
+##################################
+# Security 
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls: 

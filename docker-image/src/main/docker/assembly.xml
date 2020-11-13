@@ -1,0 +1,94 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+  <id>GottaEat-Deployment</id>
+  
+  <fileSets>
+    <fileSet>
+      <directory>${project.basedir}/src/main/docker/service-configs</directory>
+      <outputDirectory>service-configs/</outputDirectory>
+      <filtered>true</filtered>
+      <includes>
+        <include>*.yml</include>
+      </includes>
+      <fileMode>755</fileMode>
+    </fileSet>
+  </fileSets>
+
+  
+  <dependencySets>
+     <dependencySet>
+        <includes>
+           <include>${parent.groupId}:cache-lookup</include>
+        </includes>
+        <outputDirectory>.</outputDirectory>
+        <outputFileNameMapping>cache-lookup.nar</outputFileNameMapping>
+    </dependencySet>
+                             
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:credit-card-authorization-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>credit-card-authorization-service.nar</outputFileNameMapping>
+    </dependencySet>
+                             
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:geo-encoding</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>geo-encoding.nar</outputFileNameMapping>
+    </dependencySet>
+                             
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:google-geoencoding-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>google-geoencoding-service.nar</outputFileNameMapping>
+    </dependencySet>
+                             
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:order-solicitation-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>order-solicitation-service.nar</outputFileNameMapping>
+    </dependencySet>
+                             
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:order-validation-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>order-validation-service.nar</outputFileNameMapping>
+    </dependencySet>
+                                       
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:payment-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>payment-service.nar</outputFileNameMapping>
+    </dependencySet>
+                                       
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:paypal-authorization-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>paypal-authorization-service.nar</outputFileNameMapping>
+    </dependencySet>
+                                       
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:resilience</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>resilience.nar</outputFileNameMapping>
+    </dependencySet>
+                        
+  </dependencySets>
+                           
+</assembly>

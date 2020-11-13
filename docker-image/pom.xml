@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>com.gottaeat</groupId>
+    <artifactId>GottaEat</artifactId>
+    <version>${revision}</version>
+  </parent>
+  
+
+  <artifactId>docker-image</artifactId>
+  <packaging>pom</packaging>
+  <name>GottaEat :: Docker Image</name>
+  
+  <build>
+	<plugins>
+	    <plugin>
+		   <groupId>io.fabric8</groupId>
+           <artifactId>docker-maven-plugin</artifactId>
+           <configuration>
+             <images>
+                <image>
+                   <name>pia/gotta-eat</name>
+                   <build> <!--  
+                     <dockerFileDir>/src/main/docker</dockerFileDir> -->
+                     <assembly>
+                       <targetDir>/connectors</targetDir>
+                       <mode>dir</mode>
+                       <descriptor>/src/main/docker/assembly.xml</descriptor>
+                     </assembly>
+                   </build>
+                </image>
+              </images>
+           </configuration>
+           <executions>
+             <execution>
+               <phase>package</phase>
+                <goals>
+                   <goal>build</goal>
+               </goals>
+             </execution>
+           </executions>
+        </plugin>
+	</plugins>
+  </build>
+  
+  <dependencies>
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>cache-lookup</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>credit-card-authorization-service</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>geo-encoding</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>google-geoencoding-service</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>order-solicitation-service</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>order-validation-service</artifactId>
+         <version>${parent.version}</version>
+     </dependency>     
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>payment-service</artifactId>
+         <version>${parent.version}</version>
+     </dependency>   
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>paypal-authorization-service</artifactId>
+         <version>${parent.version}</version>
+     </dependency>    
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>resilience</artifactId>
+         <version>${parent.version}</version>
+     </dependency>             
+       
+  </dependencies>
+	
+</project>
