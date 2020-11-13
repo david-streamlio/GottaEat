@@ -29,5 +29,6 @@ hs_err_pid*
 .settings/
 
 # Target folders
-/target
+target/
+*/target
 */bin

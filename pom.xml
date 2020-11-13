@@ -16,7 +16,7 @@
         <junit.version>4.13.1</junit.version>
         <lombok.version>1.18.4</lombok.version>
         <okhttp.version>4.5.0</okhttp.version>
-        <pulsar.version>2.6.1</pulsar.version>
+        <pulsar.version>2.6.2</pulsar.version>
         <resilience4j.version>1.4.0</resilience4j.version>
     </properties>
 
