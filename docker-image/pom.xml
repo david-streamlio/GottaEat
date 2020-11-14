@@ -66,6 +66,30 @@
      
      <dependency>
          <groupId>${parent.groupId}</groupId>
+         <artifactId>customer-cohorts-lookup</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>customer-details-lookup</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>fraud-detection</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>fraud-scoring</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
          <artifactId>geo-encoding</artifactId>
          <version>${parent.version}</version>
      </dependency>
@@ -73,6 +97,12 @@
      <dependency>
          <groupId>${parent.groupId}</groupId>
          <artifactId>google-geoencoding-service</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>order-history-lookup</artifactId>
          <version>${parent.version}</version>
      </dependency>
      

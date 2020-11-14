@@ -31,6 +31,38 @@
       <outputDirectory>.</outputDirectory>
       <outputFileNameMapping>credit-card-authorization-service.nar</outputFileNameMapping>
     </dependencySet>
+
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:customer-cohorts-lookup</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>customer-cohorts-lookup.nar</outputFileNameMapping>
+    </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:customer-details-lookup</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>customer-details-lookup.nar</outputFileNameMapping>
+    </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:fraud-detection</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>fraud-detection.nar</outputFileNameMapping>
+    </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:fraud-scoring</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>fraud-scoring.nar</outputFileNameMapping>
+    </dependencySet>
                              
     <dependencySet>
       <includes>
@@ -46,6 +78,14 @@
       </includes>
       <outputDirectory>.</outputDirectory>
       <outputFileNameMapping>google-geoencoding-service.nar</outputFileNameMapping>
+    </dependencySet>
+ 
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:order-history-lookup</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>order-history-lookup.nar</outputFileNameMapping>
     </dependencySet>
                              
     <dependencySet>

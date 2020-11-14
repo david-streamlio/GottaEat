@@ -24,9 +24,14 @@
       <module>cache-lookup</module>
       <module>credit-card-authorization-service</module>
       <module>customer-mobile-app-simulator</module>
+      <module>customer-cohorts-lookup</module>
+      <module>customer-details-lookup</module>
       <module>domain-schema</module>
+      <module>fraud-detection</module>
+      <module>fraud-scoring</module>
       <module>geo-encoding</module>
       <module>google-geoencoding-service</module>
+      <module>order-history-lookup</module>
       <module>order-solicitation-service</module>
       <module>order-validation-service</module>
       <module>payment-service</module>
