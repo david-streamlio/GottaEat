@@ -1,7 +1,7 @@
 USE GottaEat;
 
 SET AUTOCOMMIT=0;
-INSERT INTO registered_user VALUES (1,'MARY','SMITH','MARY.SMITH@gmail.com','',true,'2020-10-14 22:04:36','2020-10-15 04:57:20'),
+INSERT INTO RegisteredUser VALUES (1,'MARY','SMITH','MARY.SMITH@gmail.com','',true,'2020-10-14 22:04:36','2020-10-15 04:57:20'),
 (2,'PATRICIA','JOHNSON','PATRICIA.JOHNSON@gmail.com','',true,'2020-10-14 22:04:36','2020-10-15 04:57:20'),
 (3,'LINDA','WILLIAMS','LINDA.WILLIAMS@gmail.com','',true,'2020-10-14 22:04:36','2020-10-15 04:57:20'),
 (4,'BARBARA','JONES','BARBARA.JONES@gmail.com','',true,'2020-10-14 22:04:36','2020-10-15 04:57:20'),
@@ -103,7 +103,7 @@ INSERT INTO registered_user VALUES (1,'MARY','SMITH','MARY.SMITH@gmail.com','',t
 (100,'ROBIN','HAYES','ROBIN.HAYES@gmail.com','',true,'2020-10-14 22:04:36','2020-10-15 04:57:20');
 COMMIT;
 
-INSERT INTO customer VALUES (1, 1, 1),
+INSERT INTO Customer VALUES (1, 1, 1),
 (2, 2, 2),
 (3, 3, 3),
 (4, 4, 4),
@@ -113,16 +113,4 @@ INSERT INTO customer VALUES (1, 1, 1),
 (8, 8, 8),
 (9, 9, 9),
 (10, 10, 10);
-COMMIT;
-
-INSERT INTO driver VALUES (11, 11, 11),
-(12, 12, 12),
-(13, 13, 13),
-(14, 14, 14),
-(15, 15, 15),
-(16, 16, 16),
-(17, 17, 17),
-(18, 18, 18),
-(19, 19, 19),
-(20, 20, 20);
 COMMIT;

@@ -12,6 +12,9 @@ SOURCE /tmp/schemas/locations-schema.sql
 SOURCE /tmp/schemas/locations-data.sql
 SOURCE /tmp/schemas/users-schema.sql
 SOURCE /tmp/schemas/users-data.sql
-SOURCE /tmp/schemas/resturant-schema.sql
+SOURCE /tmp/schemas/restaurant-schema.sql
+SOURCE /tmp/schemas/restaurant-data.sql 
+SOURCE /tmp/schemas/driver-schema.sql 
+SOURCE /tmp/schemas/driver-data.sql 
 
 
