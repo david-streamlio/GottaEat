@@ -1,0 +1,30 @@
+@namespace("com.gottaeat.domain.fraud.scoring.fraudlabs")
+
+protocol OrderScreenProtocol {
+
+  enum PaymentType {
+    CREDITCARD, PAYPAL, GOOGLECHECKOUT, BITCOIN, WIRED
+  }
+
+  record Address {
+    string address;
+    string city;
+    string state;
+    string country;
+    string postalCode;
+  }
+
+  record Transaction {
+    string ip;
+    string lastName;
+    string firstName;
+    Address billingAddress;
+    string shipToLastName;
+    string shipToFirstName;
+    Address shippingAddress;
+    string email;
+    string phoneNumber;
+    PaymentType paymentMode;
+    float amount;
+  }
+}
