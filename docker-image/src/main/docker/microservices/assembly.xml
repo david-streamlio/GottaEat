@@ -71,14 +71,6 @@
       <outputDirectory>.</outputDirectory>
       <outputFileNameMapping>google-geoencoding-service.nar</outputFileNameMapping>
     </dependencySet>
- 
-    <dependencySet>
-      <includes>
-         <include>${parent.groupId}:order-history-lookup</include>
-      </includes>
-      <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>order-history-lookup.nar</outputFileNameMapping>
-    </dependencySet>
                              
     <dependencySet>
       <includes>

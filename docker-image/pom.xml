@@ -96,12 +96,6 @@
      
      <dependency>
          <groupId>${parent.groupId}</groupId>
-         <artifactId>order-history-lookup</artifactId>
-         <version>${parent.version}</version>
-     </dependency>
-     
-     <dependency>
-         <groupId>${parent.groupId}</groupId>
          <artifactId>order-solicitation-service</artifactId>
          <version>${parent.version}</version>
      </dependency>

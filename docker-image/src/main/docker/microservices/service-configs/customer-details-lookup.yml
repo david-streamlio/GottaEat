@@ -1,22 +1,25 @@
-className: com.gottaeat.services.payment.creditcard.CreditCardAuthorizationService
+className: com.gottaeat.dao.customer.CustomerDetailsLookup
 tenant: gottaeat
 namespace: payments
-name: credit-card-auth-service
+name: customer-details-lookup
 inputs:
-- persistent://gottaeat/orders/validated-orders
-output: persistent://gottaeat/payments/authorized
-userConfig: 
-
+- persistent://gottaeat/
+output: persistent://gottaeat/
+userConfig:
+  - dbUrl: 
+  - dbUser:
+  - dbPass:
+  - dbDriverClass: 
 
 ##################################
 # Processing 
 ##################################
 autoAck: true
-logTopic: persistent://gottaeat/payments/credit-card-auth-service-log
+logTopic: persistent://gottaeat/dao/customer-details-lookup-log
 processingGuarantees: ATLEAST_ONCE
 retainOrdering: false
 timeoutMs: 30000
-subName: credit-card-auth-service-sub
+subName: customer-details-lookup-sub
 cleanupSubscription: true
 
 ##################################

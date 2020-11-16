@@ -30,7 +30,6 @@
       <module>fraud-scoring</module>
       <module>geo-encoding</module>
       <module>google-geoencoding-service</module>
-      <module>order-history-lookup</module>
       <module>order-solicitation-service</module>
       <module>order-validation-service</module>
       <module>payment-service</module>
