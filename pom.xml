@@ -24,7 +24,6 @@
       <module>cache-lookup</module>
       <module>credit-card-authorization-service</module>
       <module>customer-mobile-app-simulator</module>
-      <module>customer-cohorts-lookup</module>
       <module>customer-details-lookup</module>
       <module>domain-schema</module>
       <module>fraud-detection</module>

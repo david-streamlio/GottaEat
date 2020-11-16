@@ -31,14 +31,6 @@
       <outputDirectory>.</outputDirectory>
       <outputFileNameMapping>credit-card-authorization-service.nar</outputFileNameMapping>
     </dependencySet>
-
-    <dependencySet>
-      <includes>
-         <include>${parent.groupId}:customer-cohorts-lookup</include>
-      </includes>
-      <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>customer-cohorts-lookup.nar</outputFileNameMapping>
-    </dependencySet>
     
     <dependencySet>
       <includes>
