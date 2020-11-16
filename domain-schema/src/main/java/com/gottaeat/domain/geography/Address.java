@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.gottaeat.domain.fraud.scoring.fraudlabs;
+package com.gottaeat.domain.geography;
 
 import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Address extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -878416431704489417L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.gottaeat.domain.fraud.scoring.fraudlabs\",\"fields\":[{\"name\":\"address\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"country\",\"type\":\"string\"},{\"name\":\"postalCode\",\"type\":\"string\"}]}");
+  private static final long serialVersionUID = -5791263184448613886L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.gottaeat.domain.geography\",\"fields\":[{\"name\":\"street\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"country\",\"type\":\"string\"},{\"name\":\"zip\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -71,11 +71,11 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
     return DECODER.decode(b);
   }
 
-  @Deprecated public java.lang.CharSequence address;
+  @Deprecated public java.lang.CharSequence street;
   @Deprecated public java.lang.CharSequence city;
   @Deprecated public java.lang.CharSequence state;
   @Deprecated public java.lang.CharSequence country;
-  @Deprecated public java.lang.CharSequence postalCode;
+  @Deprecated public java.lang.CharSequence zip;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -86,18 +86,18 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
 
   /**
    * All-args constructor.
-   * @param address The new value for address
+   * @param street The new value for street
    * @param city The new value for city
    * @param state The new value for state
    * @param country The new value for country
-   * @param postalCode The new value for postalCode
+   * @param zip The new value for zip
    */
-  public Address(java.lang.CharSequence address, java.lang.CharSequence city, java.lang.CharSequence state, java.lang.CharSequence country, java.lang.CharSequence postalCode) {
-    this.address = address;
+  public Address(java.lang.CharSequence street, java.lang.CharSequence city, java.lang.CharSequence state, java.lang.CharSequence country, java.lang.CharSequence zip) {
+    this.street = street;
     this.city = city;
     this.state = state;
     this.country = country;
-    this.postalCode = postalCode;
+    this.zip = zip;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -105,11 +105,11 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   // Used by DatumWriter.  Applications should not call.
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return address;
+    case 0: return street;
     case 1: return city;
     case 2: return state;
     case 3: return country;
-    case 4: return postalCode;
+    case 4: return zip;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -118,30 +118,30 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: address = (java.lang.CharSequence)value$; break;
+    case 0: street = (java.lang.CharSequence)value$; break;
     case 1: city = (java.lang.CharSequence)value$; break;
     case 2: state = (java.lang.CharSequence)value$; break;
     case 3: country = (java.lang.CharSequence)value$; break;
-    case 4: postalCode = (java.lang.CharSequence)value$; break;
+    case 4: zip = (java.lang.CharSequence)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
 
   /**
-   * Gets the value of the 'address' field.
-   * @return The value of the 'address' field.
+   * Gets the value of the 'street' field.
+   * @return The value of the 'street' field.
    */
-  public java.lang.CharSequence getAddress() {
-    return address;
+  public java.lang.CharSequence getStreet() {
+    return street;
   }
 
 
   /**
-   * Sets the value of the 'address' field.
+   * Sets the value of the 'street' field.
    * @param value the value to set.
    */
-  public void setAddress(java.lang.CharSequence value) {
-    this.address = value;
+  public void setStreet(java.lang.CharSequence value) {
+    this.street = value;
   }
 
   /**
@@ -196,28 +196,28 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   }
 
   /**
-   * Gets the value of the 'postalCode' field.
-   * @return The value of the 'postalCode' field.
+   * Gets the value of the 'zip' field.
+   * @return The value of the 'zip' field.
    */
-  public java.lang.CharSequence getPostalCode() {
-    return postalCode;
+  public java.lang.CharSequence getZip() {
+    return zip;
   }
 
 
   /**
-   * Sets the value of the 'postalCode' field.
+   * Sets the value of the 'zip' field.
    * @param value the value to set.
    */
-  public void setPostalCode(java.lang.CharSequence value) {
-    this.postalCode = value;
+  public void setZip(java.lang.CharSequence value) {
+    this.zip = value;
   }
 
   /**
    * Creates a new Address RecordBuilder.
    * @return A new Address RecordBuilder
    */
-  public static com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder newBuilder() {
-    return new com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder();
+  public static com.gottaeat.domain.geography.Address.Builder newBuilder() {
+    return new com.gottaeat.domain.geography.Address.Builder();
   }
 
   /**
@@ -225,11 +225,11 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
    * @param other The existing builder to copy.
    * @return A new Address RecordBuilder
    */
-  public static com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder newBuilder(com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder other) {
+  public static com.gottaeat.domain.geography.Address.Builder newBuilder(com.gottaeat.domain.geography.Address.Builder other) {
     if (other == null) {
-      return new com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder();
+      return new com.gottaeat.domain.geography.Address.Builder();
     } else {
-      return new com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder(other);
+      return new com.gottaeat.domain.geography.Address.Builder(other);
     }
   }
 
@@ -238,11 +238,11 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
    * @param other The existing instance to copy.
    * @return A new Address RecordBuilder
    */
-  public static com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder newBuilder(com.gottaeat.domain.fraud.scoring.fraudlabs.Address other) {
+  public static com.gottaeat.domain.geography.Address.Builder newBuilder(com.gottaeat.domain.geography.Address other) {
     if (other == null) {
-      return new com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder();
+      return new com.gottaeat.domain.geography.Address.Builder();
     } else {
-      return new com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder(other);
+      return new com.gottaeat.domain.geography.Address.Builder(other);
     }
   }
 
@@ -252,11 +252,11 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<Address>
     implements org.apache.avro.data.RecordBuilder<Address> {
 
-    private java.lang.CharSequence address;
+    private java.lang.CharSequence street;
     private java.lang.CharSequence city;
     private java.lang.CharSequence state;
     private java.lang.CharSequence country;
-    private java.lang.CharSequence postalCode;
+    private java.lang.CharSequence zip;
 
     /** Creates a new Builder */
     private Builder() {
@@ -267,10 +267,10 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder other) {
+    private Builder(com.gottaeat.domain.geography.Address.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.address)) {
-        this.address = data().deepCopy(fields()[0].schema(), other.address);
+      if (isValidValue(fields()[0], other.street)) {
+        this.street = data().deepCopy(fields()[0].schema(), other.street);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
       if (isValidValue(fields()[1], other.city)) {
@@ -285,8 +285,8 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
         this.country = data().deepCopy(fields()[3].schema(), other.country);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
-      if (isValidValue(fields()[4], other.postalCode)) {
-        this.postalCode = data().deepCopy(fields()[4].schema(), other.postalCode);
+      if (isValidValue(fields()[4], other.zip)) {
+        this.zip = data().deepCopy(fields()[4].schema(), other.zip);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
     }
@@ -295,10 +295,10 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
      * Creates a Builder by copying an existing Address instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.gottaeat.domain.fraud.scoring.fraudlabs.Address other) {
+    private Builder(com.gottaeat.domain.geography.Address other) {
       super(SCHEMA$);
-      if (isValidValue(fields()[0], other.address)) {
-        this.address = data().deepCopy(fields()[0].schema(), other.address);
+      if (isValidValue(fields()[0], other.street)) {
+        this.street = data().deepCopy(fields()[0].schema(), other.street);
         fieldSetFlags()[0] = true;
       }
       if (isValidValue(fields()[1], other.city)) {
@@ -313,48 +313,48 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
         this.country = data().deepCopy(fields()[3].schema(), other.country);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.postalCode)) {
-        this.postalCode = data().deepCopy(fields()[4].schema(), other.postalCode);
+      if (isValidValue(fields()[4], other.zip)) {
+        this.zip = data().deepCopy(fields()[4].schema(), other.zip);
         fieldSetFlags()[4] = true;
       }
     }
 
     /**
-      * Gets the value of the 'address' field.
+      * Gets the value of the 'street' field.
       * @return The value.
       */
-    public java.lang.CharSequence getAddress() {
-      return address;
+    public java.lang.CharSequence getStreet() {
+      return street;
     }
 
 
     /**
-      * Sets the value of the 'address' field.
-      * @param value The value of 'address'.
+      * Sets the value of the 'street' field.
+      * @param value The value of 'street'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder setAddress(java.lang.CharSequence value) {
+    public com.gottaeat.domain.geography.Address.Builder setStreet(java.lang.CharSequence value) {
       validate(fields()[0], value);
-      this.address = value;
+      this.street = value;
       fieldSetFlags()[0] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'address' field has been set.
-      * @return True if the 'address' field has been set, false otherwise.
+      * Checks whether the 'street' field has been set.
+      * @return True if the 'street' field has been set, false otherwise.
       */
-    public boolean hasAddress() {
+    public boolean hasStreet() {
       return fieldSetFlags()[0];
     }
 
 
     /**
-      * Clears the value of the 'address' field.
+      * Clears the value of the 'street' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder clearAddress() {
-      address = null;
+    public com.gottaeat.domain.geography.Address.Builder clearStreet() {
+      street = null;
       fieldSetFlags()[0] = false;
       return this;
     }
@@ -373,7 +373,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       * @param value The value of 'city'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder setCity(java.lang.CharSequence value) {
+    public com.gottaeat.domain.geography.Address.Builder setCity(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.city = value;
       fieldSetFlags()[1] = true;
@@ -393,7 +393,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       * Clears the value of the 'city' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder clearCity() {
+    public com.gottaeat.domain.geography.Address.Builder clearCity() {
       city = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -413,7 +413,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       * @param value The value of 'state'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder setState(java.lang.CharSequence value) {
+    public com.gottaeat.domain.geography.Address.Builder setState(java.lang.CharSequence value) {
       validate(fields()[2], value);
       this.state = value;
       fieldSetFlags()[2] = true;
@@ -433,7 +433,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       * Clears the value of the 'state' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder clearState() {
+    public com.gottaeat.domain.geography.Address.Builder clearState() {
       state = null;
       fieldSetFlags()[2] = false;
       return this;
@@ -453,7 +453,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       * @param value The value of 'country'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder setCountry(java.lang.CharSequence value) {
+    public com.gottaeat.domain.geography.Address.Builder setCountry(java.lang.CharSequence value) {
       validate(fields()[3], value);
       this.country = value;
       fieldSetFlags()[3] = true;
@@ -473,48 +473,48 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       * Clears the value of the 'country' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder clearCountry() {
+    public com.gottaeat.domain.geography.Address.Builder clearCountry() {
       country = null;
       fieldSetFlags()[3] = false;
       return this;
     }
 
     /**
-      * Gets the value of the 'postalCode' field.
+      * Gets the value of the 'zip' field.
       * @return The value.
       */
-    public java.lang.CharSequence getPostalCode() {
-      return postalCode;
+    public java.lang.CharSequence getZip() {
+      return zip;
     }
 
 
     /**
-      * Sets the value of the 'postalCode' field.
-      * @param value The value of 'postalCode'.
+      * Sets the value of the 'zip' field.
+      * @param value The value of 'zip'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder setPostalCode(java.lang.CharSequence value) {
+    public com.gottaeat.domain.geography.Address.Builder setZip(java.lang.CharSequence value) {
       validate(fields()[4], value);
-      this.postalCode = value;
+      this.zip = value;
       fieldSetFlags()[4] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'postalCode' field has been set.
-      * @return True if the 'postalCode' field has been set, false otherwise.
+      * Checks whether the 'zip' field has been set.
+      * @return True if the 'zip' field has been set, false otherwise.
       */
-    public boolean hasPostalCode() {
+    public boolean hasZip() {
       return fieldSetFlags()[4];
     }
 
 
     /**
-      * Clears the value of the 'postalCode' field.
+      * Clears the value of the 'zip' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder clearPostalCode() {
-      postalCode = null;
+    public com.gottaeat.domain.geography.Address.Builder clearZip() {
+      zip = null;
       fieldSetFlags()[4] = false;
       return this;
     }
@@ -524,11 +524,11 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
     public Address build() {
       try {
         Address record = new Address();
-        record.address = fieldSetFlags()[0] ? this.address : (java.lang.CharSequence) defaultValue(fields()[0]);
+        record.street = fieldSetFlags()[0] ? this.street : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.city = fieldSetFlags()[1] ? this.city : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.state = fieldSetFlags()[2] ? this.state : (java.lang.CharSequence) defaultValue(fields()[2]);
         record.country = fieldSetFlags()[3] ? this.country : (java.lang.CharSequence) defaultValue(fields()[3]);
-        record.postalCode = fieldSetFlags()[4] ? this.postalCode : (java.lang.CharSequence) defaultValue(fields()[4]);
+        record.zip = fieldSetFlags()[4] ? this.zip : (java.lang.CharSequence) defaultValue(fields()[4]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -561,7 +561,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   @Override public void customEncode(org.apache.avro.io.Encoder out)
     throws java.io.IOException
   {
-    out.writeString(this.address);
+    out.writeString(this.street);
 
     out.writeString(this.city);
 
@@ -569,7 +569,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
 
     out.writeString(this.country);
 
-    out.writeString(this.postalCode);
+    out.writeString(this.zip);
 
   }
 
@@ -578,7 +578,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.address = in.readString(this.address instanceof Utf8 ? (Utf8)this.address : null);
+      this.street = in.readString(this.street instanceof Utf8 ? (Utf8)this.street : null);
 
       this.city = in.readString(this.city instanceof Utf8 ? (Utf8)this.city : null);
 
@@ -586,13 +586,13 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
 
       this.country = in.readString(this.country instanceof Utf8 ? (Utf8)this.country : null);
 
-      this.postalCode = in.readString(this.postalCode instanceof Utf8 ? (Utf8)this.postalCode : null);
+      this.zip = in.readString(this.zip instanceof Utf8 ? (Utf8)this.zip : null);
 
     } else {
       for (int i = 0; i < 5; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.address = in.readString(this.address instanceof Utf8 ? (Utf8)this.address : null);
+          this.street = in.readString(this.street instanceof Utf8 ? (Utf8)this.street : null);
           break;
 
         case 1:
@@ -608,7 +608,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
           break;
 
         case 4:
-          this.postalCode = in.readString(this.postalCode instanceof Utf8 ? (Utf8)this.postalCode : null);
+          this.zip = in.readString(this.zip instanceof Utf8 ? (Utf8)this.zip : null);
           break;
 
         default:

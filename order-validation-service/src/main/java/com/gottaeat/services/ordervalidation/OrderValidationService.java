@@ -12,7 +12,7 @@ import org.apache.pulsar.functions.LocalRunner;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
-import com.gottaeat.domain.common.Address;
+import com.gottaeat.domain.geography.Address;
 import com.gottaeat.domain.order.FoodOrder;
 import com.gottaeat.domain.order.FoodOrderMeta;
 import com.gottaeat.domain.payment.Payment;

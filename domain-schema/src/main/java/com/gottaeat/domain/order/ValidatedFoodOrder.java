@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class ValidatedFoodOrder extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 311197611063061063L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ValidatedFoodOrder\",\"namespace\":\"com.gottaeat.domain.order\",\"fields\":[{\"name\":\"meta\",\"type\":{\"type\":\"record\",\"name\":\"FoodOrderMeta\",\"fields\":[{\"name\":\"order_id\",\"type\":\"long\"},{\"name\":\"customer_id\",\"type\":\"long\"},{\"name\":\"time_placed\",\"type\":\"string\"},{\"name\":\"order_status\",\"type\":{\"type\":\"enum\",\"name\":\"OrderStatus\",\"symbols\":[\"NEW\",\"VALIDATED\",\"ACCEPTED\",\"READY\",\"DISPATCHED\",\"DELIVERED\"]}}]}},{\"name\":\"food\",\"type\":{\"type\":\"record\",\"name\":\"SolicitationResponse\",\"namespace\":\"com.gottaeat.domain.resturant\",\"fields\":[{\"name\":\"food\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"FoodOrderDetail\",\"fields\":[{\"name\":\"quantity\",\"type\":\"int\"},{\"name\":\"food_item\",\"type\":{\"type\":\"record\",\"name\":\"MenuItem\",\"fields\":[{\"name\":\"item_id\",\"type\":\"long\"},{\"name\":\"item_name\",\"type\":\"string\"},{\"name\":\"item_description\",\"type\":\"string\"},{\"name\":\"customizations\",\"type\":{\"type\":\"array\",\"items\":\"string\"},\"default\":[\"\"]},{\"name\":\"price\",\"type\":\"float\"},{\"name\":\"taxable\",\"type\":\"boolean\"}]}}]}}},{\"name\":\"resturant\",\"type\":{\"type\":\"record\",\"name\":\"Resturant\",\"fields\":[{\"name\":\"location\",\"type\":{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.gottaeat.domain.common\",\"fields\":[{\"name\":\"street\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"zip\",\"type\":\"string\"},{\"name\":\"geo\",\"type\":[\"null\",{\"type\":\"record\",\"name\":\"LatLon\",\"fields\":[{\"name\":\"latitude\",\"type\":\"double\"},{\"name\":\"longitude\",\"type\":\"double\"}]}]}]}}]}},{\"name\":\"eta\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}},{\"name\":\"notificationTopic\",\"type\":\"string\"}]}},{\"name\":\"delivery_location\",\"type\":\"com.gottaeat.domain.common.Address\"},{\"name\":\"payment\",\"type\":{\"type\":\"record\",\"name\":\"AuthorizedPayment\",\"namespace\":\"com.gottaeat.domain.payment\",\"fields\":[{\"name\":\"payment\",\"type\":{\"type\":\"record\",\"name\":\"Payment\",\"fields\":[{\"name\":\"method_of_payment\",\"type\":{\"type\":\"record\",\"name\":\"PaymentMethod\",\"fields\":[{\"name\":\"type\",\"type\":[{\"type\":\"record\",\"name\":\"CreditCard\",\"fields\":[{\"name\":\"card_type\",\"type\":{\"type\":\"enum\",\"name\":\"CardType\",\"symbols\":[\"MASTERCARD\",\"AMEX\",\"VISA\",\"DISCOVER\"]}},{\"name\":\"account_number\",\"type\":\"string\"},{\"name\":\"billing_zip\",\"type\":\"string\"},{\"name\":\"ccv\",\"type\":\"string\"},{\"name\":\"expMonth\",\"type\":\"string\"},{\"name\":\"expYear\",\"type\":\"string\"}]},{\"type\":\"record\",\"name\":\"DebitCard\",\"fields\":[{\"name\":\"card_type\",\"type\":\"CardType\"},{\"name\":\"account_number\",\"type\":\"string\"},{\"name\":\"billing_zip\",\"type\":\"string\"},{\"name\":\"pin\",\"type\":\"string\"}]},{\"type\":\"record\",\"name\":\"ElectronicCheck\",\"fields\":[{\"name\":\"routingNumber\",\"type\":\"string\"},{\"name\":\"accountNumber\",\"type\":\"string\"}]},{\"type\":\"record\",\"name\":\"ApplePay\",\"fields\":[{\"name\":\"accountNumber\",\"type\":\"string\"}]},{\"type\":\"record\",\"name\":\"PayPal\",\"fields\":[{\"name\":\"accountNumber\",\"type\":\"string\"}]}]}]}},{\"name\":\"amount\",\"type\":{\"type\":\"record\",\"name\":\"PaymentAmount\",\"fields\":[{\"name\":\"food_total\",\"type\":\"float\"},{\"name\":\"tax\",\"type\":\"float\"},{\"name\":\"total\",\"type\":\"float\"}]}}]}},{\"name\":\"approvalCode\",\"type\":\"string\"},{\"name\":\"status\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentStatus\",\"symbols\":[\"AUTHORIZED\",\"CAPTURED\",\"SETTLED\",\"REJECTED\"]}}]}}]}");
+  private static final long serialVersionUID = -8680624000158292941L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ValidatedFoodOrder\",\"namespace\":\"com.gottaeat.domain.order\",\"fields\":[{\"name\":\"meta\",\"type\":{\"type\":\"record\",\"name\":\"FoodOrderMeta\",\"fields\":[{\"name\":\"order_id\",\"type\":\"long\"},{\"name\":\"customer_id\",\"type\":\"long\"},{\"name\":\"time_placed\",\"type\":\"string\"},{\"name\":\"order_status\",\"type\":{\"type\":\"enum\",\"name\":\"OrderStatus\",\"symbols\":[\"NEW\",\"VALIDATED\",\"ACCEPTED\",\"READY\",\"DISPATCHED\",\"DELIVERED\"]}}]}},{\"name\":\"food\",\"type\":{\"type\":\"record\",\"name\":\"SolicitationResponse\",\"namespace\":\"com.gottaeat.domain.resturant\",\"fields\":[{\"name\":\"food\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"FoodOrderDetail\",\"fields\":[{\"name\":\"quantity\",\"type\":\"int\"},{\"name\":\"food_item\",\"type\":{\"type\":\"record\",\"name\":\"MenuItem\",\"fields\":[{\"name\":\"item_id\",\"type\":\"long\"},{\"name\":\"item_name\",\"type\":\"string\"},{\"name\":\"item_description\",\"type\":\"string\"},{\"name\":\"customizations\",\"type\":{\"type\":\"array\",\"items\":\"string\"},\"default\":[\"\"]},{\"name\":\"price\",\"type\":\"float\"},{\"name\":\"taxable\",\"type\":\"boolean\"}]}}]}}},{\"name\":\"resturant\",\"type\":{\"type\":\"record\",\"name\":\"Resturant\",\"fields\":[{\"name\":\"location\",\"type\":{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.gottaeat.domain.geography\",\"fields\":[{\"name\":\"street\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"country\",\"type\":\"string\"},{\"name\":\"zip\",\"type\":\"string\"}]}}]}},{\"name\":\"eta\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}},{\"name\":\"notificationTopic\",\"type\":\"string\"}]}},{\"name\":\"delivery_location\",\"type\":\"com.gottaeat.domain.geography.Address\"},{\"name\":\"payment\",\"type\":{\"type\":\"record\",\"name\":\"AuthorizedPayment\",\"namespace\":\"com.gottaeat.domain.payment\",\"fields\":[{\"name\":\"payment\",\"type\":{\"type\":\"record\",\"name\":\"Payment\",\"fields\":[{\"name\":\"method_of_payment\",\"type\":{\"type\":\"record\",\"name\":\"PaymentMethod\",\"fields\":[{\"name\":\"type\",\"type\":[{\"type\":\"record\",\"name\":\"CreditCard\",\"fields\":[{\"name\":\"card_type\",\"type\":{\"type\":\"enum\",\"name\":\"CardType\",\"symbols\":[\"MASTERCARD\",\"AMEX\",\"VISA\",\"DISCOVER\"]}},{\"name\":\"account_number\",\"type\":\"string\"},{\"name\":\"billing_zip\",\"type\":\"string\"},{\"name\":\"ccv\",\"type\":\"string\"},{\"name\":\"expMonth\",\"type\":\"string\"},{\"name\":\"expYear\",\"type\":\"string\"}]},{\"type\":\"record\",\"name\":\"DebitCard\",\"fields\":[{\"name\":\"card_type\",\"type\":\"CardType\"},{\"name\":\"account_number\",\"type\":\"string\"},{\"name\":\"billing_zip\",\"type\":\"string\"},{\"name\":\"pin\",\"type\":\"string\"}]},{\"type\":\"record\",\"name\":\"ElectronicCheck\",\"fields\":[{\"name\":\"routingNumber\",\"type\":\"string\"},{\"name\":\"accountNumber\",\"type\":\"string\"}]},{\"type\":\"record\",\"name\":\"ApplePay\",\"fields\":[{\"name\":\"accountNumber\",\"type\":\"string\"}]},{\"type\":\"record\",\"name\":\"PayPal\",\"fields\":[{\"name\":\"accountNumber\",\"type\":\"string\"}]}]}]}},{\"name\":\"amount\",\"type\":{\"type\":\"record\",\"name\":\"PaymentAmount\",\"fields\":[{\"name\":\"food_total\",\"type\":\"float\"},{\"name\":\"tax\",\"type\":\"float\"},{\"name\":\"total\",\"type\":\"float\"}]}}]}},{\"name\":\"approvalCode\",\"type\":\"string\"},{\"name\":\"status\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentStatus\",\"symbols\":[\"AUTHORIZED\",\"CAPTURED\",\"SETTLED\",\"REJECTED\"]}}]}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -76,7 +76,7 @@ static {
 
   @Deprecated public com.gottaeat.domain.order.FoodOrderMeta meta;
   @Deprecated public com.gottaeat.domain.resturant.SolicitationResponse food;
-  @Deprecated public com.gottaeat.domain.common.Address delivery_location;
+  @Deprecated public com.gottaeat.domain.geography.Address delivery_location;
   @Deprecated public com.gottaeat.domain.payment.AuthorizedPayment payment;
 
   /**
@@ -93,7 +93,7 @@ static {
    * @param delivery_location The new value for delivery_location
    * @param payment The new value for payment
    */
-  public ValidatedFoodOrder(com.gottaeat.domain.order.FoodOrderMeta meta, com.gottaeat.domain.resturant.SolicitationResponse food, com.gottaeat.domain.common.Address delivery_location, com.gottaeat.domain.payment.AuthorizedPayment payment) {
+  public ValidatedFoodOrder(com.gottaeat.domain.order.FoodOrderMeta meta, com.gottaeat.domain.resturant.SolicitationResponse food, com.gottaeat.domain.geography.Address delivery_location, com.gottaeat.domain.payment.AuthorizedPayment payment) {
     this.meta = meta;
     this.food = food;
     this.delivery_location = delivery_location;
@@ -119,7 +119,7 @@ static {
     switch (field$) {
     case 0: meta = (com.gottaeat.domain.order.FoodOrderMeta)value$; break;
     case 1: food = (com.gottaeat.domain.resturant.SolicitationResponse)value$; break;
-    case 2: delivery_location = (com.gottaeat.domain.common.Address)value$; break;
+    case 2: delivery_location = (com.gottaeat.domain.geography.Address)value$; break;
     case 3: payment = (com.gottaeat.domain.payment.AuthorizedPayment)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
@@ -163,7 +163,7 @@ static {
    * Gets the value of the 'delivery_location' field.
    * @return The value of the 'delivery_location' field.
    */
-  public com.gottaeat.domain.common.Address getDeliveryLocation() {
+  public com.gottaeat.domain.geography.Address getDeliveryLocation() {
     return delivery_location;
   }
 
@@ -172,7 +172,7 @@ static {
    * Sets the value of the 'delivery_location' field.
    * @param value the value to set.
    */
-  public void setDeliveryLocation(com.gottaeat.domain.common.Address value) {
+  public void setDeliveryLocation(com.gottaeat.domain.geography.Address value) {
     this.delivery_location = value;
   }
 
@@ -237,8 +237,8 @@ static {
     private com.gottaeat.domain.order.FoodOrderMeta.Builder metaBuilder;
     private com.gottaeat.domain.resturant.SolicitationResponse food;
     private com.gottaeat.domain.resturant.SolicitationResponse.Builder foodBuilder;
-    private com.gottaeat.domain.common.Address delivery_location;
-    private com.gottaeat.domain.common.Address.Builder delivery_locationBuilder;
+    private com.gottaeat.domain.geography.Address delivery_location;
+    private com.gottaeat.domain.geography.Address.Builder delivery_locationBuilder;
     private com.gottaeat.domain.payment.AuthorizedPayment payment;
     private com.gottaeat.domain.payment.AuthorizedPayment.Builder paymentBuilder;
 
@@ -272,7 +272,7 @@ static {
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
       if (other.hasDeliveryLocationBuilder()) {
-        this.delivery_locationBuilder = com.gottaeat.domain.common.Address.newBuilder(other.getDeliveryLocationBuilder());
+        this.delivery_locationBuilder = com.gottaeat.domain.geography.Address.newBuilder(other.getDeliveryLocationBuilder());
       }
       if (isValidValue(fields()[3], other.payment)) {
         this.payment = data().deepCopy(fields()[3].schema(), other.payment);
@@ -465,7 +465,7 @@ static {
       * Gets the value of the 'delivery_location' field.
       * @return The value.
       */
-    public com.gottaeat.domain.common.Address getDeliveryLocation() {
+    public com.gottaeat.domain.geography.Address getDeliveryLocation() {
       return delivery_location;
     }
 
@@ -475,7 +475,7 @@ static {
       * @param value The value of 'delivery_location'.
       * @return This builder.
       */
-    public com.gottaeat.domain.order.ValidatedFoodOrder.Builder setDeliveryLocation(com.gottaeat.domain.common.Address value) {
+    public com.gottaeat.domain.order.ValidatedFoodOrder.Builder setDeliveryLocation(com.gottaeat.domain.geography.Address value) {
       validate(fields()[2], value);
       this.delivery_locationBuilder = null;
       this.delivery_location = value;
@@ -495,12 +495,12 @@ static {
      * Gets the Builder instance for the 'delivery_location' field and creates one if it doesn't exist yet.
      * @return This builder.
      */
-    public com.gottaeat.domain.common.Address.Builder getDeliveryLocationBuilder() {
+    public com.gottaeat.domain.geography.Address.Builder getDeliveryLocationBuilder() {
       if (delivery_locationBuilder == null) {
         if (hasDeliveryLocation()) {
-          setDeliveryLocationBuilder(com.gottaeat.domain.common.Address.newBuilder(delivery_location));
+          setDeliveryLocationBuilder(com.gottaeat.domain.geography.Address.newBuilder(delivery_location));
         } else {
-          setDeliveryLocationBuilder(com.gottaeat.domain.common.Address.newBuilder());
+          setDeliveryLocationBuilder(com.gottaeat.domain.geography.Address.newBuilder());
         }
       }
       return delivery_locationBuilder;
@@ -511,7 +511,7 @@ static {
      * @param value The builder instance that must be set.
      * @return This builder.
      */
-    public com.gottaeat.domain.order.ValidatedFoodOrder.Builder setDeliveryLocationBuilder(com.gottaeat.domain.common.Address.Builder value) {
+    public com.gottaeat.domain.order.ValidatedFoodOrder.Builder setDeliveryLocationBuilder(com.gottaeat.domain.geography.Address.Builder value) {
       clearDeliveryLocation();
       delivery_locationBuilder = value;
       return this;
@@ -644,7 +644,7 @@ static {
             throw e;
           }
         } else {
-          record.delivery_location = fieldSetFlags()[2] ? this.delivery_location : (com.gottaeat.domain.common.Address) defaultValue(fields()[2]);
+          record.delivery_location = fieldSetFlags()[2] ? this.delivery_location : (com.gottaeat.domain.geography.Address) defaultValue(fields()[2]);
         }
         if (paymentBuilder != null) {
           try {

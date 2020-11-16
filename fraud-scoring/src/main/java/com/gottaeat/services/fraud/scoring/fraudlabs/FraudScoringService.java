@@ -10,7 +10,7 @@ import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction;
+import com.gottaeat.domain.fraud.fraudlabs.Transaction;
 
 /**
  * 
@@ -47,11 +47,11 @@ public class FraudScoringService implements Function<Transaction, Integer> {
         data.put("user_phone", input.getPhoneNumber().toString());
 
         // Billing information
-        data.put("bill_addr", input.getBillingAddress().getAddress().toString());
+        data.put("bill_addr", input.getBillingAddress().getStreet().toString());
         data.put("bill_city", input.getBillingAddress().getCity().toString());
         data.put("bill_state", input.getBillingAddress().getState().toString());
         data.put("bill_country", input.getBillingAddress().getCountry().toString());
-        data.put("bill_zip_code", input.getBillingAddress().getPostalCode().toString());
+        data.put("bill_zip_code", input.getBillingAddress().getZip().toString());
         // data.put("number", ""); // Credit card number ?
 
         // Order information
@@ -60,10 +60,10 @@ public class FraudScoringService implements Function<Transaction, Integer> {
         data.put("payment_mode", order.CREDIT_CARD);  // Please refer reference section for full list of payment methods
 
         // Shipping information
-        data.put("ship_addr", input.getShippingAddress().getAddress().toString());
+        data.put("ship_addr", input.getShippingAddress().getStreet().toString());
         data.put("ship_city", input.getShippingAddress().getCity().toString());
         data.put("ship_state", input.getShippingAddress().getState().toString());
-        data.put("ship_zip_code", input.getShippingAddress().getPostalCode().toString());
+        data.put("ship_zip_code", input.getShippingAddress().getZip().toString());
         data.put("ship_country", input.getShippingAddress().getCountry().toString());
         
          // Sends order details to FraudLabs Pro

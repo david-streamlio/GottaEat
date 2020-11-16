@@ -1,9 +1,9 @@
 package com.gottaeat.dao.customer;
 
 import com.gottaeat.domain.order.FoodOrder;
-import com.gottaeat.domain.fraud.scoring.fraudlabs.Address;
-import com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType;
-import com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction;
+import com.gottaeat.domain.geography.Address;
+import com.gottaeat.domain.fraud.fraudlabs.PaymentType;
+import com.gottaeat.domain.fraud.fraudlabs.Transaction;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +16,11 @@ import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
 
 public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 	
+	public static final String DB_DRIVER_KEY = "dbDriverClass";
+	public static final String DB_PASS_KEY = "dbPass";
+	public static final String DB_URL_KEY = "dbUrl";
+	public static final String DB_USER_KEY = "dbUser";
+			
 	private Connection con;
 	private PreparedStatement stmt;
 	
@@ -38,10 +43,10 @@ public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 		ResultSet rs = getSql(order.getMeta().getCustomerId()).executeQuery();
 		if (rs != null && rs.first()) {
 			Address addr = Address.newBuilder()
-					.setAddress(rs.getString("a.address"))
+					.setStreet(rs.getString("a.address"))
 					.setCity(rs.getString("c2.city"))
 					.setCountry(rs.getString("c3.country"))
-					.setPostalCode(rs.getString("a.postal_code"))
+					.setZip(rs.getString("a.postal_code"))
 					.setState(rs.getString("a.district"))
 					.build();
 			
@@ -55,7 +60,7 @@ public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 					.setPhoneNumber(rs.getString("a.phone"))
 					.setShipToFirstName(rs.getString("ru.first_name"))
 					.setShipToLastName(rs.getString("ru.last_name"))
-					.setShippingAddress(addr)
+					.setShippingAddress(addr)  // TODO Use the delivery address from the order
 					.build();
 		}
 		return tx;

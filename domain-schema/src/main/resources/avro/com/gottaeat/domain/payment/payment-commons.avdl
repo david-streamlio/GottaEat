@@ -5,6 +5,10 @@ protocol PaymentsProtocol {
   enum CardType {
     MASTERCARD, AMEX, VISA, DISCOVER
   }
+  
+  enum PaymentStatus {
+  	AUTHORIZED, CAPTURED, SETTLED, REJECTED
+  }
 
   record CreditCard {
     CardType card_type; 
@@ -54,10 +58,6 @@ protocol PaymentsProtocol {
   	Payment payment;
   	string approvalCode; 
   	PaymentStatus status;
-  }
-  
-  enum PaymentStatus {
-  	AUTHORIZED, CAPTURED, SETTLED, REJECTED
   }
   
 }

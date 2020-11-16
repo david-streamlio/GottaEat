@@ -2,7 +2,7 @@
 
 protocol ResturantsProtocol {
 
-  import idl "../common/common.avdl";
+  import idl "../geography/geography.avdl";
 
   record MenuItem {
     long item_id;
@@ -14,7 +14,7 @@ protocol ResturantsProtocol {
   }
   
   record Resturant {
-  	com.gottaeat.domain.common.Address location;
+  	com.gottaeat.domain.geography.Address location;
   }
   
   record FoodOrderDetail {

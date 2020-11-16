@@ -1,27 +1,21 @@
-@namespace("com.gottaeat.domain.fraud.scoring.fraudlabs")
+@namespace("com.gottaeat.domain.fraud.fraudlabs")
 
-protocol OrderScreenProtocol {
+protocol FraudLabsProtocol {
+	
+  import idl "../geography/geography.avdl";
 
   enum PaymentType {
     CREDITCARD, PAYPAL, GOOGLECHECKOUT, BITCOIN, WIRED
-  }
-
-  record Address {
-    string address;
-    string city;
-    string state;
-    string country;
-    string postalCode;
   }
 
   record Transaction {
     string ip;
     string lastName;
     string firstName;
-    Address billingAddress;
+    com.gottaeat.domain.geography.Address billingAddress;
     string shipToLastName;
     string shipToFirstName;
-    Address shippingAddress;
+    com.gottaeat.domain.geography.Address shippingAddress;
     string email;
     string phoneNumber;
     PaymentType paymentMode;

@@ -1,0 +1,23 @@
+@namespace("com.gottaeat.domain.geography")
+
+protocol GeographyProtocol {
+
+  record LatLon {
+    double latitude;
+    double longitude;
+  }
+  
+  record Address {
+    string street;
+    string city;
+    string state;
+    string country;
+    string zip;
+  }
+
+  record GeoEncodedAddress {
+    Address address;
+    union { null, LatLon } geo;
+  }
+  
+}

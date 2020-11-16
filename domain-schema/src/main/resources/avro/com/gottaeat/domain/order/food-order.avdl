@@ -1,14 +1,14 @@
 @namespace("com.gottaeat.domain.order")
 protocol OrderProtocol {
 
-  import idl "../common/common.avdl";
+  import idl "../geography/geography.avdl";
   import idl "../payment/payment-commons.avdl";
   import idl "../resturant/resturant.avdl";
   
   record FoodOrder {
   	FoodOrderMeta meta;
     array<com.gottaeat.domain.resturant.FoodOrderDetail> food;
-    com.gottaeat.domain.common.Address delivery_location;
+    com.gottaeat.domain.geography.Address delivery_location;
     com.gottaeat.domain.payment.Payment payment;
   }
   
@@ -26,7 +26,7 @@ protocol OrderProtocol {
   record ValidatedFoodOrder {
   	FoodOrderMeta meta;
   	com.gottaeat.domain.resturant.SolicitationResponse food;
-  	com.gottaeat.domain.common.Address delivery_location;
+  	com.gottaeat.domain.geography.Address delivery_location;
   	com.gottaeat.domain.payment.AuthorizedPayment payment;
   }
   
