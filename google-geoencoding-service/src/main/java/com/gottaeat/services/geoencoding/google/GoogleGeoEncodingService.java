@@ -14,7 +14,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.gottaeat.domain.common.Address;
+import com.gottaeat.domain.common.GeoEncodedAddress;
 import com.gottaeat.domain.common.LatLon;
+import com.gottaeat.domain.common.GeoEncodedAddress.Builder;
 
 import io.github.resilience4j.decorators.Decorators;
 import io.github.resilience4j.ratelimiter.RateLimiter;
@@ -57,10 +59,13 @@ public class GoogleGeoEncodingService implements Function<Address, Void> {
 			   .getOrNull());
 
 		if (geo != null) {
-			addr.setGeo(geo);
-			ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(Address.class))
+			GeoEncodedAddress result = GeoEncodedAddress.newBuilder()
+					.setAddress(addr)
+					.setGeo(geo).build();
+			
+			ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))
 				.properties(ctx.getCurrentRecord().getProperties())
-				.value(addr)
+				.value(result)
 				.send();
 		} else {
 			// We made a valid call, but didn't get a valid geo back

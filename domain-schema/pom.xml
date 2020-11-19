@@ -19,14 +19,31 @@
 		<version>1.9.1</version>
 		<executions>
 			<execution>
-             <phase>generate-sources</phase>
-             <goals>
-                <goal>idl-protocol</goal>
-             </goals>
-             <configuration>
-                <sourceDirectory>${project.basedir}/src/main/resources/avro/order</sourceDirectory>
-                <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
-             </configuration>
+			   <id>order</id>
+               <phase>generate-sources</phase>
+               <goals>
+                  <goal>idl-protocol</goal>
+               </goals>
+               <configuration>
+                  <includes>
+                  	<include>**/food-order.avdl</include>
+                  	<include>**/fraudlabs-schema.avdl</include>
+                  </includes>
+                  <sourceDirectory>${project.basedir}/src/main/resources/avro/com/gottaeat/domain</sourceDirectory>
+                  <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+               </configuration>
+            </execution>
+            
+            <execution>
+               <id>fraud</id>
+               <phase>generate-sources</phase>
+               <goals>
+                  <goal>idl-protocol</goal>
+               </goals>
+               <configuration>
+                  <sourceDirectory>${project.basedir}/src/main/resources/avro/com/gottaeat/domain/fraud</sourceDirectory>
+                  <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+               </configuration>
             </execution>
 	  </executions>
 	</plugin>

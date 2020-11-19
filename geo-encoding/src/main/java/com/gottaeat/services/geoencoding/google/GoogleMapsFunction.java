@@ -14,6 +14,8 @@ import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.Geometry;
 import com.google.maps.model.LocationType;
 import com.gottaeat.domain.common.Address;
+import com.gottaeat.domain.common.GeoEncodedAddress;
+import com.gottaeat.domain.common.GeoEncodedAddress.Builder;
 import com.gottaeat.domain.common.LatLon;
 
 public class GoogleMapsFunction implements Function<Address, Void> {
@@ -29,12 +31,9 @@ public class GoogleMapsFunction implements Function<Address, Void> {
 			init(context);
 		}
 		
-		Address result = new Address();
-		result.setCity(addr.getCity());
-		result.setState(addr.getState());
-		result.setStreet(addr.getStreet());
-		result.setZip(addr.getZip());
-		
+		Builder result = GeoEncodedAddress.newBuilder()
+				.setAddress(addr);
+				
 		try {
 			GeocodingResult[] results = 
 				GeocodingApi.geocode(geoContext, formatAddress(addr)).await();
@@ -48,8 +47,8 @@ public class GoogleMapsFunction implements Function<Address, Void> {
 				result.setGeo(ll);
 			}
 			
-			context.newOutputMessage(context.getOutputTopic(), AvroSchema.of(Address.class))
-				.value(result)
+			context.newOutputMessage(context.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))
+				.value(result.build())
 				.properties(context.getCurrentRecord().getProperties())
 				.send();
 			

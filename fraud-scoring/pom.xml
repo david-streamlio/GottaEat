@@ -12,23 +12,6 @@
   
   <build>
     <plugins>
-	 <plugin>
-		<groupId>org.apache.avro</groupId>
-		<artifactId>avro-maven-plugin</artifactId>
-		<version>1.9.1</version>
-		<executions>
-			<execution>
-             <phase>generate-sources</phase>
-             <goals>
-                <goal>idl-protocol</goal>
-             </goals>
-             <configuration>
-                <sourceDirectory>${project.basedir}/src/main/resources/schema</sourceDirectory>
-                <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
-             </configuration>
-            </execution>
-	  </executions>
-	</plugin>
 	  <plugin>
 		<groupId>org.apache.nifi</groupId>
 		<artifactId>nifi-nar-maven-plugin</artifactId>
@@ -45,6 +28,12 @@
   </build>
   
   <dependencies>
+  
+    <dependency>
+		<groupId>com.gottaeat</groupId>
+    	<artifactId>domain-schema</artifactId>
+    	<version>${project.version}</version>
+	</dependency>
   
   	<dependency>
   		<groupId>org.apache.avro</groupId>

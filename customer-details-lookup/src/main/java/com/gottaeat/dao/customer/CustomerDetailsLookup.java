@@ -1,9 +1,9 @@
 package com.gottaeat.dao.customer;
 
 import com.gottaeat.domain.order.FoodOrder;
-import com.gottaeat.domain.fraud.scoring.fraudlabs.Address;
-import com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType;
-import com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction;
+import com.gottaeat.domain.geography.Address;
+import com.gottaeat.domain.fraud.fraudlabs.PaymentType;
+import com.gottaeat.domain.fraud.fraudlabs.Transaction;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +16,11 @@ import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
 
 public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 	
+	public static final String DB_DRIVER_KEY = "dbDriverClass";
+	public static final String DB_PASS_KEY = "dbPass";
+	public static final String DB_URL_KEY = "dbUrl";
+	public static final String DB_USER_KEY = "dbUser";
+			
 	private Connection con;
 	private PreparedStatement stmt;
 	
@@ -28,24 +33,25 @@ public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 	public Transaction process(FoodOrder order, Context ctx) throws Exception {
 		
 		if (!isInitalized()) {
-		  dbUrl = (String) ctx.getUserConfigValue("dbUrl").orElse(null);
-		  dbUser = (String) ctx.getUserConfigValue("dbUser").orElse(null);
-		  dbPass = (String) ctx.getUserConfigValue("dbPass").orElse(null);
-		  dbPass = (String) ctx.getUserConfigValue("dbDriverClass").orElse(null);
+		  dbUrl = (String) ctx.getUserConfigValue(DB_URL_KEY).orElse(null);
+		  dbDriverClass = (String) ctx.getUserConfigValue(DB_DRIVER_KEY).orElse(null);
+		  dbUser = (String) ctx.getSecret(DB_USER_KEY);
+		  dbPass = (String) ctx.getSecret(DB_PASS_KEY);
 		}
 		
 		Transaction tx = null;
 		ResultSet rs = getSql(order.getMeta().getCustomerId()).executeQuery();
-		if (rs != null && rs.first()) {
+		if (rs != null && rs.next()) {
 			Address addr = Address.newBuilder()
-					.setAddress(rs.getString("a.address"))
+					.setStreet(rs.getString("a.address"))
 					.setCity(rs.getString("c2.city"))
 					.setCountry(rs.getString("c3.country"))
-					.setPostalCode(rs.getString("a.postal_code"))
+					.setZip(rs.getString("a.postal_code"))
 					.setState(rs.getString("a.district"))
 					.build();
 			
 			tx = Transaction.newBuilder()
+					.setIp("127.0.0.1")
 					.setAmount(order.getPayment().getAmount().getTotal())
 					.setBillingAddress(addr)
 					.setEmail(rs.getString("ru.email"))
@@ -55,9 +61,10 @@ public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 					.setPhoneNumber(rs.getString("a.phone"))
 					.setShipToFirstName(rs.getString("ru.first_name"))
 					.setShipToLastName(rs.getString("ru.last_name"))
-					.setShippingAddress(addr)
+					.setShippingAddress(order.getDeliveryLocation())  
 					.build();
 		}
+		rs.close();
 		return tx;
 	}
 	
@@ -71,6 +78,7 @@ public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 					+ "join GottaEat.City c2 on a.city_id = c2.city_id "
 					+ "join GottaEat.Country c3 on c2.country_id = c3.country_id "
 					+ "where c.customer_id = ?");
+		  stmt.setLong(1, customerId);
 		}
 		return stmt;
 	}

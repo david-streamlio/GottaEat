@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.gottaeat.domain.common;
+package com.gottaeat.domain.geography;
 
 import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 2121716906377099323L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"GeoEncodedAddress\",\"namespace\":\"com.gottaeat.domain.common\",\"fields\":[{\"name\":\"address\",\"type\":{\"type\":\"record\",\"name\":\"Address\",\"fields\":[{\"name\":\"street\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"country\",\"type\":\"string\"},{\"name\":\"zip\",\"type\":\"string\"}]}},{\"name\":\"geo\",\"type\":[\"null\",{\"type\":\"record\",\"name\":\"LatLon\",\"fields\":[{\"name\":\"latitude\",\"type\":\"double\"},{\"name\":\"longitude\",\"type\":\"double\"}]}]}]}");
+  private static final long serialVersionUID = -802825046242336290L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"GeoEncodedAddress\",\"namespace\":\"com.gottaeat.domain.geography\",\"fields\":[{\"name\":\"address\",\"type\":{\"type\":\"record\",\"name\":\"Address\",\"fields\":[{\"name\":\"street\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"country\",\"type\":\"string\"},{\"name\":\"zip\",\"type\":\"string\"}]}},{\"name\":\"geo\",\"type\":[\"null\",{\"type\":\"record\",\"name\":\"LatLon\",\"fields\":[{\"name\":\"latitude\",\"type\":\"double\"},{\"name\":\"longitude\",\"type\":\"double\"}]}]}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -71,8 +71,8 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
     return DECODER.decode(b);
   }
 
-  @Deprecated public com.gottaeat.domain.common.Address address;
-  @Deprecated public com.gottaeat.domain.common.LatLon geo;
+  @Deprecated public com.gottaeat.domain.geography.Address address;
+  @Deprecated public com.gottaeat.domain.geography.LatLon geo;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -86,7 +86,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
    * @param address The new value for address
    * @param geo The new value for geo
    */
-  public GeoEncodedAddress(com.gottaeat.domain.common.Address address, com.gottaeat.domain.common.LatLon geo) {
+  public GeoEncodedAddress(com.gottaeat.domain.geography.Address address, com.gottaeat.domain.geography.LatLon geo) {
     this.address = address;
     this.geo = geo;
   }
@@ -106,8 +106,8 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: address = (com.gottaeat.domain.common.Address)value$; break;
-    case 1: geo = (com.gottaeat.domain.common.LatLon)value$; break;
+    case 0: address = (com.gottaeat.domain.geography.Address)value$; break;
+    case 1: geo = (com.gottaeat.domain.geography.LatLon)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -116,7 +116,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
    * Gets the value of the 'address' field.
    * @return The value of the 'address' field.
    */
-  public com.gottaeat.domain.common.Address getAddress() {
+  public com.gottaeat.domain.geography.Address getAddress() {
     return address;
   }
 
@@ -125,7 +125,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
    * Sets the value of the 'address' field.
    * @param value the value to set.
    */
-  public void setAddress(com.gottaeat.domain.common.Address value) {
+  public void setAddress(com.gottaeat.domain.geography.Address value) {
     this.address = value;
   }
 
@@ -133,7 +133,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
    * Gets the value of the 'geo' field.
    * @return The value of the 'geo' field.
    */
-  public com.gottaeat.domain.common.LatLon getGeo() {
+  public com.gottaeat.domain.geography.LatLon getGeo() {
     return geo;
   }
 
@@ -142,7 +142,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
    * Sets the value of the 'geo' field.
    * @param value the value to set.
    */
-  public void setGeo(com.gottaeat.domain.common.LatLon value) {
+  public void setGeo(com.gottaeat.domain.geography.LatLon value) {
     this.geo = value;
   }
 
@@ -150,8 +150,8 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
    * Creates a new GeoEncodedAddress RecordBuilder.
    * @return A new GeoEncodedAddress RecordBuilder
    */
-  public static com.gottaeat.domain.common.GeoEncodedAddress.Builder newBuilder() {
-    return new com.gottaeat.domain.common.GeoEncodedAddress.Builder();
+  public static com.gottaeat.domain.geography.GeoEncodedAddress.Builder newBuilder() {
+    return new com.gottaeat.domain.geography.GeoEncodedAddress.Builder();
   }
 
   /**
@@ -159,11 +159,11 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
    * @param other The existing builder to copy.
    * @return A new GeoEncodedAddress RecordBuilder
    */
-  public static com.gottaeat.domain.common.GeoEncodedAddress.Builder newBuilder(com.gottaeat.domain.common.GeoEncodedAddress.Builder other) {
+  public static com.gottaeat.domain.geography.GeoEncodedAddress.Builder newBuilder(com.gottaeat.domain.geography.GeoEncodedAddress.Builder other) {
     if (other == null) {
-      return new com.gottaeat.domain.common.GeoEncodedAddress.Builder();
+      return new com.gottaeat.domain.geography.GeoEncodedAddress.Builder();
     } else {
-      return new com.gottaeat.domain.common.GeoEncodedAddress.Builder(other);
+      return new com.gottaeat.domain.geography.GeoEncodedAddress.Builder(other);
     }
   }
 
@@ -172,11 +172,11 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
    * @param other The existing instance to copy.
    * @return A new GeoEncodedAddress RecordBuilder
    */
-  public static com.gottaeat.domain.common.GeoEncodedAddress.Builder newBuilder(com.gottaeat.domain.common.GeoEncodedAddress other) {
+  public static com.gottaeat.domain.geography.GeoEncodedAddress.Builder newBuilder(com.gottaeat.domain.geography.GeoEncodedAddress other) {
     if (other == null) {
-      return new com.gottaeat.domain.common.GeoEncodedAddress.Builder();
+      return new com.gottaeat.domain.geography.GeoEncodedAddress.Builder();
     } else {
-      return new com.gottaeat.domain.common.GeoEncodedAddress.Builder(other);
+      return new com.gottaeat.domain.geography.GeoEncodedAddress.Builder(other);
     }
   }
 
@@ -186,10 +186,10 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<GeoEncodedAddress>
     implements org.apache.avro.data.RecordBuilder<GeoEncodedAddress> {
 
-    private com.gottaeat.domain.common.Address address;
-    private com.gottaeat.domain.common.Address.Builder addressBuilder;
-    private com.gottaeat.domain.common.LatLon geo;
-    private com.gottaeat.domain.common.LatLon.Builder geoBuilder;
+    private com.gottaeat.domain.geography.Address address;
+    private com.gottaeat.domain.geography.Address.Builder addressBuilder;
+    private com.gottaeat.domain.geography.LatLon geo;
+    private com.gottaeat.domain.geography.LatLon.Builder geoBuilder;
 
     /** Creates a new Builder */
     private Builder() {
@@ -200,21 +200,21 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.gottaeat.domain.common.GeoEncodedAddress.Builder other) {
+    private Builder(com.gottaeat.domain.geography.GeoEncodedAddress.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.address)) {
         this.address = data().deepCopy(fields()[0].schema(), other.address);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
       if (other.hasAddressBuilder()) {
-        this.addressBuilder = com.gottaeat.domain.common.Address.newBuilder(other.getAddressBuilder());
+        this.addressBuilder = com.gottaeat.domain.geography.Address.newBuilder(other.getAddressBuilder());
       }
       if (isValidValue(fields()[1], other.geo)) {
         this.geo = data().deepCopy(fields()[1].schema(), other.geo);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
       if (other.hasGeoBuilder()) {
-        this.geoBuilder = com.gottaeat.domain.common.LatLon.newBuilder(other.getGeoBuilder());
+        this.geoBuilder = com.gottaeat.domain.geography.LatLon.newBuilder(other.getGeoBuilder());
       }
     }
 
@@ -222,7 +222,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
      * Creates a Builder by copying an existing GeoEncodedAddress instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.gottaeat.domain.common.GeoEncodedAddress other) {
+    private Builder(com.gottaeat.domain.geography.GeoEncodedAddress other) {
       super(SCHEMA$);
       if (isValidValue(fields()[0], other.address)) {
         this.address = data().deepCopy(fields()[0].schema(), other.address);
@@ -240,7 +240,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
       * Gets the value of the 'address' field.
       * @return The value.
       */
-    public com.gottaeat.domain.common.Address getAddress() {
+    public com.gottaeat.domain.geography.Address getAddress() {
       return address;
     }
 
@@ -250,7 +250,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
       * @param value The value of 'address'.
       * @return This builder.
       */
-    public com.gottaeat.domain.common.GeoEncodedAddress.Builder setAddress(com.gottaeat.domain.common.Address value) {
+    public com.gottaeat.domain.geography.GeoEncodedAddress.Builder setAddress(com.gottaeat.domain.geography.Address value) {
       validate(fields()[0], value);
       this.addressBuilder = null;
       this.address = value;
@@ -270,12 +270,12 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
      * Gets the Builder instance for the 'address' field and creates one if it doesn't exist yet.
      * @return This builder.
      */
-    public com.gottaeat.domain.common.Address.Builder getAddressBuilder() {
+    public com.gottaeat.domain.geography.Address.Builder getAddressBuilder() {
       if (addressBuilder == null) {
         if (hasAddress()) {
-          setAddressBuilder(com.gottaeat.domain.common.Address.newBuilder(address));
+          setAddressBuilder(com.gottaeat.domain.geography.Address.newBuilder(address));
         } else {
-          setAddressBuilder(com.gottaeat.domain.common.Address.newBuilder());
+          setAddressBuilder(com.gottaeat.domain.geography.Address.newBuilder());
         }
       }
       return addressBuilder;
@@ -286,7 +286,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
      * @param value The builder instance that must be set.
      * @return This builder.
      */
-    public com.gottaeat.domain.common.GeoEncodedAddress.Builder setAddressBuilder(com.gottaeat.domain.common.Address.Builder value) {
+    public com.gottaeat.domain.geography.GeoEncodedAddress.Builder setAddressBuilder(com.gottaeat.domain.geography.Address.Builder value) {
       clearAddress();
       addressBuilder = value;
       return this;
@@ -304,7 +304,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
       * Clears the value of the 'address' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.common.GeoEncodedAddress.Builder clearAddress() {
+    public com.gottaeat.domain.geography.GeoEncodedAddress.Builder clearAddress() {
       address = null;
       addressBuilder = null;
       fieldSetFlags()[0] = false;
@@ -315,7 +315,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
       * Gets the value of the 'geo' field.
       * @return The value.
       */
-    public com.gottaeat.domain.common.LatLon getGeo() {
+    public com.gottaeat.domain.geography.LatLon getGeo() {
       return geo;
     }
 
@@ -325,7 +325,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
       * @param value The value of 'geo'.
       * @return This builder.
       */
-    public com.gottaeat.domain.common.GeoEncodedAddress.Builder setGeo(com.gottaeat.domain.common.LatLon value) {
+    public com.gottaeat.domain.geography.GeoEncodedAddress.Builder setGeo(com.gottaeat.domain.geography.LatLon value) {
       validate(fields()[1], value);
       this.geoBuilder = null;
       this.geo = value;
@@ -345,12 +345,12 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
      * Gets the Builder instance for the 'geo' field and creates one if it doesn't exist yet.
      * @return This builder.
      */
-    public com.gottaeat.domain.common.LatLon.Builder getGeoBuilder() {
+    public com.gottaeat.domain.geography.LatLon.Builder getGeoBuilder() {
       if (geoBuilder == null) {
         if (hasGeo()) {
-          setGeoBuilder(com.gottaeat.domain.common.LatLon.newBuilder(geo));
+          setGeoBuilder(com.gottaeat.domain.geography.LatLon.newBuilder(geo));
         } else {
-          setGeoBuilder(com.gottaeat.domain.common.LatLon.newBuilder());
+          setGeoBuilder(com.gottaeat.domain.geography.LatLon.newBuilder());
         }
       }
       return geoBuilder;
@@ -361,7 +361,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
      * @param value The builder instance that must be set.
      * @return This builder.
      */
-    public com.gottaeat.domain.common.GeoEncodedAddress.Builder setGeoBuilder(com.gottaeat.domain.common.LatLon.Builder value) {
+    public com.gottaeat.domain.geography.GeoEncodedAddress.Builder setGeoBuilder(com.gottaeat.domain.geography.LatLon.Builder value) {
       clearGeo();
       geoBuilder = value;
       return this;
@@ -379,7 +379,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
       * Clears the value of the 'geo' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.common.GeoEncodedAddress.Builder clearGeo() {
+    public com.gottaeat.domain.geography.GeoEncodedAddress.Builder clearGeo() {
       geo = null;
       geoBuilder = null;
       fieldSetFlags()[1] = false;
@@ -399,7 +399,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
             throw e;
           }
         } else {
-          record.address = fieldSetFlags()[0] ? this.address : (com.gottaeat.domain.common.Address) defaultValue(fields()[0]);
+          record.address = fieldSetFlags()[0] ? this.address : (com.gottaeat.domain.geography.Address) defaultValue(fields()[0]);
         }
         if (geoBuilder != null) {
           try {
@@ -409,7 +409,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
             throw e;
           }
         } else {
-          record.geo = fieldSetFlags()[1] ? this.geo : (com.gottaeat.domain.common.LatLon) defaultValue(fields()[1]);
+          record.geo = fieldSetFlags()[1] ? this.geo : (com.gottaeat.domain.geography.LatLon) defaultValue(fields()[1]);
         }
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
@@ -461,7 +461,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
       if (this.address == null) {
-        this.address = new com.gottaeat.domain.common.Address();
+        this.address = new com.gottaeat.domain.geography.Address();
       }
       this.address.customDecode(in);
 
@@ -470,7 +470,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
         this.geo = null;
       } else {
         if (this.geo == null) {
-          this.geo = new com.gottaeat.domain.common.LatLon();
+          this.geo = new com.gottaeat.domain.geography.LatLon();
         }
         this.geo.customDecode(in);
       }
@@ -480,7 +480,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
         switch (fieldOrder[i].pos()) {
         case 0:
           if (this.address == null) {
-            this.address = new com.gottaeat.domain.common.Address();
+            this.address = new com.gottaeat.domain.geography.Address();
           }
           this.address.customDecode(in);
           break;
@@ -491,7 +491,7 @@ public class GeoEncodedAddress extends org.apache.avro.specific.SpecificRecordBa
             this.geo = null;
           } else {
             if (this.geo == null) {
-              this.geo = new com.gottaeat.domain.common.LatLon();
+              this.geo = new com.gottaeat.domain.geography.LatLon();
             }
             this.geo.customDecode(in);
           }

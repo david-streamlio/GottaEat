@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.gottaeat.domain.fraud.scoring.fraudlabs;
+package com.gottaeat.domain.fraud.fraudlabs;
 
 import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Transaction extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -7188635928183718587L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Transaction\",\"namespace\":\"com.gottaeat.domain.fraud.scoring.fraudlabs\",\"fields\":[{\"name\":\"ip\",\"type\":\"string\"},{\"name\":\"lastName\",\"type\":\"string\"},{\"name\":\"firstName\",\"type\":\"string\"},{\"name\":\"billingAddress\",\"type\":{\"type\":\"record\",\"name\":\"Address\",\"fields\":[{\"name\":\"address\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"country\",\"type\":\"string\"},{\"name\":\"postalCode\",\"type\":\"string\"}]}},{\"name\":\"shipToLastName\",\"type\":\"string\"},{\"name\":\"shipToFirstName\",\"type\":\"string\"},{\"name\":\"shippingAddress\",\"type\":\"Address\"},{\"name\":\"email\",\"type\":\"string\"},{\"name\":\"phoneNumber\",\"type\":\"string\"},{\"name\":\"paymentMode\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentType\",\"symbols\":[\"CREDITCARD\",\"PAYPAL\",\"GOOGLECHECKOUT\",\"BITCOIN\",\"WIRED\"]}},{\"name\":\"amount\",\"type\":\"float\"}]}");
+  private static final long serialVersionUID = 2405291103705611035L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Transaction\",\"namespace\":\"com.gottaeat.domain.fraud.fraudlabs\",\"fields\":[{\"name\":\"ip\",\"type\":\"string\"},{\"name\":\"lastName\",\"type\":\"string\"},{\"name\":\"firstName\",\"type\":\"string\"},{\"name\":\"billingAddress\",\"type\":{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.gottaeat.domain.geography\",\"fields\":[{\"name\":\"street\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"country\",\"type\":\"string\"},{\"name\":\"zip\",\"type\":\"string\"}]}},{\"name\":\"shipToLastName\",\"type\":\"string\"},{\"name\":\"shipToFirstName\",\"type\":\"string\"},{\"name\":\"shippingAddress\",\"type\":\"com.gottaeat.domain.geography.Address\"},{\"name\":\"email\",\"type\":\"string\"},{\"name\":\"phoneNumber\",\"type\":\"string\"},{\"name\":\"paymentMode\",\"type\":{\"type\":\"enum\",\"name\":\"PaymentType\",\"symbols\":[\"CREDITCARD\",\"PAYPAL\",\"GOOGLECHECKOUT\",\"BITCOIN\",\"WIRED\"]}},{\"name\":\"amount\",\"type\":\"float\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -74,13 +74,13 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
   @Deprecated public java.lang.CharSequence ip;
   @Deprecated public java.lang.CharSequence lastName;
   @Deprecated public java.lang.CharSequence firstName;
-  @Deprecated public com.gottaeat.domain.fraud.scoring.fraudlabs.Address billingAddress;
+  @Deprecated public com.gottaeat.domain.geography.Address billingAddress;
   @Deprecated public java.lang.CharSequence shipToLastName;
   @Deprecated public java.lang.CharSequence shipToFirstName;
-  @Deprecated public com.gottaeat.domain.fraud.scoring.fraudlabs.Address shippingAddress;
+  @Deprecated public com.gottaeat.domain.geography.Address shippingAddress;
   @Deprecated public java.lang.CharSequence email;
   @Deprecated public java.lang.CharSequence phoneNumber;
-  @Deprecated public com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType paymentMode;
+  @Deprecated public com.gottaeat.domain.fraud.fraudlabs.PaymentType paymentMode;
   @Deprecated public float amount;
 
   /**
@@ -104,7 +104,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
    * @param paymentMode The new value for paymentMode
    * @param amount The new value for amount
    */
-  public Transaction(java.lang.CharSequence ip, java.lang.CharSequence lastName, java.lang.CharSequence firstName, com.gottaeat.domain.fraud.scoring.fraudlabs.Address billingAddress, java.lang.CharSequence shipToLastName, java.lang.CharSequence shipToFirstName, com.gottaeat.domain.fraud.scoring.fraudlabs.Address shippingAddress, java.lang.CharSequence email, java.lang.CharSequence phoneNumber, com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType paymentMode, java.lang.Float amount) {
+  public Transaction(java.lang.CharSequence ip, java.lang.CharSequence lastName, java.lang.CharSequence firstName, com.gottaeat.domain.geography.Address billingAddress, java.lang.CharSequence shipToLastName, java.lang.CharSequence shipToFirstName, com.gottaeat.domain.geography.Address shippingAddress, java.lang.CharSequence email, java.lang.CharSequence phoneNumber, com.gottaeat.domain.fraud.fraudlabs.PaymentType paymentMode, java.lang.Float amount) {
     this.ip = ip;
     this.lastName = lastName;
     this.firstName = firstName;
@@ -145,13 +145,13 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
     case 0: ip = (java.lang.CharSequence)value$; break;
     case 1: lastName = (java.lang.CharSequence)value$; break;
     case 2: firstName = (java.lang.CharSequence)value$; break;
-    case 3: billingAddress = (com.gottaeat.domain.fraud.scoring.fraudlabs.Address)value$; break;
+    case 3: billingAddress = (com.gottaeat.domain.geography.Address)value$; break;
     case 4: shipToLastName = (java.lang.CharSequence)value$; break;
     case 5: shipToFirstName = (java.lang.CharSequence)value$; break;
-    case 6: shippingAddress = (com.gottaeat.domain.fraud.scoring.fraudlabs.Address)value$; break;
+    case 6: shippingAddress = (com.gottaeat.domain.geography.Address)value$; break;
     case 7: email = (java.lang.CharSequence)value$; break;
     case 8: phoneNumber = (java.lang.CharSequence)value$; break;
-    case 9: paymentMode = (com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType)value$; break;
+    case 9: paymentMode = (com.gottaeat.domain.fraud.fraudlabs.PaymentType)value$; break;
     case 10: amount = (java.lang.Float)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
@@ -212,7 +212,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
    * Gets the value of the 'billingAddress' field.
    * @return The value of the 'billingAddress' field.
    */
-  public com.gottaeat.domain.fraud.scoring.fraudlabs.Address getBillingAddress() {
+  public com.gottaeat.domain.geography.Address getBillingAddress() {
     return billingAddress;
   }
 
@@ -221,7 +221,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
    * Sets the value of the 'billingAddress' field.
    * @param value the value to set.
    */
-  public void setBillingAddress(com.gottaeat.domain.fraud.scoring.fraudlabs.Address value) {
+  public void setBillingAddress(com.gottaeat.domain.geography.Address value) {
     this.billingAddress = value;
   }
 
@@ -263,7 +263,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
    * Gets the value of the 'shippingAddress' field.
    * @return The value of the 'shippingAddress' field.
    */
-  public com.gottaeat.domain.fraud.scoring.fraudlabs.Address getShippingAddress() {
+  public com.gottaeat.domain.geography.Address getShippingAddress() {
     return shippingAddress;
   }
 
@@ -272,7 +272,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
    * Sets the value of the 'shippingAddress' field.
    * @param value the value to set.
    */
-  public void setShippingAddress(com.gottaeat.domain.fraud.scoring.fraudlabs.Address value) {
+  public void setShippingAddress(com.gottaeat.domain.geography.Address value) {
     this.shippingAddress = value;
   }
 
@@ -314,7 +314,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
    * Gets the value of the 'paymentMode' field.
    * @return The value of the 'paymentMode' field.
    */
-  public com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType getPaymentMode() {
+  public com.gottaeat.domain.fraud.fraudlabs.PaymentType getPaymentMode() {
     return paymentMode;
   }
 
@@ -323,7 +323,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
    * Sets the value of the 'paymentMode' field.
    * @param value the value to set.
    */
-  public void setPaymentMode(com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType value) {
+  public void setPaymentMode(com.gottaeat.domain.fraud.fraudlabs.PaymentType value) {
     this.paymentMode = value;
   }
 
@@ -348,8 +348,8 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
    * Creates a new Transaction RecordBuilder.
    * @return A new Transaction RecordBuilder
    */
-  public static com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder newBuilder() {
-    return new com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder();
+  public static com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder newBuilder() {
+    return new com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder();
   }
 
   /**
@@ -357,11 +357,11 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
    * @param other The existing builder to copy.
    * @return A new Transaction RecordBuilder
    */
-  public static com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder newBuilder(com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder other) {
+  public static com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder newBuilder(com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder other) {
     if (other == null) {
-      return new com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder();
+      return new com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder();
     } else {
-      return new com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder(other);
+      return new com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder(other);
     }
   }
 
@@ -370,11 +370,11 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
    * @param other The existing instance to copy.
    * @return A new Transaction RecordBuilder
    */
-  public static com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder newBuilder(com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction other) {
+  public static com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder newBuilder(com.gottaeat.domain.fraud.fraudlabs.Transaction other) {
     if (other == null) {
-      return new com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder();
+      return new com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder();
     } else {
-      return new com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder(other);
+      return new com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder(other);
     }
   }
 
@@ -387,15 +387,15 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
     private java.lang.CharSequence ip;
     private java.lang.CharSequence lastName;
     private java.lang.CharSequence firstName;
-    private com.gottaeat.domain.fraud.scoring.fraudlabs.Address billingAddress;
-    private com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder billingAddressBuilder;
+    private com.gottaeat.domain.geography.Address billingAddress;
+    private com.gottaeat.domain.geography.Address.Builder billingAddressBuilder;
     private java.lang.CharSequence shipToLastName;
     private java.lang.CharSequence shipToFirstName;
-    private com.gottaeat.domain.fraud.scoring.fraudlabs.Address shippingAddress;
-    private com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder shippingAddressBuilder;
+    private com.gottaeat.domain.geography.Address shippingAddress;
+    private com.gottaeat.domain.geography.Address.Builder shippingAddressBuilder;
     private java.lang.CharSequence email;
     private java.lang.CharSequence phoneNumber;
-    private com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType paymentMode;
+    private com.gottaeat.domain.fraud.fraudlabs.PaymentType paymentMode;
     private float amount;
 
     /** Creates a new Builder */
@@ -407,7 +407,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder other) {
+    private Builder(com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.ip)) {
         this.ip = data().deepCopy(fields()[0].schema(), other.ip);
@@ -426,7 +426,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
       if (other.hasBillingAddressBuilder()) {
-        this.billingAddressBuilder = com.gottaeat.domain.fraud.scoring.fraudlabs.Address.newBuilder(other.getBillingAddressBuilder());
+        this.billingAddressBuilder = com.gottaeat.domain.geography.Address.newBuilder(other.getBillingAddressBuilder());
       }
       if (isValidValue(fields()[4], other.shipToLastName)) {
         this.shipToLastName = data().deepCopy(fields()[4].schema(), other.shipToLastName);
@@ -441,7 +441,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
         fieldSetFlags()[6] = other.fieldSetFlags()[6];
       }
       if (other.hasShippingAddressBuilder()) {
-        this.shippingAddressBuilder = com.gottaeat.domain.fraud.scoring.fraudlabs.Address.newBuilder(other.getShippingAddressBuilder());
+        this.shippingAddressBuilder = com.gottaeat.domain.geography.Address.newBuilder(other.getShippingAddressBuilder());
       }
       if (isValidValue(fields()[7], other.email)) {
         this.email = data().deepCopy(fields()[7].schema(), other.email);
@@ -465,7 +465,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
      * Creates a Builder by copying an existing Transaction instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction other) {
+    private Builder(com.gottaeat.domain.fraud.fraudlabs.Transaction other) {
       super(SCHEMA$);
       if (isValidValue(fields()[0], other.ip)) {
         this.ip = data().deepCopy(fields()[0].schema(), other.ip);
@@ -529,7 +529,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'ip'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setIp(java.lang.CharSequence value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setIp(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.ip = value;
       fieldSetFlags()[0] = true;
@@ -549,7 +549,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'ip' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearIp() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearIp() {
       ip = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -569,7 +569,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'lastName'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setLastName(java.lang.CharSequence value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setLastName(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.lastName = value;
       fieldSetFlags()[1] = true;
@@ -589,7 +589,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'lastName' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearLastName() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearLastName() {
       lastName = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -609,7 +609,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'firstName'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setFirstName(java.lang.CharSequence value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setFirstName(java.lang.CharSequence value) {
       validate(fields()[2], value);
       this.firstName = value;
       fieldSetFlags()[2] = true;
@@ -629,7 +629,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'firstName' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearFirstName() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearFirstName() {
       firstName = null;
       fieldSetFlags()[2] = false;
       return this;
@@ -639,7 +639,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Gets the value of the 'billingAddress' field.
       * @return The value.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address getBillingAddress() {
+    public com.gottaeat.domain.geography.Address getBillingAddress() {
       return billingAddress;
     }
 
@@ -649,7 +649,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'billingAddress'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setBillingAddress(com.gottaeat.domain.fraud.scoring.fraudlabs.Address value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setBillingAddress(com.gottaeat.domain.geography.Address value) {
       validate(fields()[3], value);
       this.billingAddressBuilder = null;
       this.billingAddress = value;
@@ -669,12 +669,12 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
      * Gets the Builder instance for the 'billingAddress' field and creates one if it doesn't exist yet.
      * @return This builder.
      */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder getBillingAddressBuilder() {
+    public com.gottaeat.domain.geography.Address.Builder getBillingAddressBuilder() {
       if (billingAddressBuilder == null) {
         if (hasBillingAddress()) {
-          setBillingAddressBuilder(com.gottaeat.domain.fraud.scoring.fraudlabs.Address.newBuilder(billingAddress));
+          setBillingAddressBuilder(com.gottaeat.domain.geography.Address.newBuilder(billingAddress));
         } else {
-          setBillingAddressBuilder(com.gottaeat.domain.fraud.scoring.fraudlabs.Address.newBuilder());
+          setBillingAddressBuilder(com.gottaeat.domain.geography.Address.newBuilder());
         }
       }
       return billingAddressBuilder;
@@ -685,7 +685,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
      * @param value The builder instance that must be set.
      * @return This builder.
      */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setBillingAddressBuilder(com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setBillingAddressBuilder(com.gottaeat.domain.geography.Address.Builder value) {
       clearBillingAddress();
       billingAddressBuilder = value;
       return this;
@@ -703,7 +703,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'billingAddress' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearBillingAddress() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearBillingAddress() {
       billingAddress = null;
       billingAddressBuilder = null;
       fieldSetFlags()[3] = false;
@@ -724,7 +724,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'shipToLastName'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setShipToLastName(java.lang.CharSequence value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setShipToLastName(java.lang.CharSequence value) {
       validate(fields()[4], value);
       this.shipToLastName = value;
       fieldSetFlags()[4] = true;
@@ -744,7 +744,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'shipToLastName' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearShipToLastName() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearShipToLastName() {
       shipToLastName = null;
       fieldSetFlags()[4] = false;
       return this;
@@ -764,7 +764,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'shipToFirstName'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setShipToFirstName(java.lang.CharSequence value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setShipToFirstName(java.lang.CharSequence value) {
       validate(fields()[5], value);
       this.shipToFirstName = value;
       fieldSetFlags()[5] = true;
@@ -784,7 +784,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'shipToFirstName' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearShipToFirstName() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearShipToFirstName() {
       shipToFirstName = null;
       fieldSetFlags()[5] = false;
       return this;
@@ -794,7 +794,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Gets the value of the 'shippingAddress' field.
       * @return The value.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address getShippingAddress() {
+    public com.gottaeat.domain.geography.Address getShippingAddress() {
       return shippingAddress;
     }
 
@@ -804,7 +804,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'shippingAddress'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setShippingAddress(com.gottaeat.domain.fraud.scoring.fraudlabs.Address value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setShippingAddress(com.gottaeat.domain.geography.Address value) {
       validate(fields()[6], value);
       this.shippingAddressBuilder = null;
       this.shippingAddress = value;
@@ -824,12 +824,12 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
      * Gets the Builder instance for the 'shippingAddress' field and creates one if it doesn't exist yet.
      * @return This builder.
      */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder getShippingAddressBuilder() {
+    public com.gottaeat.domain.geography.Address.Builder getShippingAddressBuilder() {
       if (shippingAddressBuilder == null) {
         if (hasShippingAddress()) {
-          setShippingAddressBuilder(com.gottaeat.domain.fraud.scoring.fraudlabs.Address.newBuilder(shippingAddress));
+          setShippingAddressBuilder(com.gottaeat.domain.geography.Address.newBuilder(shippingAddress));
         } else {
-          setShippingAddressBuilder(com.gottaeat.domain.fraud.scoring.fraudlabs.Address.newBuilder());
+          setShippingAddressBuilder(com.gottaeat.domain.geography.Address.newBuilder());
         }
       }
       return shippingAddressBuilder;
@@ -840,7 +840,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
      * @param value The builder instance that must be set.
      * @return This builder.
      */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setShippingAddressBuilder(com.gottaeat.domain.fraud.scoring.fraudlabs.Address.Builder value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setShippingAddressBuilder(com.gottaeat.domain.geography.Address.Builder value) {
       clearShippingAddress();
       shippingAddressBuilder = value;
       return this;
@@ -858,7 +858,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'shippingAddress' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearShippingAddress() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearShippingAddress() {
       shippingAddress = null;
       shippingAddressBuilder = null;
       fieldSetFlags()[6] = false;
@@ -879,7 +879,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'email'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setEmail(java.lang.CharSequence value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setEmail(java.lang.CharSequence value) {
       validate(fields()[7], value);
       this.email = value;
       fieldSetFlags()[7] = true;
@@ -899,7 +899,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'email' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearEmail() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearEmail() {
       email = null;
       fieldSetFlags()[7] = false;
       return this;
@@ -919,7 +919,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'phoneNumber'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setPhoneNumber(java.lang.CharSequence value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setPhoneNumber(java.lang.CharSequence value) {
       validate(fields()[8], value);
       this.phoneNumber = value;
       fieldSetFlags()[8] = true;
@@ -939,7 +939,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'phoneNumber' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearPhoneNumber() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearPhoneNumber() {
       phoneNumber = null;
       fieldSetFlags()[8] = false;
       return this;
@@ -949,7 +949,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Gets the value of the 'paymentMode' field.
       * @return The value.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType getPaymentMode() {
+    public com.gottaeat.domain.fraud.fraudlabs.PaymentType getPaymentMode() {
       return paymentMode;
     }
 
@@ -959,7 +959,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'paymentMode'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setPaymentMode(com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setPaymentMode(com.gottaeat.domain.fraud.fraudlabs.PaymentType value) {
       validate(fields()[9], value);
       this.paymentMode = value;
       fieldSetFlags()[9] = true;
@@ -979,7 +979,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'paymentMode' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearPaymentMode() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearPaymentMode() {
       paymentMode = null;
       fieldSetFlags()[9] = false;
       return this;
@@ -999,7 +999,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * @param value The value of 'amount'.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder setAmount(float value) {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder setAmount(float value) {
       validate(fields()[10], value);
       this.amount = value;
       fieldSetFlags()[10] = true;
@@ -1019,7 +1019,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       * Clears the value of the 'amount' field.
       * @return This builder.
       */
-    public com.gottaeat.domain.fraud.scoring.fraudlabs.Transaction.Builder clearAmount() {
+    public com.gottaeat.domain.fraud.fraudlabs.Transaction.Builder clearAmount() {
       fieldSetFlags()[10] = false;
       return this;
     }
@@ -1040,7 +1040,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
             throw e;
           }
         } else {
-          record.billingAddress = fieldSetFlags()[3] ? this.billingAddress : (com.gottaeat.domain.fraud.scoring.fraudlabs.Address) defaultValue(fields()[3]);
+          record.billingAddress = fieldSetFlags()[3] ? this.billingAddress : (com.gottaeat.domain.geography.Address) defaultValue(fields()[3]);
         }
         record.shipToLastName = fieldSetFlags()[4] ? this.shipToLastName : (java.lang.CharSequence) defaultValue(fields()[4]);
         record.shipToFirstName = fieldSetFlags()[5] ? this.shipToFirstName : (java.lang.CharSequence) defaultValue(fields()[5]);
@@ -1052,11 +1052,11 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
             throw e;
           }
         } else {
-          record.shippingAddress = fieldSetFlags()[6] ? this.shippingAddress : (com.gottaeat.domain.fraud.scoring.fraudlabs.Address) defaultValue(fields()[6]);
+          record.shippingAddress = fieldSetFlags()[6] ? this.shippingAddress : (com.gottaeat.domain.geography.Address) defaultValue(fields()[6]);
         }
         record.email = fieldSetFlags()[7] ? this.email : (java.lang.CharSequence) defaultValue(fields()[7]);
         record.phoneNumber = fieldSetFlags()[8] ? this.phoneNumber : (java.lang.CharSequence) defaultValue(fields()[8]);
-        record.paymentMode = fieldSetFlags()[9] ? this.paymentMode : (com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType) defaultValue(fields()[9]);
+        record.paymentMode = fieldSetFlags()[9] ? this.paymentMode : (com.gottaeat.domain.fraud.fraudlabs.PaymentType) defaultValue(fields()[9]);
         record.amount = fieldSetFlags()[10] ? this.amount : (java.lang.Float) defaultValue(fields()[10]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
@@ -1126,7 +1126,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       this.firstName = in.readString(this.firstName instanceof Utf8 ? (Utf8)this.firstName : null);
 
       if (this.billingAddress == null) {
-        this.billingAddress = new com.gottaeat.domain.fraud.scoring.fraudlabs.Address();
+        this.billingAddress = new com.gottaeat.domain.geography.Address();
       }
       this.billingAddress.customDecode(in);
 
@@ -1135,7 +1135,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
       this.shipToFirstName = in.readString(this.shipToFirstName instanceof Utf8 ? (Utf8)this.shipToFirstName : null);
 
       if (this.shippingAddress == null) {
-        this.shippingAddress = new com.gottaeat.domain.fraud.scoring.fraudlabs.Address();
+        this.shippingAddress = new com.gottaeat.domain.geography.Address();
       }
       this.shippingAddress.customDecode(in);
 
@@ -1143,7 +1143,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
 
       this.phoneNumber = in.readString(this.phoneNumber instanceof Utf8 ? (Utf8)this.phoneNumber : null);
 
-      this.paymentMode = com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType.values()[in.readEnum()];
+      this.paymentMode = com.gottaeat.domain.fraud.fraudlabs.PaymentType.values()[in.readEnum()];
 
       this.amount = in.readFloat();
 
@@ -1164,7 +1164,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
 
         case 3:
           if (this.billingAddress == null) {
-            this.billingAddress = new com.gottaeat.domain.fraud.scoring.fraudlabs.Address();
+            this.billingAddress = new com.gottaeat.domain.geography.Address();
           }
           this.billingAddress.customDecode(in);
           break;
@@ -1179,7 +1179,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
 
         case 6:
           if (this.shippingAddress == null) {
-            this.shippingAddress = new com.gottaeat.domain.fraud.scoring.fraudlabs.Address();
+            this.shippingAddress = new com.gottaeat.domain.geography.Address();
           }
           this.shippingAddress.customDecode(in);
           break;
@@ -1193,7 +1193,7 @@ public class Transaction extends org.apache.avro.specific.SpecificRecordBase imp
           break;
 
         case 9:
-          this.paymentMode = com.gottaeat.domain.fraud.scoring.fraudlabs.PaymentType.values()[in.readEnum()];
+          this.paymentMode = com.gottaeat.domain.fraud.fraudlabs.PaymentType.values()[in.readEnum()];
           break;
 
         case 10:

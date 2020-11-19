@@ -7,7 +7,7 @@ import java.util.Random;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.gottaeat.domain.common.Address;
+import com.gottaeat.domain.geography.Address;
 import com.gottaeat.domain.order.FoodOrder;
 import com.gottaeat.domain.payment.CardType;
 import com.gottaeat.domain.payment.CreditCard;

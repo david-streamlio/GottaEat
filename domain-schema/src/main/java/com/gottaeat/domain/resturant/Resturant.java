@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Resturant extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 4942770633887967710L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Resturant\",\"namespace\":\"com.gottaeat.domain.resturant\",\"fields\":[{\"name\":\"location\",\"type\":{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.gottaeat.domain.common\",\"fields\":[{\"name\":\"street\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"zip\",\"type\":\"string\"},{\"name\":\"geo\",\"type\":[\"null\",{\"type\":\"record\",\"name\":\"LatLon\",\"fields\":[{\"name\":\"latitude\",\"type\":\"double\"},{\"name\":\"longitude\",\"type\":\"double\"}]}]}]}}]}");
+  private static final long serialVersionUID = -4049372815725185757L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Resturant\",\"namespace\":\"com.gottaeat.domain.resturant\",\"fields\":[{\"name\":\"location\",\"type\":{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.gottaeat.domain.geography\",\"fields\":[{\"name\":\"street\",\"type\":\"string\"},{\"name\":\"city\",\"type\":\"string\"},{\"name\":\"state\",\"type\":\"string\"},{\"name\":\"country\",\"type\":\"string\"},{\"name\":\"zip\",\"type\":\"string\"}]}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -71,7 +71,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
     return DECODER.decode(b);
   }
 
-  @Deprecated public com.gottaeat.domain.common.Address location;
+  @Deprecated public com.gottaeat.domain.geography.Address location;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -84,7 +84,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
    * All-args constructor.
    * @param location The new value for location
    */
-  public Resturant(com.gottaeat.domain.common.Address location) {
+  public Resturant(com.gottaeat.domain.geography.Address location) {
     this.location = location;
   }
 
@@ -102,7 +102,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: location = (com.gottaeat.domain.common.Address)value$; break;
+    case 0: location = (com.gottaeat.domain.geography.Address)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -111,7 +111,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
    * Gets the value of the 'location' field.
    * @return The value of the 'location' field.
    */
-  public com.gottaeat.domain.common.Address getLocation() {
+  public com.gottaeat.domain.geography.Address getLocation() {
     return location;
   }
 
@@ -120,7 +120,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
    * Sets the value of the 'location' field.
    * @param value the value to set.
    */
-  public void setLocation(com.gottaeat.domain.common.Address value) {
+  public void setLocation(com.gottaeat.domain.geography.Address value) {
     this.location = value;
   }
 
@@ -164,8 +164,8 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<Resturant>
     implements org.apache.avro.data.RecordBuilder<Resturant> {
 
-    private com.gottaeat.domain.common.Address location;
-    private com.gottaeat.domain.common.Address.Builder locationBuilder;
+    private com.gottaeat.domain.geography.Address location;
+    private com.gottaeat.domain.geography.Address.Builder locationBuilder;
 
     /** Creates a new Builder */
     private Builder() {
@@ -183,7 +183,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
       if (other.hasLocationBuilder()) {
-        this.locationBuilder = com.gottaeat.domain.common.Address.newBuilder(other.getLocationBuilder());
+        this.locationBuilder = com.gottaeat.domain.geography.Address.newBuilder(other.getLocationBuilder());
       }
     }
 
@@ -204,7 +204,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
       * Gets the value of the 'location' field.
       * @return The value.
       */
-    public com.gottaeat.domain.common.Address getLocation() {
+    public com.gottaeat.domain.geography.Address getLocation() {
       return location;
     }
 
@@ -214,7 +214,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
       * @param value The value of 'location'.
       * @return This builder.
       */
-    public com.gottaeat.domain.resturant.Resturant.Builder setLocation(com.gottaeat.domain.common.Address value) {
+    public com.gottaeat.domain.resturant.Resturant.Builder setLocation(com.gottaeat.domain.geography.Address value) {
       validate(fields()[0], value);
       this.locationBuilder = null;
       this.location = value;
@@ -234,12 +234,12 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
      * Gets the Builder instance for the 'location' field and creates one if it doesn't exist yet.
      * @return This builder.
      */
-    public com.gottaeat.domain.common.Address.Builder getLocationBuilder() {
+    public com.gottaeat.domain.geography.Address.Builder getLocationBuilder() {
       if (locationBuilder == null) {
         if (hasLocation()) {
-          setLocationBuilder(com.gottaeat.domain.common.Address.newBuilder(location));
+          setLocationBuilder(com.gottaeat.domain.geography.Address.newBuilder(location));
         } else {
-          setLocationBuilder(com.gottaeat.domain.common.Address.newBuilder());
+          setLocationBuilder(com.gottaeat.domain.geography.Address.newBuilder());
         }
       }
       return locationBuilder;
@@ -250,7 +250,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
      * @param value The builder instance that must be set.
      * @return This builder.
      */
-    public com.gottaeat.domain.resturant.Resturant.Builder setLocationBuilder(com.gottaeat.domain.common.Address.Builder value) {
+    public com.gottaeat.domain.resturant.Resturant.Builder setLocationBuilder(com.gottaeat.domain.geography.Address.Builder value) {
       clearLocation();
       locationBuilder = value;
       return this;
@@ -288,7 +288,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
             throw e;
           }
         } else {
-          record.location = fieldSetFlags()[0] ? this.location : (com.gottaeat.domain.common.Address) defaultValue(fields()[0]);
+          record.location = fieldSetFlags()[0] ? this.location : (com.gottaeat.domain.geography.Address) defaultValue(fields()[0]);
         }
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
@@ -332,7 +332,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
       if (this.location == null) {
-        this.location = new com.gottaeat.domain.common.Address();
+        this.location = new com.gottaeat.domain.geography.Address();
       }
       this.location.customDecode(in);
 
@@ -341,7 +341,7 @@ public class Resturant extends org.apache.avro.specific.SpecificRecordBase imple
         switch (fieldOrder[i].pos()) {
         case 0:
           if (this.location == null) {
-            this.location = new com.gottaeat.domain.common.Address();
+            this.location = new com.gottaeat.domain.geography.Address();
           }
           this.location.customDecode(in);
           break;
