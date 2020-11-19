@@ -33,29 +33,29 @@ public class OrderValidationService implements Function<FoodOrder, Void> {
 	private String orderTopic;
 
 	@Override
-	  public Void process(FoodOrder order, Context ctx) throws Exception {
-		if (!initalized) {
-	  	  init(ctx);
-		}
+	public Void process(FoodOrder order, Context ctx) throws Exception {
+	  if (!initalized) {
+	    init(ctx);
+	  }
 			
-		ctx.newOutputMessage(geoEncoderTopic, AvroSchema.of(Address.class))
+	  ctx.newOutputMessage(geoEncoderTopic, AvroSchema.of(Address.class))
 		  .property("order-id", order.getMeta().getOrderId() + "")
-	       .value(order.getDeliveryLocation()).sendAsync();
+	      .value(order.getDeliveryLocation()).sendAsync();
 		
-		ctx.newOutputMessage(paymentTopic, AvroSchema.of(Payment.class))
+	  ctx.newOutputMessage(paymentTopic, AvroSchema.of(Payment.class))
 		  .property("order-id", order.getMeta().getOrderId() + "")
 		  .value(order.getPayment()).sendAsync();
 
-		ctx.newOutputMessage(orderTopic, AvroSchema.of(FoodOrderMeta.class))
+	  ctx.newOutputMessage(orderTopic, AvroSchema.of(FoodOrderMeta.class))
 		  .property("order-id", order.getMeta().getOrderId() + "")
 		  .value(order.getMeta()).sendAsync();
 
-	     ctx.newOutputMessage(resturantTopic, AvroSchema.of(FoodOrder.class))
+	  ctx.newOutputMessage(resturantTopic, AvroSchema.of(FoodOrder.class))
 		  .property("order-id", order.getMeta().getOrderId() + "")
 		  .value(order).sendAsync();
 
-		return null;
-	  }
+	  return null;
+	}
 	
 	private void init(Context ctx) {
 	  geoEncoderTopic = ctx.getUserConfigValue("geo-topic").toString();
