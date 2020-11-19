@@ -5,11 +5,8 @@ protocol OrderProtocol {
   import idl "../payment/payment-commons.avdl";
   import idl "../resturant/resturant.avdl";
   
-  record FoodOrder {
-  	FoodOrderMeta meta;
-    array<com.gottaeat.domain.resturant.FoodOrderDetail> food;
-    com.gottaeat.domain.geography.Address delivery_location;
-    com.gottaeat.domain.payment.Payment payment;
+  enum OrderStatus {
+    NEW, VALIDATED, ACCEPTED, READY, DISPATCHED, DELIVERED
   }
   
   record FoodOrderMeta {
@@ -19,8 +16,11 @@ protocol OrderProtocol {
     OrderStatus order_status;
   }
   
-  enum OrderStatus {
-    NEW, VALIDATED, ACCEPTED, READY, DISPATCHED, DELIVERED
+  record FoodOrder {
+  	FoodOrderMeta meta;
+    array<com.gottaeat.domain.resturant.FoodOrderDetail> food;
+    com.gottaeat.domain.geography.Address delivery_location;
+    com.gottaeat.domain.payment.Payment payment;
   }
   
   record ValidatedFoodOrder {

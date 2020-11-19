@@ -33,15 +33,15 @@ public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 	public Transaction process(FoodOrder order, Context ctx) throws Exception {
 		
 		if (!isInitalized()) {
-		  dbUrl = (String) ctx.getUserConfigValue("dbUrl").orElse(null);
-		  dbUser = (String) ctx.getUserConfigValue("dbUser").orElse(null);
-		  dbPass = (String) ctx.getUserConfigValue("dbPass").orElse(null);
-		  dbPass = (String) ctx.getUserConfigValue("dbDriverClass").orElse(null);
+		  dbUrl = (String) ctx.getUserConfigValue(DB_URL_KEY).orElse(null);
+		  dbDriverClass = (String) ctx.getUserConfigValue(DB_DRIVER_KEY).orElse(null);
+		  dbUser = (String) ctx.getSecret(DB_USER_KEY);
+		  dbPass = (String) ctx.getSecret(DB_PASS_KEY);
 		}
 		
 		Transaction tx = null;
 		ResultSet rs = getSql(order.getMeta().getCustomerId()).executeQuery();
-		if (rs != null && rs.first()) {
+		if (rs != null && rs.next()) {
 			Address addr = Address.newBuilder()
 					.setStreet(rs.getString("a.address"))
 					.setCity(rs.getString("c2.city"))
@@ -51,6 +51,7 @@ public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 					.build();
 			
 			tx = Transaction.newBuilder()
+					.setIp("127.0.0.1")
 					.setAmount(order.getPayment().getAmount().getTotal())
 					.setBillingAddress(addr)
 					.setEmail(rs.getString("ru.email"))
@@ -60,9 +61,10 @@ public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 					.setPhoneNumber(rs.getString("a.phone"))
 					.setShipToFirstName(rs.getString("ru.first_name"))
 					.setShipToLastName(rs.getString("ru.last_name"))
-					.setShippingAddress(addr)  // TODO Use the delivery address from the order
+					.setShippingAddress(order.getDeliveryLocation())  
 					.build();
 		}
+		rs.close();
 		return tx;
 	}
 	
@@ -76,6 +78,7 @@ public class CustomerDetailsLookup implements Function<FoodOrder, Transaction> {
 					+ "join GottaEat.City c2 on a.city_id = c2.city_id "
 					+ "join GottaEat.Country c3 on c2.country_id = c3.country_id "
 					+ "where c.customer_id = ?");
+		  stmt.setLong(1, customerId);
 		}
 		return stmt;
 	}

@@ -1,8 +1,10 @@
 package com.gottaeat.dao.customer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,6 +17,7 @@ import org.apache.pulsar.client.api.PulsarClientException;
 import org.apache.pulsar.client.api.Schema;
 import org.apache.pulsar.common.functions.ConsumerConfig;
 import org.apache.pulsar.common.functions.FunctionConfig;
+import org.apache.pulsar.common.schema.SchemaInfo;
 import org.apache.pulsar.functions.LocalRunner;
 
 import com.gottaeat.domain.fraud.fraudlabs.Transaction;
@@ -22,6 +25,13 @@ import com.gottaeat.domain.geography.Address;
 import com.gottaeat.domain.order.FoodOrder;
 import com.gottaeat.domain.order.FoodOrderMeta;
 import com.gottaeat.domain.order.OrderStatus;
+import com.gottaeat.domain.payment.CardType;
+import com.gottaeat.domain.payment.CreditCard;
+import com.gottaeat.domain.payment.Payment;
+import com.gottaeat.domain.payment.PaymentAmount;
+import com.gottaeat.domain.payment.PaymentMethod;
+import com.gottaeat.domain.resturant.FoodOrderDetail;
+import com.gottaeat.domain.resturant.MenuItem;
 
 public class CustomerDetailsLookupLocalRunnerTest {
 	final static String BROKER_URL = "pulsar://localhost:6650";
@@ -66,22 +76,29 @@ public class CustomerDetailsLookupLocalRunnerTest {
 	private static FunctionConfig getFunctionConfig() {
 		Map<String, ConsumerConfig> inputSpecs = new HashMap<String, ConsumerConfig> ();
 		inputSpecs.put(IN, ConsumerConfig.builder()
-				.schemaType(Schema.STRING.getSchemaInfo().getName())
-				.build());
+				             .schemaType(Schema.AVRO(FoodOrder.class).getSchemaInfo().getType().toString())
+				             .build());
 
 		Map<String, Object> userConfig = new HashMap<String, Object>();
-		userConfig.put(CustomerDetailsLookup.DB_URL_KEY, "");
-		userConfig.put(CustomerDetailsLookup.DB_USER_KEY, "");
+		userConfig.put(CustomerDetailsLookup.DB_DRIVER_KEY, "com.mysql.cj.jdbc.Driver");
+		userConfig.put(CustomerDetailsLookup.DB_URL_KEY, "jdbc:mysql://localhost:3306/GottaEat");
+		
+		Map<String, Object> secrets = new HashMap<String, Object>();
+		secrets.put(CustomerDetailsLookup.DB_USER_KEY, "orbit");
+		secrets.put(CustomerDetailsLookup.DB_PASS_KEY, "orbit");
 		
 		return FunctionConfig.builder()
 				.className(CustomerDetailsLookup.class.getName())
+				.cleanupSubscription(true)
 				.inputs(Collections.singleton(IN))
 				.inputSpecs(inputSpecs)
 				.output(OUT)
+				.outputSchemaType(Schema.AVRO(Transaction.class).getSchemaInfo().getType().toString())
 				.name("customer-details-lookup")
 				.tenant("public")
 				.namespace("default")
 				.runtime(FunctionConfig.Runtime.JAVA)
+				.secrets(secrets)
 				.subName("customer-details-lookup-sub")
 		        .userConfig(userConfig)
 				.build();
@@ -93,7 +110,7 @@ public class CustomerDetailsLookupLocalRunnerTest {
 			  Message<Transaction> msg = null;
 			  try {
 			    msg = consumer.receive();
-			    System.out.printf("Message received: %s \n", msg.getValue());
+			    System.out.printf("Message received: %s \n", msg);
 			    consumer.acknowledge(msg);
 			  } catch (Exception e) {
 			    consumer.negativeAcknowledge(msg);
@@ -110,17 +127,56 @@ public class CustomerDetailsLookupLocalRunnerTest {
 							.setCustomerId(10)
 							.setOrderId(idx)
 							.setOrderStatus(OrderStatus.NEW)
+							.setTimePlaced("2020-11-18 09:32:04.354")
 							.build())
 					.setDeliveryLocation(Address.newBuilder()
 							.setCity("Dallas")
 							.setState("TX")
 							.setStreet("123 Main St")
 							.setZip("75043")
+							.setCountry("US")
+							.build())
+					.setFood(getFood())
+					.setPayment(Payment.newBuilder()
+							.setAmount(PaymentAmount.newBuilder()
+									.setFoodTotal(8.99f)
+									.setTax(0.0f)
+									.setTotal(8.99f)
+									.build())
+							.setMethodOfPayment(PaymentMethod.newBuilder()
+									.setType(CreditCard.newBuilder()
+											.setAccountNumber("123456789012")
+											.setBillingZip("75043")
+											.setCardType(CardType.VISA)
+											.setCcv("123")
+											.setExpMonth("11")
+											.setExpYear("2025")
+											.build())
+									.build())
 							.build())
 					.build());
 		}
 	}
 	
+	private static List<FoodOrderDetail> getFood() {
+		List<FoodOrderDetail> food = new ArrayList<FoodOrderDetail>();
+		List<CharSequence> cust = new ArrayList<CharSequence>();
+		cust.add("pickles");
+		
+		food.add(FoodOrderDetail.newBuilder()
+				.setFoodItem(MenuItem.newBuilder()
+						.setCustomizations(cust )
+						.setItemDescription("Chicken")
+						.setItemId(13)
+						.setItemName("Chicken")
+						.setPrice(8.99f)
+						.setTaxable(false)
+						.build())
+				.setQuantity(1)
+				.build());
+		return food;
+	}
+
 	private static void shutdown() throws Exception {
 		Thread.sleep(30000);
 	    executor.shutdown();
