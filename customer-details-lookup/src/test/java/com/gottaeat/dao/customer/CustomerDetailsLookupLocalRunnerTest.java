@@ -1,3 +1,21 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package com.gottaeat.dao.customer;
 
 import java.io.IOException;
@@ -17,10 +35,9 @@ import org.apache.pulsar.client.api.PulsarClientException;
 import org.apache.pulsar.client.api.Schema;
 import org.apache.pulsar.common.functions.ConsumerConfig;
 import org.apache.pulsar.common.functions.FunctionConfig;
-import org.apache.pulsar.common.schema.SchemaInfo;
 import org.apache.pulsar.functions.LocalRunner;
 
-import com.gottaeat.domain.fraud.fraudlabs.Transaction;
+import com.gottaeat.domain.customer.CustomerDetails;
 import com.gottaeat.domain.geography.Address;
 import com.gottaeat.domain.order.FoodOrder;
 import com.gottaeat.domain.order.FoodOrderMeta;
@@ -42,7 +59,7 @@ public class CustomerDetailsLookupLocalRunnerTest {
 	private static LocalRunner localRunner;
 	private static PulsarClient client;
 	private static Producer<FoodOrder> producer;
-	private static Consumer<Transaction> consumer;
+	private static Consumer<CustomerDetails> consumer;
 	
 	public static void main(String[] args) throws Exception {
 		if (args.length > 0) {
@@ -70,7 +87,7 @@ public class CustomerDetailsLookupLocalRunnerTest {
 			    .build();
 
 		producer = client.newProducer(Schema.AVRO(FoodOrder.class)).topic(IN).create();	
-		consumer = client.newConsumer(Schema.AVRO(Transaction.class)).topic(OUT).subscriptionName("validation-sub").subscribe();
+		consumer = client.newConsumer(Schema.AVRO(CustomerDetails.class)).topic(OUT).subscriptionName("validation-sub").subscribe();
 	}
 	
 	private static FunctionConfig getFunctionConfig() {
@@ -93,7 +110,7 @@ public class CustomerDetailsLookupLocalRunnerTest {
 				.inputs(Collections.singleton(IN))
 				.inputSpecs(inputSpecs)
 				.output(OUT)
-				.outputSchemaType(Schema.AVRO(Transaction.class).getSchemaInfo().getType().toString())
+				.outputSchemaType(Schema.AVRO(CustomerDetails.class).getSchemaInfo().getType().toString())
 				.name("customer-details-lookup")
 				.tenant("public")
 				.namespace("default")
@@ -107,7 +124,7 @@ public class CustomerDetailsLookupLocalRunnerTest {
 	private static void startConsumer() {
 		Runnable runnableTask = () -> {
 			while (true) {
-			  Message<Transaction> msg = null;
+			  Message<CustomerDetails> msg = null;
 			  try {
 			    msg = consumer.receive();
 			    System.out.printf("Message received: %s \n", msg);

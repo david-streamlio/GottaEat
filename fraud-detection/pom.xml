@@ -10,21 +10,30 @@
   <artifactId>fraud-detection</artifactId>
   <name>GottaEat :: Fraud Detection</name>
   
-    <build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.nifi</groupId>
-				<artifactId>nifi-nar-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+  <build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.nifi</groupId>
+			<artifactId>nifi-nar-maven-plugin</artifactId>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+		</plugin>
+	</plugins>
+  </build>
+	
+  <dependencies>
+    <dependency>
+		<groupId>com.gottaeat</groupId>
+    	<artifactId>domain-schema</artifactId>
+    	<version>${project.version}</version>
+	</dependency>
+  
+  </dependencies>
 	
 </project>

@@ -1,24 +1,35 @@
 @namespace("com.gottaeat.domain.fraud.fraudlabs")
 
 protocol FraudLabsProtocol {
-	
-  import idl "../geography/geography.avdl";
+
+  import idl "../customer/customer-data.avdl";
+  import idl "../order/food-order.avdl";
 
   enum PaymentType {
     CREDITCARD, PAYPAL, GOOGLECHECKOUT, BITCOIN, WIRED
   }
-
-  record Transaction {
-    string ip;
-    string lastName;
-    string firstName;
-    com.gottaeat.domain.geography.Address billingAddress;
-    string shipToLastName;
-    string shipToFirstName;
-    com.gottaeat.domain.geography.Address shippingAddress;
-    string email;
-    string phoneNumber;
-    PaymentType paymentMode;
-    float amount;
+  
+  enum ScoringStatus {
+  	APPROVE, REJECT, REVIEW
   }
+
+  // Data required to perform the Fraud Scoring calculation
+  record OrderScoringData {
+     com.gottaeat.domain.order.FoodOrder order;
+     com.gottaeat.domain.customer.CustomerDetails customer;
+  }
+  
+  // Submitted request and transactionId, populated with order.validate(data);
+  record FraudScoringRequest {
+  	 OrderScoringData order;
+  	 string transactionId;
+  }
+  
+  // Scoring result and status, populated with orderResults.getTransaction(data);
+  record FraudScoringResult {
+  	OrderScoringData order;
+    int score;
+    ScoringStatus status;
+  }
+  
 }

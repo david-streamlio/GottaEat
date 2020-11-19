@@ -1,0 +1,14 @@
+@namespace("com.gottaeat.domain.customer")
+
+protocol CustomerProtocol {
+	
+	import idl "../geography/geography.avdl";
+	
+    record CustomerDetails {
+       string lastName;
+       string firstName;
+       com.gottaeat.domain.geography.Address billingAddress;
+       string email;
+       string phoneNumber;
+    }
+}
