@@ -1,0 +1,14 @@
+@namespace("com.gottaeat.domain.user")
+
+protocol UserProtocol {
+	
+	import idl "../geography/geography.avdl";
+	
+	record DeviceInfo {
+		int registeredUserId;  // The user_id associated with this device
+		union { null, com.gottaeat.domain.geography.LatLon} location; // If location service is enabled
+		union { null, string } globalIPv4;  // public routable IP address 
+		union { null, string } globalIPv6;
+		union { null, string } deviceId;  // Apple UDID or Android device ID
+	}
+}

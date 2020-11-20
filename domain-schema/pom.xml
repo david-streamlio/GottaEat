@@ -45,6 +45,18 @@
                   <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
                </configuration>
             </execution>
+            
+            <execution>
+               <id>users</id>
+               <phase>generate-sources</phase>
+               <goals>
+                  <goal>idl-protocol</goal>
+               </goals>
+               <configuration>
+                  <sourceDirectory>${project.basedir}/src/main/resources/avro/com/gottaeat/domain/user</sourceDirectory>
+                  <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+               </configuration>
+            </execution>
 	  </executions>
 	</plugin>
 	
