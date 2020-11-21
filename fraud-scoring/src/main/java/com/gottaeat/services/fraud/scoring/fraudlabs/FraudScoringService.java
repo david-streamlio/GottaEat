@@ -28,7 +28,7 @@ import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.gottaeat.domain.fraud.fraudlabs.FraudScoringRequest;
+import com.gottaeat.domain.fraud.fraudlabs.FraudScoringResult;
 import com.gottaeat.domain.fraud.fraudlabs.OrderScoringData;
 
 /**
@@ -36,13 +36,13 @@ import com.gottaeat.domain.fraud.fraudlabs.OrderScoringData;
  * @see https://www.fraudlabspro.com/developer/api/screen-order
  *
  */
-public class FraudScoringService implements Function<OrderScoringData, FraudScoringRequest> {
+public class FraudScoringService implements Function<OrderScoringData, FraudScoringResult> {
 	
 	private JSONParser parser = new JSONParser();
 	private String apiKey;
 
 	@Override
-	public FraudScoringRequest process(OrderScoringData input, Context ctx) throws Exception {
+	public FraudScoringResult process(OrderScoringData input, Context ctx) throws Exception {
 		
 		if (!isInitalized()) {
 			apiKey = (String) ctx.getUserConfigValue("apiKey").orElse(null);
@@ -89,9 +89,9 @@ public class FraudScoringService implements Function<OrderScoringData, FraudScor
         String result = order.validate(data);
         JSONObject response = (JSONObject)parser.parse(result);
         
-        return FraudScoringRequest.newBuilder()
+        return FraudScoringResult.newBuilder()
         		 .setOrder(input)
-        		 .setTransactionId(response.get("fraudlabspro_score").toString())
+        		 .setScore(Integer.parseInt(response.get("fraudlabspro_score").toString()))
                  .build();
 	}
 

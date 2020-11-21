@@ -62,6 +62,13 @@
     <build>
         <pluginManagement>
             <plugins>
+            
+               <plugin>
+				   <groupId>org.apache.maven.plugins</groupId>
+				   <artifactId>maven-resources-plugin</artifactId>
+				   <version>3.1.0</version>
+			    </plugin>
+			    
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
@@ -100,12 +107,26 @@
                         </execution>
                     </executions>
                 </plugin>
-                
-                <plugin>
-				   <groupId>org.apache.maven.plugins</groupId>
-				   <artifactId>maven-resources-plugin</artifactId>
-				   <version>3.1.0</version>
-			    </plugin>
+			    
+			    <plugin>
+                  <groupId>org.projectlombok</groupId>
+                  <artifactId>lombok-maven-plugin</artifactId>
+                  <version>${lombok-maven-plugin.version}</version>
+                  <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>delombok</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <addOutputDirectory>true</addOutputDirectory>
+                            <sourceDirectory>src/main/lombok</sourceDirectory>
+                            <outputDirectory>build/generated-sources/delombok</outputDirectory>
+                        </configuration>
+                    </execution>
+                  </executions>
+                </plugin>
 			
            </plugins>
         </pluginManagement>
