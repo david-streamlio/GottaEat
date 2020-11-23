@@ -16,9 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.gottaeat.services.fraud.scoring.fraudlabs;
+package com.gottaeat.services.fraud.scoring.ipqualityscore;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,11 +31,12 @@ import org.apache.pulsar.client.api.Producer;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
 import org.apache.pulsar.client.api.Schema;
+import org.apache.pulsar.common.functions.ConsumerConfig;
 import org.apache.pulsar.common.functions.FunctionConfig;
 import org.apache.pulsar.functions.LocalRunner;
 
-import com.gottaeat.domain.fraud.fraudlabs.FraudScoringRequest;
-import com.gottaeat.domain.fraud.fraudlabs.OrderScoringData;
+import com.gottaeat.domain.fraud.FraudScoringResult;
+import com.gottaeat.domain.fraud.OrderScoringData;
 
 public class FraudScoringServiceLocalRunnerTest {
 
@@ -44,7 +48,7 @@ public class FraudScoringServiceLocalRunnerTest {
 	private static LocalRunner localRunner;
 	private static PulsarClient client;
 	private static Producer<OrderScoringData> producer;
-	private static Consumer<FraudScoringRequest> consumer;
+	private static Consumer<FraudScoringResult> consumer;
 	
 	public static void main(String[] args) throws Exception {
 		startLocalRunner();
@@ -69,17 +73,35 @@ public class FraudScoringServiceLocalRunnerTest {
 			    .build();
 
 		producer = client.newProducer(Schema.AVRO(OrderScoringData.class)).topic(IN).create();	
-		consumer = client.newConsumer(Schema.AVRO(FraudScoringRequest.class)).topic(OUT).subscriptionName("validation-sub").subscribe();
+		consumer = client.newConsumer(Schema.AVRO(FraudScoringResult.class)).topic(OUT).subscriptionName("validation-sub").subscribe();
 	}
 	
 	private static FunctionConfig getFunctionConfig() {
-		return null;
+		Map<String, ConsumerConfig> inputSpecs = new HashMap<String, ConsumerConfig> ();
+		inputSpecs.put(IN, ConsumerConfig.builder()
+	             .schemaType(Schema.AVRO(OrderScoringData.class).getSchemaInfo().getType().toString())
+	             .build());
+
+		
+		return FunctionConfig.builder()
+				.className(FraudScoringService.class.getName())
+				.cleanupSubscription(true)
+				.inputs(Collections.singleton(IN))
+				.inputSpecs(inputSpecs)
+				.output(OUT)
+				.outputSchemaType(Schema.AVRO(FraudScoringResult.class).getSchemaInfo().getType().toString())
+				.name("fraud_scoring_function")
+				.tenant("public")
+				.namespace("default")
+				.runtime(FunctionConfig.Runtime.JAVA)
+				.subName("fraud-scoring-function-sub")
+				.build();
 	}
 	
 	private static void startConsumer() {
 		Runnable runnableTask = () -> {
 			while (true) {
-			  Message<FraudScoringRequest> msg = null;
+			  Message<FraudScoringResult> msg = null;
 			  try {
 			    msg = consumer.receive();
 			    System.out.printf("Message received: %s \n", msg);
@@ -94,7 +116,7 @@ public class FraudScoringServiceLocalRunnerTest {
 	
 	private static void sendData(int num) throws IOException {
 		for (int idx = 0; idx < num; idx++) {
-			producer.send(OrderScoringData.newBuilder().build());
+			producer.send(MockOrderProvider.getOrder());
 		}
 	}
 	

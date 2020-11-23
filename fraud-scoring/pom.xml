@@ -60,9 +60,9 @@
 	</dependency>
 
     <dependency>
-    	<groupId>com.googlecode.json-simple</groupId>
-    	<artifactId>json-simple</artifactId>
-    	<version>1.1.1</version>
+  		<groupId>org.json</groupId>
+  		<artifactId>json</artifactId>
+  		<version>20151123</version>
 	</dependency>
 	
 	<dependency>
@@ -78,6 +78,12 @@
       <artifactId>netty-codec-dns</artifactId>
 	</dependency>
 
+	<dependency>
+		<groupId>org.mockito</groupId>
+		<artifactId>mockito-core</artifactId>
+		<version>2.23.4</version>
+		<scope>test</scope>
+	</dependency>
   </dependencies>
 	
 </project>
