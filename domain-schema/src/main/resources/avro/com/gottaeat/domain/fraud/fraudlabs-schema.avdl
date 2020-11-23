@@ -1,4 +1,4 @@
-@namespace("com.gottaeat.domain.fraud.fraudlabs")
+@namespace("com.gottaeat.domain.fraud")
 
 protocol FraudLabsProtocol {
 
@@ -9,10 +9,6 @@ protocol FraudLabsProtocol {
     CREDITCARD, PAYPAL, GOOGLECHECKOUT, BITCOIN, WIRED
   }
   
-  enum ScoringStatus {
-  	APPROVE, REJECT, REVIEW
-  }
-
   // Data required to perform the Fraud Scoring calculation
   record OrderScoringData {
      com.gottaeat.domain.order.FoodOrder order;
@@ -22,8 +18,7 @@ protocol FraudLabsProtocol {
   // Scoring result
   record FraudScoringResult {
   	OrderScoringData order;
-    int score;
-    ScoringStatus status;
+    int riskScore;
   }
   
 }

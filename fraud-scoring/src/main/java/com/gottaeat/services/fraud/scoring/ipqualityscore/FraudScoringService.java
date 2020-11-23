@@ -1,17 +1,38 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package com.gottaeat.services.fraud.scoring.ipqualityscore;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.net.Inet6Address;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 import org.apache.pulsar.shade.org.apache.commons.lang3.StringUtils;
-import org.json.simple.parser.JSONParser;
+import org.json.JSONObject;
 
 import com.google.common.hash.Hashing;
-import com.gottaeat.domain.fraud.fraudlabs.FraudScoringResult;
-import com.gottaeat.domain.fraud.fraudlabs.OrderScoringData;
+import com.gottaeat.domain.fraud.FraudScoringResult;
+import com.gottaeat.domain.fraud.OrderScoringData;
 import com.gottaeat.domain.payment.CreditCard;
 
 import okhttp3.Call;
@@ -21,13 +42,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class FraudScoringService implements Function<OrderScoringData, FraudScoringResult> {
-
-	// https://ipqualityscore.com/api/json/ip/7T7l9zFs5ishiWsr7xJtFANB1iG2aXdv/2600:8801:1f00:e13:cd4a:31eb:ecaa:34d?strictness=1&billing_email=myemail@example.com&billing_phone=5555555555&billing_country=US
-	
 	
 	private static final String BASE_URL = "https://ipqualityscore.com";
-	private JSONParser parser = new JSONParser();
-	
+	private String apiKey;
 	private String url;
 	
 	@Override
@@ -36,7 +53,7 @@ public class FraudScoringService implements Function<OrderScoringData, FraudScor
 			apiKey = (String) ctx.getUserConfigValue("apiKey").orElse(null);
 		}
 
-		HttpUrl.Builder httpBuilder = HttpUrl.parse(url).newBuilder();
+		HttpUrl.Builder httpBuilder = HttpUrl.parse(getUrl()).newBuilder();
 		httpBuilder.addQueryParameter("billing_first_name", input.getCustomer().getFirstName().toString());
 		httpBuilder.addQueryParameter("billing_last_name", input.getCustomer().getLastName().toString());
 		httpBuilder.addQueryParameter("billing_country", input.getCustomer().getBillingAddress().getCountry().toString());
@@ -77,9 +94,14 @@ public class FraudScoringService implements Function<OrderScoringData, FraudScor
         Call call = client.newCall(request);
         
         Response response = call.execute();
-		response.body().string();
+		String result = response.body().string();
+		JSONObject json = new JSONObject(result);
+        int risk_score = json.getJSONObject("transaction_details").getInt("risk_score");
         
-		return null;
+		return FraudScoringResult.newBuilder()
+       		 .setOrder(input)
+       		 .setRiskScore(risk_score)
+             .build();
 	}
 	
 	private boolean isInitalized() {
@@ -88,10 +110,25 @@ public class FraudScoringService implements Function<OrderScoringData, FraudScor
 	
 	private String getUrl() throws UnknownHostException {
        if (url == null) {
-    	 url =  HttpUrl.parse(BASE_URL + "/api/json/ip/" + apiKey + "/" + 
-            Inet6Address.getLocalHost().getHostAddress()).newBuilder().build().toString(); 
+    	 url = HttpUrl.parse(BASE_URL + "/api/json/ip/" + apiKey + "/" + 
+            getIp6Address().getHostAddress()).newBuilder().build().toString(); 
        }
        return url;
 	}
-
+	
+	private static Inet6Address getIp6Address() throws UnknownHostException {
+		InetAddress[] addresses = InetAddress.getAllByName(InetAddress.getLocalHost().getHostName());
+		
+		List<Inet6Address> addrs = new ArrayList<Inet6Address> ();
+	    for (InetAddress addr : addresses) {
+	        if (addr instanceof Inet6Address) {
+	        	Inet6Address ip6 = (Inet6Address)addr;
+	        	if ( !ip6.isLinkLocalAddress() && !ip6.isLoopbackAddress() && 
+	        		!ip6.isSiteLocalAddress()) {
+	              addrs.add((Inet6Address) addr);
+	        	}
+	        }
+	    }
+	    return addrs.get(0);
+	}
 }

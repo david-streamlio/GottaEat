@@ -21,7 +21,7 @@ package com.gottaeat.services.order.fraud;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
-import com.gottaeat.domain.fraud.fraudlabs.FraudScoringResult;
+import com.gottaeat.domain.fraud.FraudScoringResult;
 import com.gottaeat.domain.order.FoodOrder;
 
 /**
