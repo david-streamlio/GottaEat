@@ -27,7 +27,7 @@ public class FraudScoringService implements Function<OrderScoringData, FraudScor
 	
 	private static final String BASE_URL = "https://ipqualityscore.com";
 	private JSONParser parser = new JSONParser();
-	private String apiKey = "7T7l9zFs5ishiWsr7xJtFANB1iG2aXdv";
+	
 	private String url;
 	
 	@Override
