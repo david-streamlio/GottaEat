@@ -19,13 +19,7 @@ protocol FraudLabsProtocol {
      com.gottaeat.domain.customer.CustomerDetails customer;
   }
   
-  // Submitted request and transactionId, populated with order.validate(data);
-  record FraudScoringRequest {
-  	 OrderScoringData order;
-  	 string transactionId;
-  }
-  
-  // Scoring result and status, populated with orderResults.getTransaction(data);
+  // Scoring result
   record FraudScoringResult {
   	OrderScoringData order;
     int score;
