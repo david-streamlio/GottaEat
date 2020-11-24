@@ -49,7 +49,7 @@ public class FraudScoringServiceTest {
 	}
 	
 	@Test
-	public final void riskyTest() throws Exception {
+	public final void fraudTest() throws Exception {
 		FraudScoringResult result = service.process(MockOrderProvider.getOrder(), mockedContext);
 		
 		assertNotNull(result);

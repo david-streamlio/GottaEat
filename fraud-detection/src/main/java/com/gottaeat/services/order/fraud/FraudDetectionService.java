@@ -18,8 +18,11 @@
  */
 package com.gottaeat.services.order.fraud;
 
+import org.apache.pulsar.client.api.Schema;
+import org.apache.pulsar.client.api.TypedMessageBuilder;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
+import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
 
 import com.gottaeat.domain.fraud.FraudScoringResult;
 import com.gottaeat.domain.order.FoodOrder;
@@ -31,10 +34,31 @@ import com.gottaeat.domain.order.FoodOrder;
  */
 public class FraudDetectionService implements Function<FraudScoringResult, FoodOrder> {
 
+	public static final String FRAUD_TOPIC_KEY = "fraudulent-orders";
+	public static final String RISK_THRESHOLD = "riskThreshold";
+	private String fraudOrderTopic;
+	private Integer riskThreshold = -1;
+	
 	@Override
-	public FoodOrder process(FraudScoringResult input, Context context) throws Exception {
-		// TODO route "fraud" orders to a different topic...
-		return null;
+	public FoodOrder process(FraudScoringResult input, Context ctx) throws Exception {
+
+		if (!isInitalized()) {
+		   fraudOrderTopic = (String) ctx.getUserConfigValueOrDefault(FRAUD_TOPIC_KEY, null);
+		   riskThreshold = (Integer) ctx.getUserConfigValueOrDefault(RISK_THRESHOLD, -1);
+		}
+		
+		if (input.getRiskScore() <= riskThreshold) {
+		   return input.getOrder().getOrder();
+		} else {
+		   ctx.newOutputMessage(FRAUD_TOPIC_KEY, Schema.AVRO(FraudScoringResult.class))
+		     .value(input)
+		     .sendAsync();
+		   
+		   return null;	
+		}
 	}
 
+	private boolean isInitalized() {
+      return StringUtils.isNotBlank(fraudOrderTopic) && riskThreshold != -1;
+	}
 }
