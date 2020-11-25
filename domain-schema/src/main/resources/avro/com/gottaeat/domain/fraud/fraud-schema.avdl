@@ -1,6 +1,6 @@
 @namespace("com.gottaeat.domain.fraud")
 
-protocol FraudLabsProtocol {
+protocol FraudProtocol {
 
   import idl "../customer/customer-data.avdl";
   import idl "../order/food-order.avdl";
@@ -18,7 +18,7 @@ protocol FraudLabsProtocol {
   // Scoring result
   record FraudScoringResult {
   	OrderScoringData order;
-    int riskScore;
+    string fraudScoreJSON;  // We will pass in a JSON object
   }
   
 }

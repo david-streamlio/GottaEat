@@ -30,7 +30,7 @@
                   	<include>**/fraudlabs-schema.avdl</include>
                   </includes>
                   <sourceDirectory>${project.basedir}/src/main/resources/avro/com/gottaeat/domain</sourceDirectory>
-                  <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                  <outputDirectory>target/generated-sources/proto</outputDirectory>
                </configuration>
             </execution>
             
@@ -42,7 +42,7 @@
                </goals>
                <configuration>
                   <sourceDirectory>${project.basedir}/src/main/resources/avro/com/gottaeat/domain/fraud</sourceDirectory>
-                  <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                  <outputDirectory>target/generated-sources/proto</outputDirectory>
                </configuration>
             </execution>
             
@@ -54,7 +54,7 @@
                </goals>
                <configuration>
                   <sourceDirectory>${project.basedir}/src/main/resources/avro/com/gottaeat/domain/user</sourceDirectory>
-                  <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                  <outputDirectory>target/generated-sources/proto</outputDirectory>
                </configuration>
             </execution>
 	  </executions>

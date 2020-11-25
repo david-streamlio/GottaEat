@@ -5,6 +5,7 @@ protocol CustomerProtocol {
 	import idl "../geography/geography.avdl";
 	
     record CustomerDetails {
+       int userId;
        string lastName;
        string firstName;
        com.gottaeat.domain.geography.Address billingAddress;

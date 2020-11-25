@@ -73,6 +73,7 @@ public class CustomerDetailsLookup implements Function<FoodOrder, CustomerDetail
 					.setFirstName(rs.getString("ru.first_name"))
 					.setLastName(rs.getString("ru.last_name"))
 					.setPhoneNumber(rs.getString("a.phone"))
+					.setUserId(rs.getInt("ru.user_id"))
 					.build();
 		}
 		rs.close();
@@ -81,7 +82,7 @@ public class CustomerDetailsLookup implements Function<FoodOrder, CustomerDetail
 	
 	private PreparedStatement getSql(long customerId) throws SQLException, ClassNotFoundException {
 		if (stmt == null) {
-		  stmt = getDbConnection().prepareStatement("select ru.first_name, ru.last_name, ru.email, "
+		  stmt = getDbConnection().prepareStatement("select ru.user_id, ru.first_name, ru.last_name, ru.email, "
 					+ "a.address, a.postal_code, a.phone, a.district,"
 					+ "c2.city, c3.country from GottaEat.Customer c "
 					+ "join GottaEat.RegisteredUser ru on c.user_id = ru.user_id "

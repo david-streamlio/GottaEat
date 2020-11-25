@@ -15,6 +15,7 @@
         <httpclient.version>4.5.10</httpclient.version>
         <junit.version>4.13.1</junit.version>
         <lombok.version>1.18.4</lombok.version>
+        <lombok-maven-plugin.version>1.18.12.0</lombok-maven-plugin.version>
         <okhttp.version>4.5.0</okhttp.version>
         <pulsar.version>2.6.2</pulsar.version>
         <resilience4j.version>1.4.0</resilience4j.version>
@@ -30,6 +31,7 @@
       <module>fraud-scoring</module>
       <module>geo-encoding</module>
       <module>google-geoencoding-service</module>
+      <module>location-tracking-service</module>
       <module>order-solicitation-service</module>
       <module>order-validation-service</module>
       <module>payment-service</module>
@@ -122,7 +124,7 @@
                             <encoding>UTF-8</encoding>
                             <addOutputDirectory>true</addOutputDirectory>
                             <sourceDirectory>src/main/lombok</sourceDirectory>
-                            <outputDirectory>build/generated-sources/delombok</outputDirectory>
+                            <outputDirectory>target/generated-sources/delombok</outputDirectory>
                         </configuration>
                     </execution>
                   </executions>

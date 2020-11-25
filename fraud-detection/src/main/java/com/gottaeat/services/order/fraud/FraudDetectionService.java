@@ -19,13 +19,14 @@
 package com.gottaeat.services.order.fraud;
 
 import org.apache.pulsar.client.api.Schema;
-import org.apache.pulsar.client.api.TypedMessageBuilder;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottaeat.domain.fraud.FraudScoringResult;
 import com.gottaeat.domain.order.FoodOrder;
+import com.gottaeat.services.fraud.scoring.ipqualityscore.FraudScore;
 
 /**
  * Takes in Fraud Score object which represents the probability that an order is fraudulent,
@@ -43,14 +44,17 @@ public class FraudDetectionService implements Function<FraudScoringResult, FoodO
 	public FoodOrder process(FraudScoringResult input, Context ctx) throws Exception {
 
 		if (!isInitalized()) {
-		   fraudOrderTopic = (String) ctx.getUserConfigValueOrDefault(FRAUD_TOPIC_KEY, null);
-		   riskThreshold = (Integer) ctx.getUserConfigValueOrDefault(RISK_THRESHOLD, -1);
+		   fraudOrderTopic = (String) ctx.getUserConfigValue(FRAUD_TOPIC_KEY).get();
+		   riskThreshold = (Integer) ctx.getUserConfigValue(RISK_THRESHOLD).get();
 		}
 		
-		if (input.getRiskScore() <= riskThreshold) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		FraudScore result = objectMapper.readValue(input.getFraudScoreJSON().toString(), FraudScore.class);
+		
+		if (result.getTransaction_details().getRisk_score() <= riskThreshold) {
 		   return input.getOrder().getOrder();
 		} else {
-		   ctx.newOutputMessage(FRAUD_TOPIC_KEY, Schema.AVRO(FraudScoringResult.class))
+		   ctx.newOutputMessage(fraudOrderTopic, Schema.AVRO(FraudScoringResult.class))
 		     .value(input)
 		     .sendAsync();
 		   

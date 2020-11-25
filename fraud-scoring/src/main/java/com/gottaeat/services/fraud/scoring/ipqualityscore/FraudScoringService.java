@@ -28,7 +28,6 @@ import java.net.UnknownHostException;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 import org.apache.pulsar.shade.org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 
 import com.google.common.hash.Hashing;
 import com.gottaeat.domain.fraud.FraudScoringResult;
@@ -94,13 +93,10 @@ public class FraudScoringService implements Function<OrderScoringData, FraudScor
         Call call = client.newCall(request);
         
         Response response = call.execute();
-		String result = response.body().string();
-		JSONObject json = new JSONObject(result);
-        int risk_score = json.getJSONObject("transaction_details").getInt("risk_score");
-        
+		
 		return FraudScoringResult.newBuilder()
        		 .setOrder(input)
-       		 .setRiskScore(risk_score)
+       		 .setFraudScoreJSON(response.body().string())
              .build();
 	}
 	

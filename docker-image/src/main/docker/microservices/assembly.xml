@@ -71,6 +71,14 @@
       <outputDirectory>.</outputDirectory>
       <outputFileNameMapping>google-geoencoding-service.nar</outputFileNameMapping>
     </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:location-tracking-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>gocation-tracking-service.nar</outputFileNameMapping>
+    </dependencySet>
                              
     <dependencySet>
       <includes>

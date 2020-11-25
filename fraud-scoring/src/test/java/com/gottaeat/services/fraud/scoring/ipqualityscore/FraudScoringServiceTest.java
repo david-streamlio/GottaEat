@@ -31,10 +31,12 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottaeat.domain.fraud.FraudScoringResult;
 
 public class FraudScoringServiceTest {
 
+	private ObjectMapper objectMapper = new ObjectMapper();
 	private FraudScoringService service;
 	
 	@Mock
@@ -45,15 +47,16 @@ public class FraudScoringServiceTest {
 		MockitoAnnotations.initMocks(this);
 		service = spy(new FraudScoringService());
 		when(mockedContext.getUserConfigValue("apiKey"))
-		  .thenReturn(Optional.of(""));
+		  .thenReturn(Optional.of(System.getProperty("API-KEY")));
 	}
 	
 	@Test
 	public final void fraudTest() throws Exception {
 		FraudScoringResult result = service.process(MockOrderProvider.getOrder(), mockedContext);
+		FraudScore score = objectMapper.readValue(result.getFraudScoreJSON().toString(), FraudScore.class);
 		
 		assertNotNull(result);
-		assertEquals(100, result.getRiskScore());
+		assertEquals(100, score.getTransaction_details().getRisk_score());
 	}
 
 }
