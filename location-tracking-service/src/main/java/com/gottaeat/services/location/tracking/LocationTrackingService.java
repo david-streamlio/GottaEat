@@ -18,7 +18,12 @@
  */
 package com.gottaeat.services.location.tracking;
 
+import com.gottaeat.domain.geography.LatLon;
 import com.gottaeat.domain.user.UserLocation;
+
+import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteCache;
+import org.apache.ignite.Ignition;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
@@ -34,10 +39,28 @@ import org.apache.pulsar.functions.api.Function;
  */
 public class LocationTrackingService implements Function<UserLocation, UserLocation> {
 
+    private Ignite client;
+	private IgniteCache<Integer, LatLon> cache;
+	
 	@Override
 	public UserLocation process(UserLocation input, Context ctx) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		// Add the location to the In-memory data grid.
+		getCache().put(input.getRegisteredUserId(), input.getLocation());
+		return input;
+	}
+	
+	private Ignite getClient() {
+		if (client == null) {
+			client = Ignition.start("cfg/ignite-config.xml");
+		}
+		return client;
+	}
+	
+	private IgniteCache<Integer, LatLon> getCache() {
+		if (cache == null) {
+			cache = getClient().getOrCreateCache("location");
+		}
+		return cache;
 	}
 
 }

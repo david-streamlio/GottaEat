@@ -14,16 +14,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-FROM mysql:latest
 
+# Start from a Java image.
+FROM openjdk:8
 
-ENV MYSQL_DATABASE=GottaEat
-ENV MYSQL_ROOT_PASSWORD=Super$3cR3t
-ENV MYSQL_USER=orbit
-ENV MYSQL_PASSWORD=orbit
+# Ignite version
+ENV IGNITE_VERSION 2.9.0
 
-COPY schemas/*-schema.sql /tmp/schemas/
-COPY schemas/*-data.sql /tmp/schemas/
+# Ignite home
+ENV IGNITE_HOME /opt/ignite/apache-ignite-${IGNITE_VERSION}-bin
 
-COPY schemas/setup.sql /docker-entrypoint-initdb.d/
+# Do not rely on anything provided by base image(s), but be explicit, if they are installed already it is noop then
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        unzip \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /opt/ignite
+
+RUN curl https://dist.apache.org/repos/dist/release/ignite/${IGNITE_VERSION}/apache-ignite-${IGNITE_VERSION}-bin.zip -o ignite.zip \
+    && unzip ignite.zip \
+    && rm ignite.zip
+
+# Copy sh files and set permission
+# COPY ./run.sh $IGNITE_HOME/
+
+# RUN chmod +x $IGNITE_HOME/run.sh
+
+CMD $IGNITE_HOME/bin/ignite.sh
+
+EXPOSE 11211 47100 47500 49112

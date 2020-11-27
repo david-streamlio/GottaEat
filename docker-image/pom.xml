@@ -19,6 +19,7 @@
            <artifactId>docker-maven-plugin</artifactId>
            <configuration>
              <images>
+             
                 <image>
                    <name>pia/gotta-eat</name>
                    <build> 
@@ -37,6 +38,14 @@
                 	  <dockerFileDir>database</dockerFileDir>
                 	</build>
                 </image>
+                
+                <image>
+                   <name>pia/gotta-eat-datagrid</name>
+                   <build>
+                      <dockerFileDir>datagrid</dockerFileDir>
+                   </build>
+                </image>
+                
               </images>
            </configuration>
            <executions>
@@ -96,7 +105,7 @@
      
      <dependency>
          <groupId>${parent.groupId}</groupId>
-         <artifactId>location-tracking</artifactId>
+         <artifactId>location-tracking-service</artifactId>
          <version>${parent.version}</version>
      </dependency>
      

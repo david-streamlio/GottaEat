@@ -14,18 +14,27 @@ services:
     cap_add:
       - IPC_LOCK
 
-  database:
-    depends_on:
-      - vault
+  mysql_database:
     image: pia/gotta-eat-db:latest
     hostname: db.gottaeat.com
     container_name: database
     ports:
       - "3306:3306"
+      
+  ignite:
+    image: pia/gotta-eat-datagrid:latest
+    container_name: datagrid
+    ports:
+      - "11211:11211"
+      - "47100:47100"
+      - "47500:47500"
+      - "49112:49112"
+    environment:
+      - IGNITE_VERSION=2.9.0
     
   pulsar:
     depends_on:
-      - database
+      - mysql_database
     image: pia/gotta-eat:latest
     hostname: pulsar.gottaeat.com
     container_name: pulsar
