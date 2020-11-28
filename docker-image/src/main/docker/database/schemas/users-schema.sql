@@ -3,9 +3,11 @@ USE GottaEat;
 --
 -- Table structure for table `Devices`
 --
+DROP TABLE RegisteredDevice;
+
 CREATE TABLE RegisteredDevice (
-  device_id VARCHAR(50) DEFAULT NULL,
   user_id SMALLINT UNSIGNED NOT NULL,
+  device_id VARCHAR(50) NOT NULL,
   PRIMARY KEY  (device_id),
   CONSTRAINT fk_device_user_id FOREIGN KEY (user_id) REFERENCES RegisteredUser (user_id) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -14,6 +16,8 @@ CREATE TABLE RegisteredDevice (
 --
 -- Table strucuture for table `RegisteredUser`
 -- 
+DROP TABLE RegisteredUser;
+
 CREATE TABLE RegisteredUser (
   user_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   first_name VARCHAR(45) NOT NULL,
@@ -32,6 +36,8 @@ CREATE TABLE RegisteredUser (
 --
 -- Table structure for table `customer`
 --
+
+DROP TABLE Customer;
 
 CREATE TABLE Customer (
   customer_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,

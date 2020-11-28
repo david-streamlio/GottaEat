@@ -12,11 +12,18 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         
+        <avro-maven-plugin.version>1.9.1</avro-maven-plugin.version>
+        <lombok-maven-plugin.version>1.18.12.0</lombok-maven-plugin.version>
+        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+        <nifi-nar-maven-plugin.version>1.2.0</nifi-nar-maven-plugin.version>
+        
         <httpclient.version>4.5.10</httpclient.version>
         <ignite.version>2.9.0</ignite.version>
         <junit.version>4.13.1</junit.version>
         <lombok.version>1.18.4</lombok.version>
-        <lombok-maven-plugin.version>1.18.12.0</lombok-maven-plugin.version>
+        <mysql.version>8.0.22</mysql.version>
         <okhttp.version>4.5.0</okhttp.version>
         <pulsar.version>2.6.2</pulsar.version>
         <resilience4j.version>1.4.0</resilience4j.version>
@@ -27,6 +34,7 @@
       <module>credit-card-authorization-service</module>
       <module>customer-mobile-app-simulator</module>
       <module>customer-details-lookup</module>
+      <module>device-validation-service</module>
       <module>domain-schema</module>
       <module>fraud-detection</module>
       <module>fraud-scoring</module>
@@ -69,12 +77,12 @@
                <plugin>
 				   <groupId>org.apache.maven.plugins</groupId>
 				   <artifactId>maven-resources-plugin</artifactId>
-				   <version>3.1.0</version>
+				   <version>${maven-resources-plugin.version}</version>
 			    </plugin>
 			    
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>${maven-compiler-plugin.version}</version>
                     <configuration>
                         <source>${maven.compiler.source}</source>
                         <target>${maven.compiler.target}</target>
@@ -91,11 +99,25 @@
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>
+                
+                <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+    			  <artifactId>maven-clean-plugin</artifactId>
+    			  <version>${maven-clean-plugin.version}</version>
+    			  <configuration>
+      			    <filesets>
+        			  <fileset>
+          				<directory>target/generated-sources/proto</directory>
+          				<directory>target/generated-sources/delombok</directory>
+        			  </fileset>
+      			    </filesets>
+    			 </configuration>
+  			    </plugin>
 
                 <plugin>
                     <groupId>org.apache.nifi</groupId>
                     <artifactId>nifi-nar-maven-plugin</artifactId>
-                    <version>1.2.0</version>
+                    <version>${nifi-nar-maven-plugin.version}</version>
                     <extensions>true</extensions>
                     <configuration>
                         <finalName>${project.artifactId}-${project.version}</finalName>

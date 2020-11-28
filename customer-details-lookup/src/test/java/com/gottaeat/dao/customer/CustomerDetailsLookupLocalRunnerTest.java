@@ -62,9 +62,6 @@ public class CustomerDetailsLookupLocalRunnerTest {
 	private static Consumer<CustomerDetails> consumer;
 	
 	public static void main(String[] args) throws Exception {
-		if (args.length > 0) {
-//			keyword = args[0];
-		}
 		startLocalRunner();
 		init();
 		startConsumer();

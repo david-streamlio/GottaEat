@@ -57,7 +57,8 @@ public class CustomerDetailsLookup implements Function<FoodOrder, CustomerDetail
 		}
 		
 		CustomerDetails details = null;
-		ResultSet rs = getSql(order.getMeta().getCustomerId()).executeQuery();
+		ResultSet rs = getCustomerDetails(order.getMeta().getCustomerId());
+		
 		if (rs != null && rs.next()) {
 			Address addr = Address.newBuilder()
 					.setStreet(rs.getString("a.address"))
@@ -80,17 +81,22 @@ public class CustomerDetailsLookup implements Function<FoodOrder, CustomerDetail
 		return details;
 	}
 	
-	private PreparedStatement getSql(long customerId) throws SQLException, ClassNotFoundException {
+	private ResultSet getCustomerDetails(long customerId) throws SQLException, ClassNotFoundException {
+		PreparedStatement ps = getSql();
+		ps.setLong(1, customerId);		
+		return	ps.executeQuery();
+	}
+	
+	private PreparedStatement getSql() throws ClassNotFoundException, SQLException {
 		if (stmt == null) {
-		  stmt = getDbConnection().prepareStatement("select ru.user_id, ru.first_name, ru.last_name, ru.email, "
-					+ "a.address, a.postal_code, a.phone, a.district,"
-					+ "c2.city, c3.country from GottaEat.Customer c "
-					+ "join GottaEat.RegisteredUser ru on c.user_id = ru.user_id "
-					+ "join GottaEat.Address a on a.address_id = c.address_id "
-					+ "join GottaEat.City c2 on a.city_id = c2.city_id "
-					+ "join GottaEat.Country c3 on c2.country_id = c3.country_id "
-					+ "where c.customer_id = ?");
-		  stmt.setLong(1, customerId);
+			  stmt = getDbConnection().prepareStatement("select ru.user_id, ru.first_name, ru.last_name, ru.email, "
+						+ "a.address, a.postal_code, a.phone, a.district,"
+						+ "c2.city, c3.country from GottaEat.Customer c "
+						+ "join GottaEat.RegisteredUser ru on c.user_id = ru.user_id "
+						+ "join GottaEat.Address a on a.address_id = c.address_id "
+						+ "join GottaEat.City c2 on a.city_id = c2.city_id "
+						+ "join GottaEat.Country c3 on c2.country_id = c3.country_id "
+						+ "where c.customer_id = ?");
 		}
 		return stmt;
 	}

@@ -20,7 +20,7 @@ protocol UserProtocol {
 		union { null, string } deviceId;  // Apple UDID or Android device ID
 	}
 	
-	record activeUser {
+	record ActiveUser {
 		UserLocation location;
 		DeviceInfo device;
 	}

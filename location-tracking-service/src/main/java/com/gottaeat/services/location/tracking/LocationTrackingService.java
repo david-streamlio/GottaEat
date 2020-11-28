@@ -49,18 +49,19 @@ public class LocationTrackingService implements Function<UserLocation, UserLocat
 		return input;
 	}
 	
-	private Ignite getClient() {
-		if (client == null) {
-			client = Ignition.start("cfg/ignite-config.xml");
-		}
-		return client;
-	}
-	
 	private IgniteCache<Integer, LatLon> getCache() {
 		if (cache == null) {
 			cache = getClient().getOrCreateCache("location");
 		}
 		return cache;
+	}
+	
+	private Ignite getClient() {
+		if (client == null) {
+			client = Ignition.start("cfg/ignite-config.xml");
+			client.active(true);
+		}
+		return client;
 	}
 
 }
