@@ -4,11 +4,24 @@ protocol UserProtocol {
 	
 	import idl "../geography/geography.avdl";
 	
-	record DeviceInfo {
-		int registeredUserId;  // The user_id associated with this device
+	enum UserType {
+		CUSTOMER, DRIVER, RESTAURANT_MANAGER
+	}
+	
+	record UserLocation {
+		UserType userRole;
+		int registeredUserId;  // The user_id associated with this device. Maps to user_id field in the RegisteredUser table
 		union { null, com.gottaeat.domain.geography.LatLon} location; // If location service is enabled
-		union { null, string } globalIPv4;  // public routable IP address 
-		union { null, string } globalIPv6;
+	}
+	
+	record DeviceInfo {
+		union { null, string } globalIPv4;  // public routable IPv4 address 
+		union { null, string } globalIPv6;  // public routable IPv6 address 
 		union { null, string } deviceId;  // Apple UDID or Android device ID
+	}
+	
+	record ActiveUser {
+		UserLocation location;
+		DeviceInfo device;
 	}
 }

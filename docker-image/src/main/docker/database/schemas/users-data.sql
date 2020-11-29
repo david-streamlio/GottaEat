@@ -114,3 +114,9 @@ INSERT INTO Customer VALUES (1, 1, 1),
 (9, 9, 9),
 (10, 10, 10);
 COMMIT;
+
+INSERT INTO RegisteredDevice VALUES (1, '123456'),
+(1, '167000034235'),
+(2, 'abcdef'),
+(3, 'ghijkl');
+COMMIT; 

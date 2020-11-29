@@ -19,6 +19,7 @@
            <artifactId>docker-maven-plugin</artifactId>
            <configuration>
              <images>
+             
                 <image>
                    <name>pia/gotta-eat</name>
                    <build> 
@@ -37,6 +38,14 @@
                 	  <dockerFileDir>database</dockerFileDir>
                 	</build>
                 </image>
+                
+                <image>
+                   <name>pia/gotta-eat-datagrid</name>
+                   <build>
+                      <dockerFileDir>datagrid</dockerFileDir>
+                   </build>
+                </image>
+                
               </images>
            </configuration>
            <executions>
@@ -72,6 +81,18 @@
      
      <dependency>
          <groupId>${parent.groupId}</groupId>
+         <artifactId>domain-schema</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>device-validation-service</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
          <artifactId>fraud-detection</artifactId>
          <version>${parent.version}</version>
      </dependency>
@@ -91,6 +112,12 @@
      <dependency>
          <groupId>${parent.groupId}</groupId>
          <artifactId>google-geoencoding-service</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>location-tracking-service</artifactId>
          <version>${parent.version}</version>
      </dependency>
      

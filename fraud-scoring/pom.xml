@@ -17,6 +17,10 @@
 		<artifactId>nifi-nar-maven-plugin</artifactId>
 	</plugin>
 	<plugin>
+        <groupId>org.projectlombok</groupId>
+    	<artifactId>lombok-maven-plugin</artifactId>
+    </plugin>
+	<plugin>
 		<groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-compiler-plugin</artifactId>
 	</plugin>
@@ -40,12 +44,6 @@
   		<artifactId>avro</artifactId>
   		<version>1.9.2</version>
   	</dependency>
-  	
-  	<dependency>
-    	<groupId>com.fraudlabspro</groupId>
-    	<artifactId>fraudlabspro-java</artifactId>
-    	<version>3.1.0</version>
-    </dependency>
     
     <dependency>
   		<groupId>com.squareup.okhttp3</groupId>
@@ -58,11 +56,11 @@
     	<artifactId>guava</artifactId>
     	<version>20.0</version>
 	</dependency>
-
-    <dependency>
-  		<groupId>org.json</groupId>
-  		<artifactId>json</artifactId>
-  		<version>20151123</version>
+	
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>${lombok.version}</version>
 	</dependency>
 	
 	<dependency>

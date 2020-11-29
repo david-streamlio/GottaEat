@@ -20,13 +20,15 @@ package com.gottaeat.services.order.fraud;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.spy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
-import org.apache.pulsar.client.api.Schema;
+import org.apache.pulsar.client.api.TypedMessageBuilder;
 import org.apache.pulsar.functions.api.Context;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,35 +36,53 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottaeat.domain.fraud.FraudScoringResult;
 import com.gottaeat.domain.order.FoodOrder;
+import com.gottaeat.services.fraud.scoring.ipqualityscore.FraudScore;
+import com.gottaeat.services.fraud.scoring.ipqualityscore.TransactionDetails;
 
 public class FraudDetectionServiceTest {
 
+	private ObjectMapper objectMapper = new ObjectMapper();
 	private FraudDetectionService service;
 	private FraudScoringResult input;
 	
 	@Mock
 	private Context mockContext;
 	
+	@Mock
+	private TypedMessageBuilder<Object> mockedMessageBuilder;
+	
 	@Before
-	public final void init() {
+	public final void init() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		when(mockContext.getUserConfigValue(FraudDetectionService.FRAUD_TOPIC_KEY))
 		  .thenReturn(Optional.of("some-topic"));
 		
 		when(mockContext.getUserConfigValue(FraudDetectionService.RISK_THRESHOLD))
 		  .thenReturn(Optional.of(new Integer(50)));
+		
+		when(mockContext.newOutputMessage(anyString(), any()))
+		   .thenReturn(mockedMessageBuilder);
+		
+		when(mockedMessageBuilder.value(any())).thenReturn(mockedMessageBuilder);
 
-		service = spy(new FraudDetectionService());
+		service = new FraudDetectionService();
 	}
 	
 	@Test
 	public final void validOrderTest() throws Exception {
+		FraudScore score = new FraudScore();
+		TransactionDetails details = new TransactionDetails();
+		details.setRisk_score(30);
+		
+		score.setTransaction_details(details);
+		
 		input = FraudScoringResult
 				    .newBuilder()
 				    .setOrder(MockOrderProvider.getOrder())
-				    .setRiskScore(30)
+				    .setFraudScoreJSON(objectMapper.writeValueAsString(score))
 				    .build();
 
 		FoodOrder result = service.process(input, mockContext);
@@ -71,15 +91,20 @@ public class FraudDetectionServiceTest {
 	
 	@Test
 	public final void invalidOrderTest() throws Exception {
+		FraudScore score = new FraudScore();
+		TransactionDetails details = new TransactionDetails();
+		details.setRisk_score(51);
+		score.setTransaction_details(details);
+		
 		input = FraudScoringResult
 			    .newBuilder()
 			    .setOrder(MockOrderProvider.getOrder())
-			    .setRiskScore(51)
+			    .setFraudScoreJSON(objectMapper.writeValueAsString(score))
 			    .build();
 
 		FoodOrder result = service.process(input, mockContext);
 		assertNull(result);
 		Mockito.verify(mockContext, times(1))
-		  .newOutputMessage("some-topic", Schema.AVRO(FraudScoringResult.class));
+		  .newOutputMessage(anyString(), any());
 	}
 }

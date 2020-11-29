@@ -47,6 +47,7 @@ public class MockOrderProvider {
 						.setFirstName("Foo")
 						.setLastName("Bar")
 						.setPhoneNumber("762-831-5507")
+						.setUserId(123)
 						.build())
 				.setOrder(FoodOrder
 						.newBuilder()
