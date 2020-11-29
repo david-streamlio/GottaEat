@@ -3,7 +3,6 @@ USE GottaEat;
 --
 -- Table structure for table `Devices`
 --
-DROP TABLE RegisteredDevice;
 
 CREATE TABLE RegisteredDevice (
   user_id SMALLINT UNSIGNED NOT NULL,
@@ -16,7 +15,6 @@ CREATE TABLE RegisteredDevice (
 --
 -- Table strucuture for table `RegisteredUser`
 -- 
-DROP TABLE RegisteredUser;
 
 CREATE TABLE RegisteredUser (
   user_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -36,8 +34,6 @@ CREATE TABLE RegisteredUser (
 --
 -- Table structure for table `customer`
 --
-
-DROP TABLE Customer;
 
 CREATE TABLE Customer (
   customer_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,

@@ -81,6 +81,12 @@
      
      <dependency>
          <groupId>${parent.groupId}</groupId>
+         <artifactId>domain-schema</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
          <artifactId>device-validation-service</artifactId>
          <version>${parent.version}</version>
      </dependency>

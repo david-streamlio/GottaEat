@@ -29,18 +29,34 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         unzip \
         curl \
     && rm -rf /var/lib/apt/lists/*
-
+    
 WORKDIR /opt/ignite
 
 RUN curl https://dist.apache.org/repos/dist/release/ignite/${IGNITE_VERSION}/apache-ignite-${IGNITE_VERSION}-bin.zip -o ignite.zip \
     && unzip ignite.zip \
     && rm ignite.zip
 
-# Copy sh files and set permission
-# COPY ./run.sh $IGNITE_HOME/
+#############################################################################
+# Use the modified configuration
+#############################################################################
+COPY cfg/ignite-config.xml $IGNITE_HOME/config/ignite-config.xml
 
-# RUN chmod +x $IGNITE_HOME/run.sh
+#############################################################################
+# Add all of our Domain objects and dependencies on to the classpath. This is a kludge 
+# until https://ignite.apache.org/docs/latest/code-deployment/deploying-user-code is fixed
+#############################################################################
+RUN mkdir /userLibs
+COPY libs/*.jar /opt/ignite/apache-ignite-2.9.0-bin/libs/
 
-CMD $IGNITE_HOME/bin/ignite.sh
+#############################################################################
+# Enable URI deployment
+#############################################################################
+RUN mv /opt/ignite/apache-ignite-2.9.0-bin/libs/optional/ignite-urideploy /opt/ignite/apache-ignite-2.9.0-bin/libs
 
-EXPOSE 11211 47100 47500 49112
+#############################################################################
+# Start Ignite IMDG
+#############################################################################
+CMD $IGNITE_HOME/bin/ignite.sh -J-XX:+UseG1GC -J-Xms2G -J-Xmx4G -J-XX:+DisableExplicitGC \
+    -J-Djava.net.preferIPv4Stack=true $IGNITE_HOME/config/ignite-config.xml
+
+EXPOSE 10800 11211 47100 47500 49112

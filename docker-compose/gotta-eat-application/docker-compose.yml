@@ -11,8 +11,10 @@ services:
       
   ignite:
     image: pia/gotta-eat-datagrid:latest
+    hostname: dg.gottaeat.com
     container_name: datagrid
     ports:
+      - "10800:10800"
       - "11211:11211"
       - "47100:47100"
       - "47500:47500"

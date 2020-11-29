@@ -24,8 +24,12 @@ import com.gottaeat.domain.user.UserLocation;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.Ignition;
+import org.apache.ignite.client.ClientCache;
+import org.apache.ignite.client.IgniteClient;
+import org.apache.ignite.configuration.ClientConfiguration;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
+import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
 
 /**
  * 
@@ -39,27 +43,42 @@ import org.apache.pulsar.functions.api.Function;
  */
 public class LocationTrackingService implements Function<UserLocation, UserLocation> {
 
-    private Ignite client;
-	private IgniteCache<Integer, LatLon> cache;
+	static final String CACHENAME_KEY = "cacheName";
+    static final String DATAGRID_KEY = "datagridUrl";
+    
+	private IgniteClient client;
+	private ClientCache<Integer, LatLon> cache;
+	
+	private String datagridUrl;
+	private String locationCacheName;
 	
 	@Override
 	public UserLocation process(UserLocation input, Context ctx) throws Exception {
+		
+		if (!initalized()) {
+			datagridUrl = ctx.getUserConfigValue(DATAGRID_KEY).orElse("localhost:10800").toString();
+			locationCacheName = ctx.getUserConfigValue(CACHENAME_KEY).orElse("com.gottaeat.data.location").toString();
+		}
 		// Add the location to the In-memory data grid.
 		getCache().put(input.getRegisteredUserId(), input.getLocation());
 		return input;
 	}
 	
-	private IgniteCache<Integer, LatLon> getCache() {
+	private boolean initalized() {
+		return StringUtils.isNotBlank(datagridUrl) && StringUtils.isNotBlank(locationCacheName);
+	}
+
+	private ClientCache<Integer, LatLon> getCache() {
 		if (cache == null) {
-			cache = getClient().getOrCreateCache("location");
+			cache = getClient().getOrCreateCache(locationCacheName);
 		}
 		return cache;
 	}
 	
-	private Ignite getClient() {
+	private IgniteClient getClient() {
 		if (client == null) {
-			client = Ignition.start("cfg/ignite-config.xml");
-			client.active(true);
+			ClientConfiguration cfg = new ClientConfiguration().setAddresses(datagridUrl);
+			client = Ignition.startClient(cfg);
 		}
 		return client;
 	}

@@ -26,6 +26,13 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteCache;
+import org.apache.ignite.Ignition;
+import org.apache.ignite.client.ClientCache;
+import org.apache.ignite.client.IgniteClient;
+import org.apache.ignite.configuration.ClientConfiguration;
+import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.pulsar.client.api.Consumer;
 import org.apache.pulsar.client.api.Message;
 import org.apache.pulsar.client.api.Producer;
@@ -52,11 +59,14 @@ public class LocationTrackingServiceLocalRunnerTest {
 	private static Producer<UserLocation> producer;
 	private static Consumer<UserLocation> consumer;
 	
+	private static IgniteClient igniteClient;
+	private static ClientCache<Integer, LatLon> cache;
+	
 	public static void main(String[] args) throws Exception {
 		startLocalRunner();
 		init();
 		startConsumer();
-		sendData(50);
+		sendData(5);
 	    shutdown();
 	}
 	
@@ -76,6 +86,9 @@ public class LocationTrackingServiceLocalRunnerTest {
 		
 		producer = client.newProducer(Schema.AVRO(UserLocation.class)).topic(IN).create();
 		consumer = client.newConsumer(Schema.AVRO(UserLocation.class)).topic(OUT).subscriptionName("location-sub").subscribe();
+		
+		igniteClient = Ignition.startClient(new ClientConfiguration().setAddresses("localhost:10800"));
+		cache = igniteClient.getOrCreateCache("com.gottaeat.data.location");
 	}
 	
 	private static FunctionConfig getFunctionConfig() {
@@ -106,13 +119,16 @@ public class LocationTrackingServiceLocalRunnerTest {
 			  try {
 			    msg = consumer.receive();
 			    System.out.printf("Message received: %s \n", msg);
+			    LatLon location = cache.get(msg.getValue().getRegisteredUserId());
+			    System.out.printf("Cached location for user_id %d is [Lat: %f, Lon: %f]", 
+			    		msg.getValue().getRegisteredUserId(), location.getLatitude(), location.getLongitude());
 			    consumer.acknowledge(msg);
 			  } catch (Exception e) {
 			    consumer.negativeAcknowledge(msg);
 			  }
 			}
 		};
-		executor.execute(runnableTask);
+		executor.execute(runnableTask); 
 	}
 	
 	private static void sendData(int num) throws IOException {

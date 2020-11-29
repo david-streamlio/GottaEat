@@ -85,7 +85,7 @@
          <include>${parent.groupId}:location-tracking-service</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>gocation-tracking-service.nar</outputFileNameMapping>
+      <outputFileNameMapping>location-tracking-service.nar</outputFileNameMapping>
     </dependencySet>
                              
     <dependencySet>
