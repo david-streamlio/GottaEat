@@ -26,13 +26,10 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.ignite.Ignite;
-import org.apache.ignite.IgniteCache;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.client.ClientCache;
 import org.apache.ignite.client.IgniteClient;
 import org.apache.ignite.configuration.ClientConfiguration;
-import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.pulsar.client.api.Consumer;
 import org.apache.pulsar.client.api.Message;
 import org.apache.pulsar.client.api.Producer;
@@ -96,6 +93,10 @@ public class LocationTrackingServiceLocalRunnerTest {
 		inputSpecs.put(IN, ConsumerConfig.builder()
 				             .schemaType(Schema.AVRO(UserLocation.class).getSchemaInfo().getType().toString())
 				             .build());
+		
+		Map<String, Object> userConfig = new HashMap<String, Object>();
+		userConfig.put(LocationTrackingService.CACHENAME_KEY, "com.gottaeat.data.location");
+		userConfig.put(LocationTrackingService.DATAGRID_KEY, "localhost:10800");
 				            		 
 		return FunctionConfig.builder()
 				.className(LocationTrackingService.class.getName())
@@ -109,6 +110,7 @@ public class LocationTrackingServiceLocalRunnerTest {
 				.namespace("default")
 				.runtime(FunctionConfig.Runtime.JAVA)
 				.subName("location-tracking-service-sub")
+				.userConfig(userConfig)
 				.build();
 	}
 	
