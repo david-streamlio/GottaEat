@@ -66,7 +66,7 @@ public class LocationTrackingServiceLocalRunnerTest {
 		startLocalRunner();
 		init();
 		startConsumer();
-		sendData(5);
+		sendData(250);
 	    shutdown();
 	}
 	
@@ -118,9 +118,8 @@ public class LocationTrackingServiceLocalRunnerTest {
 			  Message<UserLocation> msg = null;
 			  try {
 			    msg = consumer.receive();
-			    System.out.printf("Message received: %s \n", msg);
 			    LatLon location = cache.get(msg.getValue().getRegisteredUserId());
-			    System.out.printf("Cached location for user_id %d is [Lat: %f, Lon: %f]", 
+			    System.out.printf("Cached location for user_id %d is [Lat: %f, Lon: %f] \n", 
 			    		msg.getValue().getRegisteredUserId(), location.getLatitude(), location.getLongitude());
 			    consumer.acknowledge(msg);
 			  } catch (Exception e) {
