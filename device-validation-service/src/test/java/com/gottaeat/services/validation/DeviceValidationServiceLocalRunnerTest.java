@@ -48,7 +48,7 @@ public class DeviceValidationServiceLocalRunnerTest {
 	private final static String BROKER_URL = "pulsar://localhost:6650";
 	private final static String STATE_STORE_URL = "bk://localhost:4181";
 	private final static String IN = "persistent://public/default/devices-in"; 
-	private final static String OUT = "persistent://public/default/valide-devices";
+	private final static String OUT = "persistent://public/default/valid-devices";
 	
 	private static ExecutorService executor;
 	private static LocalRunner localRunner;
@@ -139,6 +139,7 @@ public class DeviceValidationServiceLocalRunnerTest {
 				  .setDevice(DeviceInfo.newBuilder()
 						  .setDeviceId(UUID.randomUUID().toString())
 						  .setGlobalIPv4("98.99.100.101")
+						  .setGlobalIPv6("")
 						  .build())
 				  .setLocation(UserLocation.newBuilder()
 						  .setRegisteredUserId(rnd.nextInt(50))
