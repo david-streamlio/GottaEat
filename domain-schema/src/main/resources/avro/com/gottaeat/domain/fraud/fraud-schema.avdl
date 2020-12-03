@@ -15,8 +15,8 @@ protocol FraudProtocol {
      com.gottaeat.domain.customer.CustomerDetails customer;
   }
   
-  // Scoring result
-  record FraudScoringResult {
+  // Screening esult
+  record TransactionScreeningResult {
   	OrderScoringData order;
     string fraudScoreJSON;  // We will pass in a JSON object
   }

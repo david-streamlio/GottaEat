@@ -16,13 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.gottaeat.services.fraud.scoring.ipqualityscore;
+package com.gottaeat.services.fraud.screening.transaction;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.net.Inet6Address;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import org.apache.pulsar.functions.api.Context;
@@ -30,8 +26,8 @@ import org.apache.pulsar.functions.api.Function;
 import org.apache.pulsar.shade.org.apache.commons.lang3.StringUtils;
 
 import com.google.common.hash.Hashing;
-import com.gottaeat.domain.fraud.FraudScoringResult;
 import com.gottaeat.domain.fraud.OrderScoringData;
+import com.gottaeat.domain.fraud.TransactionScreeningResult;
 import com.gottaeat.domain.payment.CreditCard;
 
 import okhttp3.Call;
@@ -40,19 +36,22 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class FraudScoringService implements Function<OrderScoringData, FraudScoringResult> {
+public class FraudScoringService implements Function<OrderScoringData, TransactionScreeningResult> {
 	
-	private static final String BASE_URL = "https://ipqualityscore.com";
+	private static final String BASE_URL = "https://ipqualityscore.com/api/json/ip/";
 	private String apiKey;
 	private String url;
 	
 	@Override
-	public FraudScoringResult process(OrderScoringData input, Context ctx) throws Exception {
+	public TransactionScreeningResult process(OrderScoringData input, Context ctx) throws Exception {
 		if (!isInitalized()) {
 			apiKey = (String) ctx.getUserConfigValue("apiKey").orElse(null);
 		}
 
+		input.getCustomer().getUserId();  // Use this to lookup IP address in Ignite Cache?
 		HttpUrl.Builder httpBuilder = HttpUrl.parse(getUrl()).newBuilder();
+		
+		// TODO Add StringUtil.isNotBlank() test to these fields before adding? 
 		httpBuilder.addQueryParameter("billing_first_name", input.getCustomer().getFirstName().toString());
 		httpBuilder.addQueryParameter("billing_last_name", input.getCustomer().getLastName().toString());
 		httpBuilder.addQueryParameter("billing_country", input.getCustomer().getBillingAddress().getCountry().toString());
@@ -94,37 +93,21 @@ public class FraudScoringService implements Function<OrderScoringData, FraudScor
         
         Response response = call.execute();
 		
-		return FraudScoringResult.newBuilder()
+		return TransactionScreeningResult.newBuilder()
        		 .setOrder(input)
        		 .setFraudScoreJSON(response.body().string())
              .build();
 	}
 	
-	private boolean isInitalized() {
-       return StringUtils.isNotBlank(apiKey);
+	protected boolean isInitalized() {
+		return StringUtils.isNotBlank(apiKey);
 	}
-	
-	private String getUrl() throws UnknownHostException {
-       if (url == null) {
-    	 url = HttpUrl.parse(BASE_URL + "/api/json/ip/" + apiKey + "/" + 
-            getIp6Address().getHostAddress()).newBuilder().build().toString(); 
-       }
-       return url;
-	}
-	
-	private static Inet6Address getIp6Address() throws UnknownHostException {
-		InetAddress[] addresses = InetAddress.getAllByName(InetAddress.getLocalHost().getHostName());
-		
-		List<Inet6Address> addrs = new ArrayList<Inet6Address> ();
-	    for (InetAddress addr : addresses) {
-	        if (addr instanceof Inet6Address) {
-	        	Inet6Address ip6 = (Inet6Address)addr;
-	        	if ( !ip6.isLinkLocalAddress() && !ip6.isLoopbackAddress() && 
-	        		!ip6.isSiteLocalAddress()) {
-	              addrs.add((Inet6Address) addr);
-	        	}
-	        }
-	    }
-	    return addrs.get(0);
+
+	// TODO Append user IP address to the url. Scoring is based on the IPv6 address
+	protected String getUrl() throws UnknownHostException {
+		if (url == null) {
+			url = HttpUrl.parse(BASE_URL + apiKey + "/" ).newBuilder().build().toString(); 
+		}
+		return url;
 	}
 }

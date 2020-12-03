@@ -16,13 +16,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.gottaeat.services.fraud.scoring.ipqualityscore;
+package com.gottaeat.services.fraud.screening.transaction;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.pulsar.functions.api.Context;
@@ -32,7 +37,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gottaeat.domain.fraud.FraudScoringResult;
+import com.gottaeat.domain.fraud.TransactionScreeningResult;
+import com.gottaeat.services.fraud.scoring.ipqualityscore.FraudScore;
+import com.gottaeat.services.fraud.screening.transaction.FraudScoringService;
 
 public class FraudScoringServiceTest {
 
@@ -52,7 +59,7 @@ public class FraudScoringServiceTest {
 	
 	@Test
 	public final void fraudTest() throws Exception {
-		FraudScoringResult result = service.process(MockOrderProvider.getOrder(), mockedContext);
+		TransactionScreeningResult result = service.process(MockOrderProvider.getOrder(), mockedContext);
 		FraudScore score = objectMapper.readValue(result.getFraudScoreJSON().toString(), FraudScore.class);
 		
 		assertNotNull(result);

@@ -37,8 +37,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gottaeat.domain.fraud.FraudScoringResult;
 import com.gottaeat.domain.order.FoodOrder;
+import com.gottaeat.domain.fraud.TransactionScreeningResult;
 import com.gottaeat.services.fraud.scoring.ipqualityscore.FraudScore;
 import com.gottaeat.services.fraud.scoring.ipqualityscore.TransactionDetails;
 
@@ -46,7 +46,7 @@ public class FraudDetectionServiceTest {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 	private FraudDetectionService service;
-	private FraudScoringResult input;
+	private TransactionScreeningResult input;
 	
 	@Mock
 	private Context mockContext;
@@ -79,7 +79,7 @@ public class FraudDetectionServiceTest {
 		
 		score.setTransaction_details(details);
 		
-		input = FraudScoringResult
+		input = TransactionScreeningResult
 				    .newBuilder()
 				    .setOrder(MockOrderProvider.getOrder())
 				    .setFraudScoreJSON(objectMapper.writeValueAsString(score))
@@ -96,7 +96,7 @@ public class FraudDetectionServiceTest {
 		details.setRisk_score(51);
 		score.setTransaction_details(details);
 		
-		input = FraudScoringResult
+		input = TransactionScreeningResult
 			    .newBuilder()
 			    .setOrder(MockOrderProvider.getOrder())
 			    .setFraudScoreJSON(objectMapper.writeValueAsString(score))
