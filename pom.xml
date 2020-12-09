@@ -47,6 +47,7 @@
       <module>paypal-authorization-service</module>
       <module>resilience</module>
       <module>docker-image</module>
+      <module>customer-features-lookup</module>
     </modules>
     
     <dependencies>

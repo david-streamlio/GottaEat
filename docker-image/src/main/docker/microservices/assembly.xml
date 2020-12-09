@@ -42,6 +42,14 @@
     
     <dependencySet>
       <includes>
+         <include>${parent.groupId}:customer-features-lookup</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>customer-features-lookup.nar</outputFileNameMapping>
+    </dependencySet>
+    
+    <dependencySet>
+      <includes>
          <include>${parent.groupId}:device-validation-service</include>
       </includes>
       <outputDirectory>.</outputDirectory>
