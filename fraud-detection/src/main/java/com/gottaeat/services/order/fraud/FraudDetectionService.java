@@ -24,7 +24,7 @@ import org.apache.pulsar.functions.api.Function;
 import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gottaeat.domain.fraud.FraudScoringResult;
+import com.gottaeat.domain.fraud.TransactionScreeningResult;
 import com.gottaeat.domain.order.FoodOrder;
 import com.gottaeat.services.fraud.scoring.ipqualityscore.FraudScore;
 
@@ -33,7 +33,7 @@ import com.gottaeat.services.fraud.scoring.ipqualityscore.FraudScore;
  * and determines whether it crosses the threshold we set for "fraud"
  *
  */
-public class FraudDetectionService implements Function<FraudScoringResult, FoodOrder> {
+public class FraudDetectionService implements Function<TransactionScreeningResult, FoodOrder> {
 
 	public static final String FRAUD_TOPIC_KEY = "fraudulent-orders";
 	public static final String RISK_THRESHOLD = "riskThreshold";
@@ -41,7 +41,7 @@ public class FraudDetectionService implements Function<FraudScoringResult, FoodO
 	private Integer riskThreshold = -1;
 	
 	@Override
-	public FoodOrder process(FraudScoringResult input, Context ctx) throws Exception {
+	public FoodOrder process(TransactionScreeningResult input, Context ctx) throws Exception {
 
 		if (!isInitalized()) {
 		   fraudOrderTopic = (String) ctx.getUserConfigValue(FRAUD_TOPIC_KEY).get();
@@ -54,7 +54,7 @@ public class FraudDetectionService implements Function<FraudScoringResult, FoodO
 		if (result.getTransaction_details().getRisk_score() <= riskThreshold) {
 		   return input.getOrder().getOrder();
 		} else {
-		   ctx.newOutputMessage(fraudOrderTopic, Schema.AVRO(FraudScoringResult.class))
+		   ctx.newOutputMessage(fraudOrderTopic, Schema.AVRO(TransactionScreeningResult.class))
 		     .value(input)
 		     .sendAsync();
 		   

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.gottaeat.services.fraud.scoring.ipqualityscore;
+package com.gottaeat.services.fraud.screening.transaction;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -35,8 +35,9 @@ import org.apache.pulsar.common.functions.ConsumerConfig;
 import org.apache.pulsar.common.functions.FunctionConfig;
 import org.apache.pulsar.functions.LocalRunner;
 
-import com.gottaeat.domain.fraud.FraudScoringResult;
+import com.gottaeat.domain.fraud.TransactionScreeningResult;
 import com.gottaeat.domain.fraud.OrderScoringData;
+import com.gottaeat.services.fraud.screening.transaction.FraudScoringService;
 
 public class FraudScoringServiceLocalRunnerTest {
 
@@ -48,7 +49,7 @@ public class FraudScoringServiceLocalRunnerTest {
 	private static LocalRunner localRunner;
 	private static PulsarClient client;
 	private static Producer<OrderScoringData> producer;
-	private static Consumer<FraudScoringResult> consumer;
+	private static Consumer<TransactionScreeningResult> consumer;
 	
 	public static void main(String[] args) throws Exception {
 		startLocalRunner();
@@ -73,7 +74,7 @@ public class FraudScoringServiceLocalRunnerTest {
 			    .build();
 
 		producer = client.newProducer(Schema.AVRO(OrderScoringData.class)).topic(IN).create();	
-		consumer = client.newConsumer(Schema.AVRO(FraudScoringResult.class)).topic(OUT).subscriptionName("validation-sub").subscribe();
+		consumer = client.newConsumer(Schema.AVRO(TransactionScreeningResult.class)).topic(OUT).subscriptionName("validation-sub").subscribe();
 	}
 	
 	private static FunctionConfig getFunctionConfig() {
@@ -89,7 +90,7 @@ public class FraudScoringServiceLocalRunnerTest {
 				.inputs(Collections.singleton(IN))
 				.inputSpecs(inputSpecs)
 				.output(OUT)
-				.outputSchemaType(Schema.AVRO(FraudScoringResult.class).getSchemaInfo().getType().toString())
+				.outputSchemaType(Schema.AVRO(TransactionScreeningResult.class).getSchemaInfo().getType().toString())
 				.name("fraud_scoring_function")
 				.tenant("public")
 				.namespace("default")
@@ -101,7 +102,7 @@ public class FraudScoringServiceLocalRunnerTest {
 	private static void startConsumer() {
 		Runnable runnableTask = () -> {
 			while (true) {
-			  Message<FraudScoringResult> msg = null;
+			  Message<TransactionScreeningResult> msg = null;
 			  try {
 			    msg = consumer.receive();
 			    System.out.printf("Message received: %s \n", msg);

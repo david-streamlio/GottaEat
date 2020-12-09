@@ -16,8 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.gottaeat.services.fraud.scoring.ipqualityscore;
+package com.gottaeat.services.fraud.screening.transaction;
 
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +88,22 @@ public class MockOrderProvider {
 				.build();
 	}
 	
+	public static Inet6Address getIp6Address() throws UnknownHostException {
+		InetAddress[] addresses = InetAddress.getAllByName(InetAddress.getLocalHost().getHostName());
+
+		List<Inet6Address> addrs = new ArrayList<Inet6Address> ();
+		for (InetAddress addr : addresses) {
+			if (addr instanceof Inet6Address) {
+				Inet6Address ip6 = (Inet6Address)addr;
+				if ( !ip6.isLinkLocalAddress() && !ip6.isLoopbackAddress() && 
+						!ip6.isSiteLocalAddress()) {
+					addrs.add((Inet6Address) addr);
+				}
+			}
+		}
+		return addrs.get(0);
+	}
+	
 	private static List<FoodOrderDetail> getFood() {
 		List<FoodOrderDetail> food = new ArrayList<FoodOrderDetail>();
 		food.add(FoodOrderDetail
@@ -111,4 +130,5 @@ public class MockOrderProvider {
 		.setZip("75001")
 		.build();
 	}
+
 }
