@@ -34,6 +34,7 @@
       <module>credit-card-authorization-service</module>
       <module>customer-mobile-app-simulator</module>
       <module>customer-details-lookup</module>
+      <module>customer-features-lookup</module>
       <module>device-validation-service</module>
       <module>domain-schema</module>
       <module>fraud-detection</module>
@@ -47,7 +48,6 @@
       <module>paypal-authorization-service</module>
       <module>resilience</module>
       <module>docker-image</module>
-      <module>customer-features-lookup</module>
     </modules>
     
     <dependencies>

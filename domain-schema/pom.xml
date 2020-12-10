@@ -56,6 +56,30 @@
                   <outputDirectory>target/generated-sources/proto</outputDirectory>
                </configuration>
             </execution>
+            
+            <execution>
+              <id>customer-features</id>
+              <phase>generate-sources</phase>
+               <goals>
+                  <goal>idl-protocol</goal>
+               </goals>
+               <configuration>
+                  <sourceDirectory>${project.basedir}/src/main/resources/avro/com/gottaeat/features/customer</sourceDirectory>
+                  <outputDirectory>target/generated-sources/proto</outputDirectory>
+               </configuration>
+            </execution>
+            
+            <execution>
+              <id>restaurant-features</id>
+              <phase>generate-sources</phase>
+               <goals>
+                  <goal>idl-protocol</goal>
+               </goals>
+               <configuration>
+                  <sourceDirectory>${project.basedir}/src/main/resources/avro/com/gottaeat/features/restaurant</sourceDirectory>
+                  <outputDirectory>target/generated-sources/proto</outputDirectory>
+               </configuration>
+            </execution>
 	    </executions>
 	  </plugin>
 	

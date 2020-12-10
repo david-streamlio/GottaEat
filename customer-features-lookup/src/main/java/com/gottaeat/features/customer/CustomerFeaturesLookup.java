@@ -16,29 +16,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.gottaeat.functions.ordervalidation.translator;
+package com.gottaeat.features.customer;
 
-
-import org.apache.pulsar.client.impl.schema.AvroSchema;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
-import com.gottaeat.domain.order.ValidatedFoodOrder;
-import com.gottaeat.domain.restaurant.SolicitationResponse;
+import com.gottaeat.domain.order.FoodOrder;
 
-public class FoodOrderAdapter implements Function<SolicitationResponse, Void> {
-
+public class CustomerFeaturesLookup implements Function<FoodOrder, CustomerFeatures> {
 
 	@Override
-	public Void process(SolicitationResponse food, Context ctx) throws Exception {
-		ValidatedFoodOrder result = new ValidatedFoodOrder();
-		result.setFood(food);
-		
-		ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(ValidatedFoodOrder.class))
-		.properties(ctx.getCurrentRecord().getProperties())
-		.value(result)
-		.send();
-	
+	public CustomerFeatures process(FoodOrder input, Context ctx) throws Exception {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

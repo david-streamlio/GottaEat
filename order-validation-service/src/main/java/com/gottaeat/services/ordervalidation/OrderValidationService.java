@@ -29,7 +29,7 @@ public class OrderValidationService implements Function<FoodOrder, Void> {
 	private boolean initalized;
 	private String geoEncoderTopic;
 	private String paymentTopic;
-	private String resturantTopic;
+	private String restaurantTopic;
 	private String orderTopic;
 
 	@Override
@@ -50,7 +50,7 @@ public class OrderValidationService implements Function<FoodOrder, Void> {
 		  .property("order-id", order.getMeta().getOrderId() + "")
 		  .value(order.getMeta()).sendAsync();
 
-	  ctx.newOutputMessage(resturantTopic, AvroSchema.of(FoodOrder.class))
+	  ctx.newOutputMessage(restaurantTopic, AvroSchema.of(FoodOrder.class))
 		  .property("order-id", order.getMeta().getOrderId() + "")
 		  .value(order).sendAsync();
 
@@ -60,7 +60,7 @@ public class OrderValidationService implements Function<FoodOrder, Void> {
 	private void init(Context ctx) {
 	  geoEncoderTopic = ctx.getUserConfigValue("geo-topic").toString();
 	  paymentTopic = ctx.getUserConfigValue("payment-topic").toString();
-	  resturantTopic = ctx.getUserConfigValue("restaurant-topic").toString();
+	  restaurantTopic = ctx.getUserConfigValue("restaurant-topic").toString();
 	  orderTopic = ctx.getUserConfigValue("aggregator-topic").toString();
 	  initalized = true;
 	}

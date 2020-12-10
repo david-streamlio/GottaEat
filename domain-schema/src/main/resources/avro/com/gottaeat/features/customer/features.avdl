@@ -1,0 +1,9 @@
+@namespace("com.gottaeat.features.customer")
+protocol CustomerFeaturesProtocol {
+
+   record CustomerFeatures {
+     long customer_id;
+     double avg_order_price;
+     double percentage_of_home_deliveries;
+   }
+}

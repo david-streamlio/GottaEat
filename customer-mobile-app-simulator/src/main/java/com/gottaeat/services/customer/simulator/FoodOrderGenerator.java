@@ -31,8 +31,8 @@ import com.gottaeat.domain.payment.CardType;
 import com.gottaeat.domain.payment.CreditCard;
 import com.gottaeat.domain.payment.Payment;
 import com.gottaeat.domain.payment.PaymentMethod;
-import com.gottaeat.domain.resturant.FoodOrderDetail;
-import com.gottaeat.domain.resturant.MenuItem;
+import com.gottaeat.domain.restaurant.FoodOrderDetail;
+import com.gottaeat.domain.restaurant.MenuItem;
 
 
 public class FoodOrderGenerator implements DataGenerator<FoodOrder> {
@@ -100,8 +100,8 @@ public class FoodOrderGenerator implements DataGenerator<FoodOrder> {
 	
 	public FoodOrder generate() { 
 		
-		int resturantId = rnd.nextInt(MENUS.size());
-		Pair<List<FoodOrderDetail>, Float> orderDetails = getRandomOrderDetails(resturantId, rnd.nextInt(3) + 1);
+		int restaurantId = rnd.nextInt(MENUS.size());
+		Pair<List<FoodOrderDetail>, Float> orderDetails = getRandomOrderDetails(restaurantId, rnd.nextInt(3) + 1);
 		
 		return FoodOrder.newBuilder()
 						.setDeliveryLocation(getRandomAddress())
@@ -120,15 +120,15 @@ public class FoodOrderGenerator implements DataGenerator<FoodOrder> {
 				.build();
 	}
 
-	private Pair<List<FoodOrderDetail>, Float> getRandomOrderDetails(int resturantId ,int numItems) {
+	private Pair<List<FoodOrderDetail>, Float> getRandomOrderDetails(int restaurantId ,int numItems) {
 		
-		List<MenuItem> menu = MENUS.get(resturantId);
+		List<MenuItem> menu = MENUS.get(restaurantId);
 		List<FoodOrderDetail> details = new ArrayList<FoodOrderDetail>();
 		float total = 0.0f;
 		for (int idx = 0; idx < numItems; idx++) {
 			
 			MenuItem item = menu.get(rnd.nextInt(menu.size()));
-			addCustomizations(item, CUSTOMIZATIONS.get(resturantId));
+			addCustomizations(item, CUSTOMIZATIONS.get(restaurantId));
 			
 			int quantity = rnd.nextInt(10)+1;
 			

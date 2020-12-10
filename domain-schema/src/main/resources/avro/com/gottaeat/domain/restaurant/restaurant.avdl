@@ -1,6 +1,6 @@
-@namespace("com.gottaeat.domain.resturant")
+@namespace("com.gottaeat.domain.restaurant")
 
-protocol ResturantsProtocol {
+protocol RestaurantsProtocol {
 
   import idl "../geography/geography.avdl";
 
@@ -13,7 +13,7 @@ protocol ResturantsProtocol {
     boolean taxable;
   }
   
-  record Resturant {
+  record Restaurant {
   	com.gottaeat.domain.geography.Address location;
   }
   
@@ -24,7 +24,7 @@ protocol ResturantsProtocol {
   
   record SolicitationResponse {
   	array<FoodOrderDetail> food;
-  	Resturant resturant;
+  	Restaurant restaurant;
   	timestamp_ms eta;
   	string notificationTopic;
   }

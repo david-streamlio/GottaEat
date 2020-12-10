@@ -32,8 +32,8 @@ import com.gottaeat.domain.payment.CreditCard;
 import com.gottaeat.domain.payment.Payment;
 import com.gottaeat.domain.payment.PaymentAmount;
 import com.gottaeat.domain.payment.PaymentMethod;
-import com.gottaeat.domain.resturant.FoodOrderDetail;
-import com.gottaeat.domain.resturant.MenuItem;
+import com.gottaeat.domain.restaurant.FoodOrderDetail;
+import com.gottaeat.domain.restaurant.MenuItem;
 
 public class MockOrderProvider {
 	

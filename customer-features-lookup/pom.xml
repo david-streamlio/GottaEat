@@ -6,5 +6,40 @@
     <version>${revision}</version>
   </parent>
   <artifactId>customer-features-lookup</artifactId>
-  <name>GottaEat:: Cusomter Features Lookup</name>
+  <name>GottaEat :: Cusomter Features Lookup</name>
+  
+  <build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.nifi</groupId>
+			<artifactId>nifi-nar-maven-plugin</artifactId>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+		</plugin>
+	</plugins>
+  </build>
+  
+  <dependencies>
+
+    <dependency>
+		<groupId>com.gottaeat</groupId>
+    	<artifactId>domain-schema</artifactId>
+    	<version>${project.version}</version>
+	</dependency>
+	  
+	<dependency>
+   		<groupId>org.apache.pulsar</groupId>
+   		<artifactId>pulsar-functions-local-runner-original</artifactId>
+   		<version>${pulsar.version}</version>
+   		<scope>test</scope>
+	</dependency>
+		
+  </dependencies>
+  
 </project>
