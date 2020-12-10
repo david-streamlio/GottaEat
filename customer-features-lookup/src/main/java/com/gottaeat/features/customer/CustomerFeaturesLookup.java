@@ -18,17 +18,85 @@
  */
 package com.gottaeat.features.customer;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
+import com.datastax.oss.driver.api.core.CqlIdentifier;
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.CqlSessionBuilder;
+import com.datastax.oss.driver.api.core.cql.PreparedStatement;
+import com.datastax.oss.driver.api.core.cql.ResultSet;
+import com.datastax.oss.driver.api.core.cql.Row;
+import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.gottaeat.domain.order.FoodOrder;
 
 public class CustomerFeaturesLookup implements Function<FoodOrder, CustomerFeatures> {
 
+	private static final String HOSTNAME_KEY = null;
+	private static final String PORT_KEY = null;
+	private String hostName;
+	private int port = -1;
+	
+	private CqlSession session;
+	private InetAddress node;
+	private InetSocketAddress address;
+	private SimpleStatement queryStatement;
+	
 	@Override
 	public CustomerFeatures process(FoodOrder input, Context ctx) throws Exception {
-		// TODO Auto-generated method stub
+		if (!initalized()) {
+			hostName = ctx.getUserConfigValueOrDefault(HOSTNAME_KEY, "127.0.0.1").toString();
+			port = (int) ctx.getUserConfigValueOrDefault(PORT_KEY, 9042);
+			queryStatement = SimpleStatement.newInstance("select * from customer");
+			queryStatement.setKeyspace(CqlIdentifier.fromCql("featurestore"));
+		}
+		
+		return getCustomerFeatures(input.getMeta().getCustomerId());
+	}
+
+	private boolean initalized() {
+		return StringUtils.isNotBlank(hostName) && (port > 0);
+	}
+	
+	private CustomerFeatures getCustomerFeatures(Long customerId) {
+		ResultSet rs = executeStatement(customerId);
+		
+		Row row = rs.one();
+		if (row != null) {
+			return CustomerFeatures.newBuilder()
+					.setCustomerId(customerId)
+					.setAvgOrderPrice(row.getDouble(CqlIdentifier.fromCql("")))
+					.setPercentageOfHomeDeliveries(row.getDouble(CqlIdentifier.fromCql("")))
+					.build();
+		}
 		return null;
+	}
+	
+	private ResultSet executeStatement(Long customerId) {
+		PreparedStatement pStmt = getSession().prepare(queryStatement);
+        return getSession().execute(pStmt.bind(customerId));
+    }
+	
+	private CqlSession getSession() {
+		if (session == null || session.isClosed()) {
+			CqlSessionBuilder builder = 
+				CqlSession.builder()
+				  .addContactPoint(getAddress());
+			
+			session = builder.build();
+		}
+		return session;
+	}
+	
+	private InetSocketAddress getAddress() {
+		if (address == null) {
+			address = new InetSocketAddress(node, port);
+		}
+		return address;
 	}
 
 }

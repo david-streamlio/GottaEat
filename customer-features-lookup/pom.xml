@@ -8,6 +8,10 @@
   <artifactId>customer-features-lookup</artifactId>
   <name>GottaEat :: Cusomter Features Lookup</name>
   
+  <properties>
+  	<scylladb.version>4.9.0-scylla-0</scylladb.version>
+  </properties>
+  
   <build>
 	<plugins>
 		<plugin>
@@ -26,6 +30,12 @@
   </build>
   
   <dependencies>
+  
+	<dependency>
+    	<groupId>com.scylladb</groupId>
+    	<artifactId>java-driver-core</artifactId>
+    	<version>${scylladb.version}</version>
+	</dependency>
 
     <dependency>
 		<groupId>com.gottaeat</groupId>
