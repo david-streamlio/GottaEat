@@ -45,7 +45,7 @@ import com.gottaeat.domain.order.FoodOrder;
  */
 public class OrderSolicitationService implements Function<FoodOrder, Void> {
 
-	private String rendevous = "persistent://resturants/inbound/accepted";
+	private String rendevous = "persistent://restaurants/inbound/accepted";
 	
 	@Override
 	public Void process(FoodOrder order, Context ctx) throws Exception {

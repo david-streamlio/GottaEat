@@ -5,7 +5,7 @@ USE GottaEat;
 --
 
 CREATE TABLE RegisteredDevice (
-  user_id SMALLINT UNSIGNED NOT NULL,
+  user_id BIGINT UNSIGNED NOT NULL,
   device_id VARCHAR(50) NOT NULL,
   PRIMARY KEY  (device_id),
   CONSTRAINT fk_device_user_id FOREIGN KEY (user_id) REFERENCES RegisteredUser (user_id) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -17,7 +17,7 @@ CREATE TABLE RegisteredDevice (
 -- 
 
 CREATE TABLE RegisteredUser (
-  user_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   first_name VARCHAR(45) NOT NULL,
   last_name VARCHAR(45) NOT NULL,
   email VARCHAR(50) DEFAULT NULL,
@@ -36,9 +36,9 @@ CREATE TABLE RegisteredUser (
 --
 
 CREATE TABLE Customer (
-  customer_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id SMALLINT UNSIGNED NOT NULL,
-  address_id SMALLINT UNSIGNED NOT NULL,
+  customer_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id BIGINT UNSIGNED NOT NULL,
+  address_id BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY  (customer_id),
   KEY idx_fk_customer_user_id (user_id),
   KEY idx_fk_address_id (address_id),

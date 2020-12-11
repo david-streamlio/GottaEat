@@ -46,6 +46,13 @@
                    </build>
                 </image>
                 
+                <image>
+                	<name>pia/gotta-eat-feature-store</name>
+                	<build>
+                      <dockerFileDir>feature-store</dockerFileDir>
+                   </build>
+                </image>
+                
               </images>
            </configuration>
            <executions>
@@ -76,6 +83,12 @@
      <dependency>
          <groupId>${parent.groupId}</groupId>
          <artifactId>customer-details-lookup</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>customer-features-lookup</artifactId>
          <version>${parent.version}</version>
      </dependency>
      
@@ -149,7 +162,13 @@
          <groupId>${parent.groupId}</groupId>
          <artifactId>resilience</artifactId>
          <version>${parent.version}</version>
-     </dependency>             
+     </dependency>   
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>restaurant-features-lookup</artifactId>
+         <version>${parent.version}</version>
+     </dependency>               
        
   </dependencies>
 	

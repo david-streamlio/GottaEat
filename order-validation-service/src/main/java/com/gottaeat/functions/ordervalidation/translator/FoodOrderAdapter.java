@@ -24,7 +24,7 @@ import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
 import com.gottaeat.domain.order.ValidatedFoodOrder;
-import com.gottaeat.domain.resturant.SolicitationResponse;
+import com.gottaeat.domain.restaurant.SolicitationResponse;
 
 public class FoodOrderAdapter implements Function<SolicitationResponse, Void> {
 

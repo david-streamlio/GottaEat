@@ -3,31 +3,31 @@ protocol OrderProtocol {
 
   import idl "../geography/geography.avdl";
   import idl "../payment/payment-commons.avdl";
-  import idl "../resturant/resturant.avdl";
+  import idl "../restaurant/restaurant.avdl";
   
   enum OrderStatus {
     NEW, VALIDATED, ACCEPTED, READY, DISPATCHED, DELIVERED
   }
   
   record FoodOrderMeta {
-  	long order_id;
+    long order_id;
     long customer_id;
     string time_placed;
     OrderStatus order_status;
   }
   
   record FoodOrder {
-  	FoodOrderMeta meta;
-    array<com.gottaeat.domain.resturant.FoodOrderDetail> food;
+    FoodOrderMeta meta;
+    array<com.gottaeat.domain.restaurant.FoodOrderDetail> food;
     com.gottaeat.domain.geography.Address delivery_location;
     com.gottaeat.domain.payment.Payment payment;
   }
   
   record ValidatedFoodOrder {
-  	FoodOrderMeta meta;
-  	com.gottaeat.domain.resturant.SolicitationResponse food;
-  	com.gottaeat.domain.geography.Address delivery_location;
-  	com.gottaeat.domain.payment.AuthorizedPayment payment;
+    FoodOrderMeta meta;
+    com.gottaeat.domain.restaurant.SolicitationResponse food;
+    com.gottaeat.domain.geography.Address delivery_location;
+    com.gottaeat.domain.payment.AuthorizedPayment payment;
   }
   
 }

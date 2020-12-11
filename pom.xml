@@ -25,8 +25,8 @@
         <lombok.version>1.18.4</lombok.version>
         <mysql.version>8.0.22</mysql.version>
         <okhttp.version>4.5.0</okhttp.version>
-        <pulsar.version>2.6.2</pulsar.version>
-        <resilience4j.version>1.4.0</resilience4j.version>
+        <pulsar.version>2.7.0</pulsar.version>
+        <resilience4j.version>1.5.0</resilience4j.version>
     </properties>
 
     <modules>
@@ -34,6 +34,7 @@
       <module>credit-card-authorization-service</module>
       <module>customer-mobile-app-simulator</module>
       <module>customer-details-lookup</module>
+      <module>customer-features-lookup</module>
       <module>device-validation-service</module>
       <module>domain-schema</module>
       <module>fraud-detection</module>
@@ -46,6 +47,7 @@
       <module>payment-service</module>
       <module>paypal-authorization-service</module>
       <module>resilience</module>
+      <module>restaurant-features-lookup</module>
       <module>docker-image</module>
     </modules>
     

@@ -1,0 +1,9 @@
+@namespace("com.gottaeat.features.restaurant")
+protocol RestaurantFeaturesProtocol {
+
+   record RestaurantFeatures {
+     long restaurant_id;
+     double avg_meal_prep_last_7_days;
+     double avg_meal_prep_last_hour;
+   }
+}

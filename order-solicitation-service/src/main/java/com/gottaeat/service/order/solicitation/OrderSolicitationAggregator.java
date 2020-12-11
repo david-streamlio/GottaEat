@@ -28,13 +28,13 @@ import org.apache.pulsar.client.impl.schema.AvroSchema;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
-import com.gottaeat.domain.resturant.SolicitationResponse;
+import com.gottaeat.domain.restaurant.SolicitationResponse;
 
 /**
  * 
  * @see https://www.enterpriseintegrationpatterns.com/patterns/messaging/Aggregator.html
  * 
- * Assumes response will be <resturant, eta-pickup> tuple.
+ * Assumes response will be <restaurant, eta-pickup> tuple.
  */
 public class OrderSolicitationAggregator implements Function<SolicitationResponse, Void> {
 

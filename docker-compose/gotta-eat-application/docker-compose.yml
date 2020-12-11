@@ -21,6 +21,13 @@ services:
       - "49112:49112"
     environment:
       - IGNITE_VERSION=2.9.0
+      
+  ScyllaDB:
+    image: pia/gotta-eat-feature-store:latest
+    hostname: scylladb.gottaeat.com 
+    container_name: feature_store
+    ports:
+      - "9042:9042"
     
   pulsar:
     depends_on:
