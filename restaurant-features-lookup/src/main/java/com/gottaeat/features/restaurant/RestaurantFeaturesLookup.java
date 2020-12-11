@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.gottaeat.features.customer;
+package com.gottaeat.features.restaurant;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -32,9 +32,9 @@ import com.datastax.oss.driver.api.core.cql.PreparedStatement;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
-import com.gottaeat.domain.order.FoodOrder;
+import com.gottaeat.features.restaurant.RestaurantFeatures;
 
-public class CustomerFeaturesLookup implements Function<FoodOrder, CustomerFeatures> {
+public class RestaurantFeaturesLookup implements Function<Long, RestaurantFeatures> {
 
 	public static final String HOSTNAME_KEY = "db-hostname";
 	public static final String PORT_KEY = "db-port";
@@ -47,37 +47,36 @@ public class CustomerFeaturesLookup implements Function<FoodOrder, CustomerFeatu
 	private SimpleStatement queryStatement;
 	
 	@Override
-	public CustomerFeatures process(FoodOrder input, Context ctx) throws Exception {
+	public RestaurantFeatures process(Long input, Context ctx) throws Exception {
 		if (!initalized()) {
 			hostName = ctx.getUserConfigValueOrDefault(HOSTNAME_KEY, "127.0.0.1").toString();
 			port = (int) ctx.getUserConfigValueOrDefault(PORT_KEY, 9042);
-			queryStatement = SimpleStatement.newInstance("select * from customer where customerid = ?");
+			queryStatement = SimpleStatement.newInstance("select * from restaurant where restaurantID = ?");
 		}
-		
-		return getCustomerFeatures(input.getMeta().getCustomerId());
+		return getRestaurantFeatures(input);
 	}
-
+	
 	private boolean initalized() {
 		return StringUtils.isNotBlank(hostName) && (port > 0) && (queryStatement != null);
 	}
 	
-	private CustomerFeatures getCustomerFeatures(Long customerId) {
-		ResultSet rs = executeStatement(customerId);
+	private RestaurantFeatures getRestaurantFeatures(long restaurantID) {
+		ResultSet rs = executeStatement(restaurantID);
 		
-		Row row = rs.one(); // There is only one row per customerID
+		Row row = rs.one(); // There is only one row per restaurantID
 		if (row != null) {
-			return CustomerFeatures.newBuilder()
-					.setCustomerId(customerId)
-					.setAvgOrderPrice(row.getDouble(CqlIdentifier.fromCql("avg_order_spend")))
-					.setPercentageOfHomeDeliveries(row.getDouble(CqlIdentifier.fromCql("percent_orders_to_home_addr")))
-					.build();
+			return RestaurantFeatures.newBuilder()
+				.setRestaurantId(restaurantID)
+				.setAvgMealPrepLast7Days(row.getDouble("avg_meal_prep_time_last_7_days"))
+				.setAvgMealPrepLastHour(row.getDouble("avg_meal_prep_time_last_hour"))
+				.build();
 		}
 		return null;
 	}
 	
-	private ResultSet executeStatement(Long customerId) {
+	private ResultSet executeStatement(Long restaruantID) {
 		PreparedStatement pStmt = getSession().prepare(queryStatement);
-        return getSession().execute(pStmt.bind(customerId));
+        return getSession().execute(pStmt.bind(restaruantID));
     }
 	
 	private CqlSession getSession() {

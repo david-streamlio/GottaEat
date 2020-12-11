@@ -8,7 +8,7 @@ USE GottaEat;
 DROP TABLE IF EXISTS Franchise;
 
 CREATE TABLE Franchise (
-  franchise_id SMALLINT NOT NULL AUTO_INCREMENT,
+  franchise_id INT NOT NULL AUTO_INCREMENT,
   name varchar(75) NOT NULL,
   PRIMARY KEY (franchise_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -20,8 +20,8 @@ CREATE TABLE Franchise (
 DROP TABLE IF EXISTS RestaurantManager;
 
 CREATE TABLE RestaurantManager (
-  resturant_mgr_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id SMALLINT UNSIGNED NOT NULL,
+  resturant_mgr_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY  (resturant_mgr_id),
   KEY idx_fk_manager_user_id (user_id),
   CONSTRAINT fk_manager_user_id FOREIGN KEY (resturant_mgr_id) REFERENCES RegisteredUser (user_id) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -33,10 +33,10 @@ CREATE TABLE RestaurantManager (
 DROP TABLE IF EXISTS Restaurant;
 
 CREATE TABLE Restaurant (
-  restaurant_id SMALLINT NOT NULL AUTO_INCREMENT,
-  franchise_id SMALLINT NOT NULL,
-  address_id SMALLINT UNSIGNED NOT NULL,
-  resturant_mgr_id SMALLINT UNSIGNED,
+  restaurant_id BIGINT NOT NULL AUTO_INCREMENT,
+  franchise_id INT NOT NULL,
+  address_id BIGINT UNSIGNED NOT NULL,
+  resturant_mgr_id BIGINT UNSIGNED,
   PRIMARY KEY (restaurant_id),
   KEY idx_fk_franchise_id (franchise_id),
   KEY idx_fk_address_id (address_id),
@@ -52,8 +52,8 @@ CREATE TABLE Restaurant (
 DROP TABLE IF EXISTS Menu;
 
 CREATE TABLE Menu (
-  menu_id SMALLINT NOT NULL AUTO_INCREMENT,
-  franchise_id SMALLINT NOT NULL,
+  menu_id BIGINT NOT NULL AUTO_INCREMENT,
+  franchise_id INT NOT NULL,
   title varchar(75) COLLATE utf8mb4_unicode_ci NOT NULL,
   summary tinytext COLLATE utf8mb4_unicode_ci,
   createdAt datetime NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE Menu (
 DROP TABLE IF EXISTS Item;
 
 CREATE TABLE Item (
-  item_id INT NOT NULL AUTO_INCREMENT,
+  item_id BIGINT NOT NULL AUTO_INCREMENT,
   title varchar(75) COLLATE utf8mb4_unicode_ci NOT NULL,
   summary tinytext COLLATE utf8mb4_unicode_ci,
   sku varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -86,9 +86,9 @@ CREATE TABLE Item (
 DROP TABLE IF EXISTS MenuItem;
 
 CREATE TABLE MenuItem (
-  menu_item_id INT NOT NULL AUTO_INCREMENT,
-  menu_id SMALLINT NOT NULL,
-  item_id INT NOT NULL,
+  menu_item_id BIGINT NOT NULL AUTO_INCREMENT,
+  menu_id BIGINT NOT NULL,
+  item_id BIGINT NOT NULL,
   active boolean NOT NULL,
   PRIMARY KEY (menu_item_id),
   UNIQUE KEY uq_menu_item (menu_id, item_id),
@@ -116,7 +116,7 @@ CREATE TABLE OrderStatusCode (
 DROP TABLE IF EXISTS `Order`;
 
 CREATE TABLE `Order` (
-  order_id INT NOT NULL AUTO_INCREMENT,
+  order_id BIGINT NOT NULL AUTO_INCREMENT,
   status smallint(6) NOT NULL DEFAULT '0',
   subTotal float NOT NULL DEFAULT '0',
   itemDiscount float NOT NULL DEFAULT '0',
@@ -138,9 +138,9 @@ CREATE TABLE `Order` (
 DROP TABLE IF EXISTS OrderItem;
 
 CREATE TABLE OrderItem (
-  order_item_id INT NOT NULL AUTO_INCREMENT,
-  order_id INT NOT NULL,
-  item_id INT NOT NULL,
+  order_item_id BIGINT NOT NULL AUTO_INCREMENT,
+  order_id BIGINT NOT NULL,
+  item_id BIGINT NOT NULL,
   sku varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   price float NOT NULL DEFAULT '0',
   discount float NOT NULL DEFAULT '0',

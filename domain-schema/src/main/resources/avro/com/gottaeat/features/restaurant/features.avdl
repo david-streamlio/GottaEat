@@ -1,4 +1,4 @@
-@namespace("com.gottaeat.features.customer")
+@namespace("com.gottaeat.features.restaurant")
 protocol RestaurantFeaturesProtocol {
 
    record RestaurantFeatures {

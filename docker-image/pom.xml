@@ -162,7 +162,13 @@
          <groupId>${parent.groupId}</groupId>
          <artifactId>resilience</artifactId>
          <version>${parent.version}</version>
-     </dependency>             
+     </dependency>   
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>restaurant-features-lookup</artifactId>
+         <version>${parent.version}</version>
+     </dependency>               
        
   </dependencies>
 	

@@ -135,6 +135,14 @@
       <outputDirectory>.</outputDirectory>
       <outputFileNameMapping>resilience.nar</outputFileNameMapping>
     </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:restaurant-features-lookup</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>restaurant-features-lookup.nar</outputFileNameMapping>
+    </dependencySet>
                         
   </dependencySets>
                            

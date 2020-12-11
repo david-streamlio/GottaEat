@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.gottaeat</groupId>
+    <artifactId>GottaEat</artifactId>
+    <version>${revision}</version>
+  </parent>
+  <artifactId>restaurant-features-lookup</artifactId>
+  <name>GottaEat :: Resaurant Features Lookup</name>
+  
+  <properties>
+  	<scylladb.version>4.9.0-scylla-0</scylladb.version>
+  </properties>
+  
+  <build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.nifi</groupId>
+			<artifactId>nifi-nar-maven-plugin</artifactId>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+		</plugin>
+	</plugins>
+  </build>
+  
+  <dependencies>
+  
+	<dependency>
+    	<groupId>com.scylladb</groupId>
+    	<artifactId>java-driver-core</artifactId>
+    	<version>${scylladb.version}</version>
+	</dependency>
+
+    <dependency>
+		<groupId>com.gottaeat</groupId>
+    	<artifactId>domain-schema</artifactId>
+    	<version>${project.version}</version>
+	</dependency>
+	  
+	<dependency>
+   		<groupId>org.apache.pulsar</groupId>
+   		<artifactId>pulsar-functions-local-runner-original</artifactId>
+   		<version>${pulsar.version}</version>
+   		<scope>test</scope>
+	</dependency>
+		
+  </dependencies>
+</project>

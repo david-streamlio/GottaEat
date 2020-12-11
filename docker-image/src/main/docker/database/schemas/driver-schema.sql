@@ -8,9 +8,9 @@ USE GottaEat;
 DROP TABLE IF EXISTS Driver;
 
 CREATE TABLE Driver (
-  driver_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id SMALLINT UNSIGNED NOT NULL,
-  address_id SMALLINT UNSIGNED NOT NULL,
+  driver_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id BIGINT UNSIGNED NOT NULL,
+  address_id BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (driver_id),
   KEY idx_fk_driver_user_id (user_id),
   CONSTRAINT fk_driver_user_id FOREIGN KEY (user_id) REFERENCES registered_user (user_id) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -36,12 +36,12 @@ CREATE TABLE DeliveryStatusCode (
 DROP TABLE IF EXISTS Delivery;
 
 CREATE TABLE Delivery (
-  delivery_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  delivery_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   order_id INT NOT NULL,
-  restaurant_id SMALLINT NOT NULL,
-  customer_id INT NOT NULL,
-  driver_id SMALLINT UNSIGNED,
-  delivery_address_id SMALLINT UNSIGNED NOT NULL,
+  restaurant_id BIGINT NOT NULL,
+  customer_id BIGINT NOT NULL,
+  driver_id BIGINT UNSIGNED,
+  delivery_address_id BIGINT UNSIGNED NOT NULL,
   status smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY  (delivery_id),
   CONSTRAINT fk_delivery_status FOREIGN KEY (status) REFERENCES DeliveryStatusCode (status_code)

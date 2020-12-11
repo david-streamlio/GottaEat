@@ -10,24 +10,24 @@ protocol OrderProtocol {
   }
   
   record FoodOrderMeta {
-  	long order_id;
+    long order_id;
     long customer_id;
     string time_placed;
     OrderStatus order_status;
   }
   
   record FoodOrder {
-  	FoodOrderMeta meta;
+    FoodOrderMeta meta;
     array<com.gottaeat.domain.restaurant.FoodOrderDetail> food;
     com.gottaeat.domain.geography.Address delivery_location;
     com.gottaeat.domain.payment.Payment payment;
   }
   
   record ValidatedFoodOrder {
-  	FoodOrderMeta meta;
-  	com.gottaeat.domain.restaurant.SolicitationResponse food;
-  	com.gottaeat.domain.geography.Address delivery_location;
-  	com.gottaeat.domain.payment.AuthorizedPayment payment;
+    FoodOrderMeta meta;
+    com.gottaeat.domain.restaurant.SolicitationResponse food;
+    com.gottaeat.domain.geography.Address delivery_location;
+    com.gottaeat.domain.payment.AuthorizedPayment payment;
   }
   
 }

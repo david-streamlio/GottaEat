@@ -47,6 +47,7 @@
       <module>payment-service</module>
       <module>paypal-authorization-service</module>
       <module>resilience</module>
+      <module>restaurant-features-lookup</module>
       <module>docker-image</module>
     </modules>
     
