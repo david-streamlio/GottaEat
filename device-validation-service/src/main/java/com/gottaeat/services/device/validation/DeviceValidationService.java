@@ -16,11 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.gottaeat.services.validation;
+package com.gottaeat.services.device.validation;
 
 import java.nio.ByteBuffer;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,22 +29,13 @@ import org.apache.pulsar.functions.api.Function;
 import org.apache.pulsar.shade.org.apache.commons.lang3.StringUtils;
 
 import com.gottaeat.domain.user.ActiveUser;
+import com.gottaeat.services.device.DeviceServiceBase;
 
-public class DeviceValidationService implements Function<ActiveUser, ActiveUser> {
+public class DeviceValidationService extends DeviceServiceBase implements Function<ActiveUser, ActiveUser> {
 
-	public static final String DB_DRIVER_KEY = "dbDriverClass";
-	public static final String DB_PASS_KEY = "dbPass";
-	public static final String DB_URL_KEY = "dbUrl";
-	public static final String DB_USER_KEY = "dbUser";
 	public static final String REGISTRATION_TOPIC_KEY = "registrationTopic";
 	private static final String EMPTY_STRING = "";
 	
-	private Connection con;
-	private PreparedStatement stmt;
-	private String dbUrl;
-	private String dbUser;
-	private String dbPass;
-	private String dbDriverClass;
 	private String deviceRegistrationTopic;
 	
 	/**
@@ -62,11 +51,8 @@ public class DeviceValidationService implements Function<ActiveUser, ActiveUser>
 		boolean mustRegister = false;
 		
 		if (!isInitalized()) {
+			initalize(ctx);
 			deviceRegistrationTopic = (String) ctx.getUserConfigValue(REGISTRATION_TOPIC_KEY).orElse(null);
-			dbUrl = (String) ctx.getUserConfigValue(DB_URL_KEY).orElse(null);
-			dbDriverClass = (String) ctx.getUserConfigValue(DB_DRIVER_KEY).orElse(null);
-			dbUser = (String) ctx.getSecret(DB_USER_KEY);
-			dbPass = (String) ctx.getSecret(DB_PASS_KEY);
 		}
 		
 		if (StringUtils.isBlank(input.getDevice().getDeviceId())) {
@@ -74,14 +60,14 @@ public class DeviceValidationService implements Function<ActiveUser, ActiveUser>
 			mustRegister = true;
 		} 
 		
-		String previousDeviceId = getPreviousDeviceId(input.getLocation().getRegisteredUserId(), ctx);
+		String previousDeviceId = getPreviousDeviceId(input.getUser().getRegisteredUserId(), ctx);
 		
 		if (StringUtils.equals(previousDeviceId, EMPTY_STRING)) {
 			// There is no previous device registered for this user
 		    mustRegister = true;
 		} else if (StringUtils.equals(previousDeviceId, input.getDevice().getDeviceId())) {
 			return input;
-		} else if (isRegisteredDevice(input.getLocation().getRegisteredUserId(), 
+		} else if (isRegisteredDevice(input.getUser().getRegisteredUserId(), 
 				input.getDevice().getDeviceId().toString())) {
 			// Update the previous device value for this user
 			ByteBuffer value = ByteBuffer.allocate(input.getDevice().getDeviceId().length());
@@ -100,15 +86,15 @@ public class DeviceValidationService implements Function<ActiveUser, ActiveUser>
 		}
 	}
 
-	private String getPreviousDeviceId(int registeredUserId, Context ctx) {
+	private String getPreviousDeviceId(long registeredUserId, Context ctx) {
 		ByteBuffer buf = ctx.getState("UserDeviceTable-" + registeredUserId);
 		return (buf != null) ? new String(buf.asReadOnlyBuffer().array()) : EMPTY_STRING;
 	}
 	
-	private boolean isRegisteredDevice(int userId, String deviceId) {
+	private boolean isRegisteredDevice(long userId, String deviceId) {
 		try {
 			PreparedStatement ps = getSql();
-			ps.setInt(1, userId);
+			ps.setLong(1, userId);
 			ps.setNString(2, deviceId);
 			ResultSet rs = ps.executeQuery();
 			if (rs != null && rs.next()) {
@@ -127,18 +113,8 @@ public class DeviceValidationService implements Function<ActiveUser, ActiveUser>
 		return stmt;
 	}
 	
-	private Connection getDbConnection() throws SQLException, ClassNotFoundException {
-		if (con == null) {
-			Class.forName(dbDriverClass);
-			con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
-		}
-		return con;
-	}
-
-	private boolean isInitalized() {
-		return StringUtils.isNotBlank(dbUrl) && StringUtils.isNotBlank(dbUser) 
-				&& StringUtils.isNotBlank(dbPass) && StringUtils.isNotBlank(dbDriverClass)
-				&& StringUtils.isNotBlank(deviceRegistrationTopic);
+	protected boolean isInitalized() {
+		return super.isInitalized() && StringUtils.isNotBlank(deviceRegistrationTopic);
 	}
 
 }

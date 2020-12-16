@@ -41,7 +41,8 @@ import org.apache.pulsar.common.functions.FunctionConfig;
 import org.apache.pulsar.functions.LocalRunner;
 
 import com.gottaeat.domain.geography.LatLon;
-import com.gottaeat.domain.user.UserLocation;
+import com.gottaeat.domain.user.ActiveUser;
+import com.gottaeat.domain.user.User;
 import com.gottaeat.domain.user.UserType;
 
 public class LocationTrackingServiceLocalRunnerTest {
@@ -53,11 +54,11 @@ public class LocationTrackingServiceLocalRunnerTest {
 	private static ExecutorService executor;
 	private static LocalRunner localRunner;
 	private static PulsarClient client;
-	private static Producer<UserLocation> producer;
-	private static Consumer<UserLocation> consumer;
+	private static Producer<ActiveUser> producer;
+	private static Consumer<ActiveUser> consumer;
 	
 	private static IgniteClient igniteClient;
-	private static ClientCache<Integer, LatLon> cache;
+	private static ClientCache<Long, LatLon> cache;
 	
 	public static void main(String[] args) throws Exception {
 		startLocalRunner();
@@ -81,8 +82,8 @@ public class LocationTrackingServiceLocalRunnerTest {
 			    .serviceUrl(BROKER_URL)
 			    .build();
 		
-		producer = client.newProducer(Schema.AVRO(UserLocation.class)).topic(IN).create();
-		consumer = client.newConsumer(Schema.AVRO(UserLocation.class)).topic(OUT).subscriptionName("location-sub").subscribe();
+		producer = client.newProducer(Schema.AVRO(ActiveUser.class)).topic(IN).create();
+		consumer = client.newConsumer(Schema.AVRO(ActiveUser.class)).topic(OUT).subscriptionName("location-sub").subscribe();
 		
 		igniteClient = Ignition.startClient(new ClientConfiguration().setAddresses("localhost:10800"));
 		cache = igniteClient.getOrCreateCache("com.gottaeat.data.location");
@@ -91,7 +92,7 @@ public class LocationTrackingServiceLocalRunnerTest {
 	private static FunctionConfig getFunctionConfig() {
 		Map<String, ConsumerConfig> inputSpecs = new HashMap<String, ConsumerConfig> ();
 		inputSpecs.put(IN, ConsumerConfig.builder()
-				             .schemaType(Schema.AVRO(UserLocation.class).getSchemaInfo().getType().toString())
+				             .schemaType(Schema.AVRO(ActiveUser.class).getSchemaInfo().getType().toString())
 				             .build());
 		
 		Map<String, Object> userConfig = new HashMap<String, Object>();
@@ -104,7 +105,7 @@ public class LocationTrackingServiceLocalRunnerTest {
 				.inputs(Collections.singleton(IN))
 				.inputSpecs(inputSpecs)
 				.output(OUT)
-				.outputSchemaType(Schema.AVRO(UserLocation.class).getSchemaInfo().getType().toString())
+				.outputSchemaType(Schema.AVRO(ActiveUser.class).getSchemaInfo().getType().toString())
 				.name("location-tracking-service")
 				.tenant("public")
 				.namespace("default")
@@ -117,12 +118,12 @@ public class LocationTrackingServiceLocalRunnerTest {
 	private static void startConsumer() {
 		Runnable runnableTask = () -> {
 			while (true) {
-			  Message<UserLocation> msg = null;
+			  Message<ActiveUser> msg = null;
 			  try {
 			    msg = consumer.receive();
-			    LatLon location = cache.get(msg.getValue().getRegisteredUserId());
+			    LatLon location = cache.get(msg.getValue().getUser().getRegisteredUserId());
 			    System.out.printf("Cached location for user_id %d is [Lat: %f, Lon: %f] \n", 
-			    		msg.getValue().getRegisteredUserId(), location.getLatitude(), location.getLongitude());
+			    		msg.getValue().getUser().getRegisteredUserId(), location.getLatitude(), location.getLongitude());
 			    consumer.acknowledge(msg);
 			  } catch (Exception e) {
 			    consumer.negativeAcknowledge(msg);
@@ -136,9 +137,11 @@ public class LocationTrackingServiceLocalRunnerTest {
 		Random rnd = new Random();
 		
 		for (int idx = 0; idx < num; idx++) {
-			producer.send(UserLocation.newBuilder()
-					.setRegisteredUserId(rnd.nextInt(10))
-					.setUserRole(UserType.DRIVER)
+			producer.send(ActiveUser.newBuilder()
+					.setUser(User.newBuilder()
+							.setRegisteredUserId(rnd.nextInt(10))
+							.setUserRole(UserType.DRIVER)
+							.build())
 					.setLocation(LatLon.newBuilder()
 							.setLatitude(rnd.nextDouble() * rnd.nextInt(180))
 							.setLongitude(rnd.nextDouble() * rnd.nextInt(180))

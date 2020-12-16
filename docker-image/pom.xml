@@ -82,12 +82,6 @@
      
      <dependency>
          <groupId>${parent.groupId}</groupId>
-         <artifactId>customer-details-lookup</artifactId>
-         <version>${parent.version}</version>
-     </dependency>
-     
-     <dependency>
-         <groupId>${parent.groupId}</groupId>
          <artifactId>customer-features-lookup</artifactId>
          <version>${parent.version}</version>
      </dependency>
@@ -168,7 +162,19 @@
          <groupId>${parent.groupId}</groupId>
          <artifactId>restaurant-features-lookup</artifactId>
          <version>${parent.version}</version>
-     </dependency>               
+     </dependency>     
+         
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>SMS-verification</artifactId>
+         <version>${parent.version}</version>
+     </dependency>  
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>user-details-lookup</artifactId>
+         <version>${parent.version}</version>
+     </dependency>             
        
   </dependencies>
 	

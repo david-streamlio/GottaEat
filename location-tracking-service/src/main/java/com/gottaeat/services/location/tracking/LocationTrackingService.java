@@ -19,7 +19,7 @@
 package com.gottaeat.services.location.tracking;
 
 import com.gottaeat.domain.geography.LatLon;
-import com.gottaeat.domain.user.UserLocation;
+import com.gottaeat.domain.user.ActiveUser;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
@@ -41,26 +41,26 @@ import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
  * database for compliance and data model training (e.g. travel time estimation)
  *
  */
-public class LocationTrackingService implements Function<UserLocation, UserLocation> {
+public class LocationTrackingService implements Function<ActiveUser, ActiveUser> {
 
 	static final String CACHENAME_KEY = "cacheName";
     static final String DATAGRID_KEY = "datagridUrl";
     
 	private IgniteClient client;
-	private ClientCache<Integer, LatLon> cache;
+	private ClientCache<Long, LatLon> cache;
 	
 	private String datagridUrl;
 	private String locationCacheName;
 	
 	@Override
-	public UserLocation process(UserLocation input, Context ctx) throws Exception {
+	public ActiveUser process(ActiveUser input, Context ctx) throws Exception {
 		
 		if (!initalized()) {
 			datagridUrl = ctx.getUserConfigValue(DATAGRID_KEY).orElse("localhost:10800").toString();
 			locationCacheName = ctx.getUserConfigValue(CACHENAME_KEY).orElse("com.gottaeat.data.location").toString();
 		}
 		// Add the location to the In-memory data grid.
-		getCache().put(input.getRegisteredUserId(), input.getLocation());
+		getCache().put(input.getUser().getRegisteredUserId(), input.getLocation());
 		return input;
 	}
 	
@@ -68,7 +68,7 @@ public class LocationTrackingService implements Function<UserLocation, UserLocat
 		return StringUtils.isNotBlank(datagridUrl) && StringUtils.isNotBlank(locationCacheName);
 	}
 
-	private ClientCache<Integer, LatLon> getCache() {
+	private ClientCache<Long, LatLon> getCache() {
 		if (cache == null) {
 			cache = getClient().getOrCreateCache(locationCacheName);
 		}

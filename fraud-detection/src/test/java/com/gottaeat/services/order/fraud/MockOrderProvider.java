@@ -34,6 +34,7 @@ import com.gottaeat.domain.payment.PaymentAmount;
 import com.gottaeat.domain.payment.PaymentMethod;
 import com.gottaeat.domain.restaurant.FoodOrderDetail;
 import com.gottaeat.domain.restaurant.MenuItem;
+import com.gottaeat.domain.user.UserDetails;
 
 public class MockOrderProvider {
 	
@@ -43,11 +44,13 @@ public class MockOrderProvider {
 				.setCustomer(CustomerDetails
 						.newBuilder()
 						.setBillingAddress(getAddress())
-						.setEmail("foo@work.com")
-						.setFirstName("Foo")
-						.setLastName("Bar")
-						.setPhoneNumber("762-831-5507")
-						.setUserId(123)
+						.setUserDetails(UserDetails.newBuilder()
+								.setEmail("foo@work.com")
+								.setFirstName("Foo")
+								.setLastName("Bar")
+								.setPhoneNumber("762-831-5507")
+								.setUserId(123)
+								.build())
 						.build())
 				.setOrder(FoodOrder
 						.newBuilder()

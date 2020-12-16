@@ -3,13 +3,10 @@
 protocol CustomerProtocol {
 	
 	import idl "../geography/geography.avdl";
+	import idl "../user/user-schema.avdl";
 	
     record CustomerDetails {
-       long userId;
-       string lastName;
-       string firstName;
+       com.gottaeat.domain.user.UserDetails userDetails;
        com.gottaeat.domain.geography.Address billingAddress;
-       string email;
-       string phoneNumber;
     }
 }

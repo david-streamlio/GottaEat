@@ -8,10 +8,9 @@ protocol UserProtocol {
 		CUSTOMER, DRIVER, RESTAURANT_MANAGER
 	}
 	
-	record UserLocation {
-		UserType userRole;
-		int registeredUserId;  // The user_id associated with this device. Maps to user_id field in the RegisteredUser table
-		union { null, com.gottaeat.domain.geography.LatLon} location; // If location service is enabled
+	record User {
+	   UserType userRole;
+	   long registeredUserId;
 	}
 	
 	record DeviceInfo {
@@ -21,7 +20,17 @@ protocol UserProtocol {
 	}
 	
 	record ActiveUser {
-		UserLocation location;
-		DeviceInfo device;
+		User user;
+		DeviceInfo device;  // Device the user connected with
+		union { null, com.gottaeat.domain.geography.LatLon } location; // If location service is enabled
+		union { null, UserDetails } details;
 	}
+	
+	record UserDetails {
+       long userId;
+       string lastName;
+       string firstName;
+       string email;
+       string phoneNumber;
+    }
 }

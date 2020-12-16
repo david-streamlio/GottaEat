@@ -37,6 +37,7 @@ import org.apache.pulsar.common.functions.ConsumerConfig;
 import org.apache.pulsar.common.functions.FunctionConfig;
 import org.apache.pulsar.functions.LocalRunner;
 
+import com.gottaeat.dao.user.UserDetailsLookup;
 import com.gottaeat.domain.customer.CustomerDetails;
 import com.gottaeat.domain.geography.Address;
 import com.gottaeat.domain.order.FoodOrder;
@@ -94,15 +95,15 @@ public class CustomerDetailsLookupLocalRunnerTest {
 				             .build());
 
 		Map<String, Object> userConfig = new HashMap<String, Object>();
-		userConfig.put(CustomerDetailsLookup.DB_DRIVER_KEY, "com.mysql.cj.jdbc.Driver");
-		userConfig.put(CustomerDetailsLookup.DB_URL_KEY, "jdbc:mysql://localhost:3306/GottaEat");
+		userConfig.put(UserDetailsLookup.DB_DRIVER_KEY, "com.mysql.cj.jdbc.Driver");
+		userConfig.put(UserDetailsLookup.DB_URL_KEY, "jdbc:mysql://localhost:3306/GottaEat");
 		
 		Map<String, Object> secrets = new HashMap<String, Object>();
-		secrets.put(CustomerDetailsLookup.DB_USER_KEY, "orbit");
-		secrets.put(CustomerDetailsLookup.DB_PASS_KEY, "orbit");
+		secrets.put(UserDetailsLookup.DB_USER_KEY, "orbit");
+		secrets.put(UserDetailsLookup.DB_PASS_KEY, "orbit");
 		
 		return FunctionConfig.builder()
-				.className(CustomerDetailsLookup.class.getName())
+				.className(UserDetailsLookup.class.getName())
 				.cleanupSubscription(true)
 				.inputs(Collections.singleton(IN))
 				.inputSpecs(inputSpecs)

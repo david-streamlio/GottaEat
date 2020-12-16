@@ -34,14 +34,6 @@
     
     <dependencySet>
       <includes>
-         <include>${parent.groupId}:customer-details-lookup</include>
-      </includes>
-      <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>customer-details-lookup.nar</outputFileNameMapping>
-    </dependencySet>
-    
-    <dependencySet>
-      <includes>
          <include>${parent.groupId}:customer-features-lookup</include>
       </includes>
       <outputDirectory>.</outputDirectory>
@@ -142,6 +134,22 @@
       </includes>
       <outputDirectory>.</outputDirectory>
       <outputFileNameMapping>restaurant-features-lookup.nar</outputFileNameMapping>
+    </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:SMS-verification</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>SMS-verification.nar</outputFileNameMapping>
+    </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:user-details-lookup</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>user-details-lookup.nar</outputFileNameMapping>
     </dependencySet>
                         
   </dependencySets>
