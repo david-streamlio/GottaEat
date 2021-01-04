@@ -8,8 +8,8 @@
     <version>${revision}</version>
   </parent>
   
-  <artifactId>customer-details-lookup</artifactId>
-  <name>GottaEat :: Customer Details Lookup</name>
+  <artifactId>user-details-lookup</artifactId>
+  <name>GottaEat :: User Details Lookup</name>
   
   <build>
 	<plugins>

@@ -16,11 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.gottaeat.dao.customer;
+package com.gottaeat.dao.user;
 
-import com.gottaeat.domain.customer.CustomerDetails;
-import com.gottaeat.domain.order.FoodOrder;
 import com.gottaeat.domain.geography.Address;
+import com.gottaeat.domain.user.UserDetails;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -31,7 +30,7 @@ import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
 
-public class CustomerDetailsLookup implements Function<FoodOrder, CustomerDetails> {
+public class UserDetailsLookup implements Function<Long, UserDetails> {
 	
 	public static final String DB_DRIVER_KEY = "dbDriverClass";
 	public static final String DB_PASS_KEY = "dbPass";
@@ -47,7 +46,7 @@ public class CustomerDetailsLookup implements Function<FoodOrder, CustomerDetail
 	private String dbDriverClass;
 
 	@Override
-	public CustomerDetails process(FoodOrder order, Context ctx) throws Exception {
+	public UserDetails process(Long customerId, Context ctx) throws Exception {
 		
 		if (!isInitalized()) {
 		  dbUrl = (String) ctx.getUserConfigValue(DB_URL_KEY).orElse(null);
@@ -56,8 +55,8 @@ public class CustomerDetailsLookup implements Function<FoodOrder, CustomerDetail
 		  dbPass = (String) ctx.getSecret(DB_PASS_KEY);
 		}
 		
-		CustomerDetails details = null;
-		ResultSet rs = getCustomerDetails(order.getMeta().getCustomerId());
+		UserDetails details = null;
+		ResultSet rs = getCustomerDetails(customerId);
 		
 		if (rs != null && rs.next()) {
 			Address addr = Address.newBuilder()
@@ -68,14 +67,13 @@ public class CustomerDetailsLookup implements Function<FoodOrder, CustomerDetail
 					.setState(rs.getString("a.district"))
 					.build();
 			
-			details = CustomerDetails.newBuilder()
-					.setBillingAddress(addr)
-					.setEmail(rs.getString("ru.email"))
-					.setFirstName(rs.getString("ru.first_name"))
-					.setLastName(rs.getString("ru.last_name"))
-					.setPhoneNumber(rs.getString("a.phone"))
-					.setUserId(rs.getInt("ru.user_id"))
-					.build();
+			details = UserDetails.newBuilder()
+					   .setEmail(rs.getString("ru.email"))
+					   .setFirstName(rs.getString("ru.first_name"))
+					   .setLastName(rs.getString("ru.last_name"))
+					   .setPhoneNumber(rs.getString("a.phone"))
+					   .setUserId(rs.getInt("ru.user_id"))
+					   .build();
 		}
 		rs.close();
 		return details;
@@ -91,12 +89,11 @@ public class CustomerDetailsLookup implements Function<FoodOrder, CustomerDetail
 		if (stmt == null) {
 			  stmt = getDbConnection().prepareStatement("select ru.user_id, ru.first_name, ru.last_name, ru.email, "
 						+ "a.address, a.postal_code, a.phone, a.district,"
-						+ "c2.city, c3.country from GottaEat.Customer c "
-						+ "join GottaEat.RegisteredUser ru on c.user_id = ru.user_id "
+						+ "c.city, c2.country from GottaEat.RegisteredUser ru "
 						+ "join GottaEat.Address a on a.address_id = c.address_id "
-						+ "join GottaEat.City c2 on a.city_id = c2.city_id "
-						+ "join GottaEat.Country c3 on c2.country_id = c3.country_id "
-						+ "where c.customer_id = ?");
+						+ "join GottaEat.City c on a.city_id = c.city_id "
+						+ "join GottaEat.Country c2 on c.country_id = c2.country_id "
+						+ "where ru.user_id = ?");
 		}
 		return stmt;
 	}

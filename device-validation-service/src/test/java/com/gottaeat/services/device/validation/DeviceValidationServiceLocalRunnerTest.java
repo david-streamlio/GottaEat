@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.gottaeat.services.validation;
+package com.gottaeat.services.device.validation;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -40,8 +40,9 @@ import org.apache.pulsar.functions.LocalRunner;
 import com.gottaeat.domain.geography.LatLon;
 import com.gottaeat.domain.user.ActiveUser;
 import com.gottaeat.domain.user.DeviceInfo;
-import com.gottaeat.domain.user.UserLocation;
+import com.gottaeat.domain.user.User;
 import com.gottaeat.domain.user.UserType;
+import com.gottaeat.services.device.validation.DeviceValidationService;
 
 public class DeviceValidationServiceLocalRunnerTest {
 
@@ -141,14 +142,14 @@ public class DeviceValidationServiceLocalRunnerTest {
 						  .setGlobalIPv4("98.99.100.101")
 						  .setGlobalIPv6("")
 						  .build())
-				  .setLocation(UserLocation.newBuilder()
+				  .setUser(User.newBuilder()
 						  .setRegisteredUserId(rnd.nextInt(50))
 						  .setUserRole(UserType.CUSTOMER)
-						  .setLocation(LatLon.newBuilder()
-								  .setLatitude(rnd.nextDouble() * rnd.nextInt(180))
-								  .setLongitude(rnd.nextDouble() * rnd.nextInt(180))
-								  .build())
 						  .build())
+				  .setLocation(LatLon.newBuilder()
+						  .setLatitude(rnd.nextDouble() * rnd.nextInt(180))
+						  .setLongitude(rnd.nextDouble() * rnd.nextInt(180))
+						  .build())	
 				  .build());
 		}
 	}

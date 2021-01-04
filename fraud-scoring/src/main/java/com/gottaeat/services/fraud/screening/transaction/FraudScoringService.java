@@ -48,29 +48,29 @@ public class FraudScoringService implements Function<OrderScoringData, Transacti
 			apiKey = (String) ctx.getUserConfigValue("apiKey").orElse(null);
 		}
 
-		input.getCustomer().getUserId();  // Use this to lookup IP address in Ignite Cache?
+		input.getCustomer().getUserDetails().getUserId();  // Use this to lookup IP address in Ignite Cache?
 		HttpUrl.Builder httpBuilder = HttpUrl.parse(getUrl()).newBuilder();
 		
 		// TODO Add StringUtil.isNotBlank() test to these fields before adding? 
-		httpBuilder.addQueryParameter("billing_first_name", input.getCustomer().getFirstName().toString());
-		httpBuilder.addQueryParameter("billing_last_name", input.getCustomer().getLastName().toString());
+		httpBuilder.addQueryParameter("billing_first_name", input.getCustomer().getUserDetails().getFirstName().toString());
+		httpBuilder.addQueryParameter("billing_last_name", input.getCustomer().getUserDetails().getLastName().toString());
 		httpBuilder.addQueryParameter("billing_country", input.getCustomer().getBillingAddress().getCountry().toString());
 		httpBuilder.addQueryParameter("billing_address_1", input.getCustomer().getBillingAddress().getStreet().toString());
 		httpBuilder.addQueryParameter("billing_city", input.getCustomer().getBillingAddress().getCity().toString());
 		httpBuilder.addQueryParameter("billing_region", input.getCustomer().getBillingAddress().getState().toString());
 		httpBuilder.addQueryParameter("billing_postcode", input.getCustomer().getBillingAddress().getZip().toString());
-		httpBuilder.addQueryParameter("billing_email", input.getCustomer().getEmail().toString());
-		httpBuilder.addQueryParameter("billing_phone", input.getCustomer().getPhoneNumber().toString());
+		httpBuilder.addQueryParameter("billing_email", input.getCustomer().getUserDetails().getEmail().toString());
+		httpBuilder.addQueryParameter("billing_phone", input.getCustomer().getUserDetails().getPhoneNumber().toString());
 		
-		httpBuilder.addQueryParameter("shipping_first_name", input.getCustomer().getFirstName().toString());
-		httpBuilder.addQueryParameter("shipping_last_name", input.getCustomer().getLastName().toString());
+		httpBuilder.addQueryParameter("shipping_first_name", input.getCustomer().getUserDetails().getFirstName().toString());
+		httpBuilder.addQueryParameter("shipping_last_name", input.getCustomer().getUserDetails().getLastName().toString());
 		httpBuilder.addQueryParameter("shipping_country", input.getOrder().getDeliveryLocation().getCountry().toString());
 		httpBuilder.addQueryParameter("shipping_address_1", input.getOrder().getDeliveryLocation().getStreet().toString());
 		httpBuilder.addQueryParameter("shipping_city", input.getOrder().getDeliveryLocation().getCity().toString());
 		httpBuilder.addQueryParameter("shipping_region", input.getOrder().getDeliveryLocation().getState().toString());
 		httpBuilder.addQueryParameter("shipping_postcode", input.getOrder().getDeliveryLocation().getZip().toString());
-		httpBuilder.addQueryParameter("shipping_email", input.getCustomer().getEmail().toString());
-		httpBuilder.addQueryParameter("shipping_phone", input.getCustomer().getPhoneNumber().toString());
+		httpBuilder.addQueryParameter("shipping_email", input.getCustomer().getUserDetails().getEmail().toString());
+		httpBuilder.addQueryParameter("shipping_phone", input.getCustomer().getUserDetails().getPhoneNumber().toString());
 		httpBuilder.addQueryParameter("order_amount", Float.toString(input.getOrder().getPayment().getAmount().getTotal()));
 		httpBuilder.addQueryParameter("order_quantity", input.getOrder().getFood().size() + "");
 		httpBuilder.addQueryParameter("recurring", "false");

@@ -69,6 +69,7 @@ public class RestaurantFeaturesLookup implements Function<Long, RestaurantFeatur
 				.setRestaurantId(restaurantID)
 				.setAvgMealPrepLast7Days(row.getDouble("avg_meal_prep_time_last_7_days"))
 				.setAvgMealPrepLastHour(row.getDouble("avg_meal_prep_time_last_hour"))
+				.setMealsPreparedLastHour(row.getInt("meals_prepared_last_hour"))
 				.build();
 		}
 		return null;
