@@ -1,0 +1,11 @@
+@namespace("com.gottaeat.security.authentication.sms.verification")
+
+protocol SMSVerificationProtocol {
+
+    record SMSVerificationResponse {
+       long registeredUserId;
+       string deviceId;
+       string responseCode;
+    }
+       
+}
