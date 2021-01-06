@@ -18,6 +18,50 @@
  */
 package com.gottaeat.services.h3.tracking;
 
-public class GridTrackingService {
+import org.apache.ignite.Ignition;
+import org.apache.ignite.client.ClientCache;
+import org.apache.ignite.client.IgniteClient;
+import org.apache.ignite.configuration.ClientConfiguration;
+import org.apache.pulsar.functions.api.Context;
+import org.apache.pulsar.functions.api.Function;
+import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
+
+import com.gottaeat.domain.driver.DriverGridLocation;
+import com.gottaeat.domain.geography.LatLon;
+
+public class GridTrackingService implements Function<DriverGridLocation, Void> {
+
+    static final String DATAGRID_KEY = "datagridUrl";
+    
+	private IgniteClient client;
+	private String datagridUrl;
+	
+	@Override
+	public Void process(DriverGridLocation input, Context ctx) throws Exception {
+		if (!initalized()) {
+			datagridUrl = ctx.getUserConfigValue(DATAGRID_KEY).orElse("localhost:10800").toString();
+		}
+		getCache(input.getCellId()).put(input.getDriverLocation().getDriverId(), 
+				input.getDriverLocation().getLocation());
+		return null;
+	}
+	
+	// Each cache is <driverId, LatLon>
+	private ClientCache<Long, LatLon> getCache(int cellID) {
+		
+		return getClient().getOrCreateCache("drivers-cell-" + cellID);
+	}
+	
+	private IgniteClient getClient() {
+		if (client == null) {
+			ClientConfiguration cfg = new ClientConfiguration().setAddresses(datagridUrl);
+			client = Ignition.startClient(cfg);
+		}
+		return client;
+	}
+	
+	private boolean initalized() {
+		return StringUtils.isNotBlank(datagridUrl);
+	}
 
 }
