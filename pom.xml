@@ -40,6 +40,7 @@
       <module>fraud-scoring</module>
       <module>geo-encoding</module>
       <module>google-geoencoding-service</module>
+      <module>grid-tracking-service</module>
       <module>location-tracking-service</module>
       <module>order-solicitation-service</module>
       <module>order-validation-service</module>
