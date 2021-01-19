@@ -41,8 +41,7 @@ public class GridTrackingService implements Function<DriverGridLocation, Void> {
 		if (!initalized()) {
 			datagridUrl = ctx.getUserConfigValue(DATAGRID_KEY).orElse("localhost:10800").toString();
 		}
-		getCache(input.getCellId()).put(input.getDriverLocation().getDriverId(), 
-				input.getDriverLocation().getLocation());
+		getCache(input.getCellId()).put(input.getDriverLocation().getDriverId(), input.getDriverLocation().getLocation());
 		return null;
 	}
 	
