@@ -4,6 +4,7 @@ protocol OrderProtocol {
   import idl "../geography/geography.avdl";
   import idl "../payment/payment-commons.avdl";
   import idl "../restaurant/restaurant.avdl";
+  import idl "../../features/restaurant/features.avdl";
   
   enum OrderStatus {
     NEW, VALIDATED, ACCEPTED, READY, DISPATCHED, DELIVERED
@@ -28,6 +29,13 @@ protocol OrderProtocol {
     com.gottaeat.domain.restaurant.SolicitationResponse food;
     com.gottaeat.domain.geography.Address delivery_location;
     com.gottaeat.domain.payment.AuthorizedPayment payment;
+  }
+  
+  record FoodOrderML {
+    long assignedDriverId;
+    ValidatedFoodOrder validatedOrder;
+    com.gottaeat.features.restaurant.RestaurantFeatures restaurantFeatures;
+    long estimatedArrival;
   }
   
 }
