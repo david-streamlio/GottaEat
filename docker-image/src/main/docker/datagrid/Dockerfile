@@ -19,7 +19,7 @@
 FROM openjdk:8
 
 # Ignite version
-ENV IGNITE_VERSION 2.9.0
+ENV IGNITE_VERSION 2.10.0
 
 # Ignite home
 ENV IGNITE_HOME /opt/ignite/apache-ignite-${IGNITE_VERSION}-bin
@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     
 WORKDIR /opt/ignite
 
-RUN curl https://dist.apache.org/repos/dist/release/ignite/${IGNITE_VERSION}/apache-ignite-${IGNITE_VERSION}-bin.zip -o ignite.zip \
+RUN curl https://archive.apache.org/dist/ignite/${IGNITE_VERSION}/apache-ignite-${IGNITE_VERSION}-bin.zip  -o ignite.zip \
     && unzip ignite.zip \
     && rm ignite.zip
 
@@ -46,12 +46,12 @@ COPY cfg/ignite-config.xml $IGNITE_HOME/config/ignite-config.xml
 # until https://ignite.apache.org/docs/latest/code-deployment/deploying-user-code is fixed
 #############################################################################
 RUN mkdir /userLibs
-COPY libs/*.jar /opt/ignite/apache-ignite-2.9.0-bin/libs/
+COPY libs/*.jar /opt/ignite/apache-ignite-${IGNITE_VERSION}-bin/libs/
 
 #############################################################################
 # Enable URI deployment
 #############################################################################
-RUN mv /opt/ignite/apache-ignite-2.9.0-bin/libs/optional/ignite-urideploy /opt/ignite/apache-ignite-2.9.0-bin/libs
+RUN mv /opt/ignite/apache-ignite-${IGNITE_VERSION}-bin/libs/optional/ignite-urideploy /opt/ignite/apache-ignite-${IGNITE_VERSION}-bin/libs
 
 #############################################################################
 # Start Ignite IMDG
