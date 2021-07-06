@@ -51,6 +51,7 @@
       <module>SMS-verification</module>
       <module>user-details-lookup</module>
       <module>docker-image</module>
+      <module>delivery-time-estimator</module>
     </modules>
     
     <dependencies>

@@ -1,0 +1,16 @@
+@namespace("com.gottaeat.domain.driver")
+
+protocol DriverProtocol {
+	
+	import idl "../geography/geography.avdl";
+
+    record DriverLocation {
+      long driverId;
+      com.gottaeat.domain.geography.LatLon location;
+    }	
+    
+    record DriverGridLocation {
+      DriverLocation driverLocation;
+      int cellId;
+    }
+}
