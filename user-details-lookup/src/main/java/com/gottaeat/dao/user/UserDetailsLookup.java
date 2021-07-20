@@ -55,47 +55,42 @@ public class UserDetailsLookup implements Function<Long, UserDetails> {
 		  dbPass = (String) ctx.getSecret(DB_PASS_KEY);
 		}
 		
+		return getUserDetails(customerId);
+	}
+	
+	private UserDetails getUserDetails(Long customerId) {
 		UserDetails details = null;
-		ResultSet rs = getCustomerDetails(customerId);
 		
-		if (rs != null && rs.next()) {
-			Address addr = Address.newBuilder()
-					.setStreet(rs.getString("a.address"))
-					.setCity(rs.getString("c2.city"))
-					.setCountry(rs.getString("c3.country"))
-					.setZip(rs.getString("a.postal_code"))
-					.setState(rs.getString("a.district"))
-					.build();
+		try (Connection con = getDbConnection();
+			 PreparedStatement ps = con.prepareStatement("select ru.user_id, ru.first_name,"
+			 		+ " ru.last_name, ru.email, "
+					+ "a.address, a.postal_code, a.phone, a.district,"
+					+ "c.city, c2.country from GottaEat.RegisteredUser ru "
+					+ "join GottaEat.Address a on a.address_id = c.address_id "
+					+ "join GottaEat.City c on a.city_id = c.city_id "
+					+ "join GottaEat.Country c2 on c.country_id = c2.country_id "
+					+ "where ru.user_id = ?");) {
 			
-			details = UserDetails.newBuilder()
-					   .setEmail(rs.getString("ru.email"))
-					   .setFirstName(rs.getString("ru.first_name"))
-					   .setLastName(rs.getString("ru.last_name"))
-					   .setPhoneNumber(rs.getString("a.phone"))
-					   .setUserId(rs.getInt("ru.user_id"))
-					   .build();
+			ps.setLong(1, customerId);	
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs != null && rs.next()) {
+					details = UserDetails.newBuilder()
+							   .setEmail(rs.getString("ru.email"))
+							   .setFirstName(rs.getString("ru.first_name"))
+							   .setLastName(rs.getString("ru.last_name"))
+							   .setPhoneNumber(rs.getString("a.phone"))
+							   .setUserId(rs.getInt("ru.user_id"))
+							   .build();
+				}
+			} catch (Exception ex) {
+				// Ignore
+			}
+			
+		} catch (Exception ex) {
+			// Ignore
 		}
-		rs.close();
+		
 		return details;
-	}
-	
-	private ResultSet getCustomerDetails(long customerId) throws SQLException, ClassNotFoundException {
-		PreparedStatement ps = getSql();
-		ps.setLong(1, customerId);		
-		return	ps.executeQuery();
-	}
-	
-	private PreparedStatement getSql() throws ClassNotFoundException, SQLException {
-		if (stmt == null) {
-			  stmt = getDbConnection().prepareStatement("select ru.user_id, ru.first_name, ru.last_name, ru.email, "
-						+ "a.address, a.postal_code, a.phone, a.district,"
-						+ "c.city, c2.country from GottaEat.RegisteredUser ru "
-						+ "join GottaEat.Address a on a.address_id = c.address_id "
-						+ "join GottaEat.City c on a.city_id = c.city_id "
-						+ "join GottaEat.Country c2 on c.country_id = c2.country_id "
-						+ "where ru.user_id = ?");
-		}
-		return stmt;
 	}
 	
 	private Connection getDbConnection() throws SQLException, ClassNotFoundException {

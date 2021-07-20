@@ -19,6 +19,7 @@
 package com.gottaeat.services.device.validation;
 
 import java.nio.ByteBuffer;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -92,25 +93,20 @@ public class DeviceValidationService extends DeviceServiceBase implements Functi
 	}
 	
 	private boolean isRegisteredDevice(long userId, String deviceId) {
-		try {
-			PreparedStatement ps = getSql();
-			ps.setLong(1, userId);
-			ps.setNString(2, deviceId);
-			ResultSet rs = ps.executeQuery();
-			if (rs != null && rs.next()) {
-			  return (rs.getInt(1) > 0);
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			// Ignore these
-		}
-		return false;
-	}
-	
-	private PreparedStatement getSql() throws ClassNotFoundException, SQLException {
-		if (stmt == null) {
-		  stmt = getDbConnection().prepareStatement("select count(*) from RegisteredDevice where user_id = ? AND device_id = ?");
-		}
-		return stmt;
+		try ( Connection con = getDbConnection();
+			  PreparedStatement ps = con.prepareStatement( "select count(*) "
+			  		+ "from RegisteredDevice where user_id = ? AND device_id = ?")) {
+
+			ps.setLong(1, userId); 
+			ps.setNString(2, deviceId); 
+			ResultSet rs = ps.executeQuery(); 
+			if (rs != null && rs.next()) { 
+				return (rs.getInt(1) > 0);    
+			} 
+		} catch (ClassNotFoundException | SQLException e) { 
+			// Ignore these 
+		} 
+		return false;  
 	}
 	
 	protected boolean isInitalized() {
