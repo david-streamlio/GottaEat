@@ -33,3 +33,8 @@ hs_err_pid*
 target/
 */target
 */bin
+
+# Whatever this is
+*/.factorypath
+*/.apt_generated
+*/.gitignore
