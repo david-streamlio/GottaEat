@@ -49,6 +49,13 @@
    		<version>${pulsar.version}</version>
    		<scope>test</scope>
 	</dependency>
+	
+	<dependency>
+  		<groupId>org.jboss.forge.addon</groupId>
+  		<artifactId>mockito</artifactId>
+  		<version>2.13.0</version>
+  		<scope>test</scope>
+	</dependency>
 		
   </dependencies>
   
