@@ -38,8 +38,8 @@ public class CreditCardAuthorizationServiceTest {
 		pay.setAccountNumber("4242424242424242");
 		pay.setBillingZip("90210");
 		pay.setCcv("123");
-		pay.setExpMonth("08");
-		pay.setExpYear("2020");
+		pay.setExpMonth(8);
+		pay.setExpYear(2025);
 //		service.process(pay, null);
 	}
 }

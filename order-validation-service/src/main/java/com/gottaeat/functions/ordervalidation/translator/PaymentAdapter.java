@@ -30,8 +30,12 @@ public class PaymentAdapter implements Function<AuthorizedPayment, Void> {
 
 	@Override
 	public Void process(AuthorizedPayment payment, Context ctx) throws Exception {
-		ValidatedFoodOrder result = new ValidatedFoodOrder();
-		result.setPayment(payment);
+		
+		ctx.getLogger().info("Received processed payment for order #" + 
+			ctx.getCurrentRecord().getProperties().get("order-id"));
+		
+		ValidatedFoodOrder result =  ValidatedFoodOrder.newBuilder()
+			.setPayment(payment).build();
 		
 		ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(ValidatedFoodOrder.class))
 			.properties(ctx.getCurrentRecord().getProperties())

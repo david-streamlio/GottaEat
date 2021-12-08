@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.gottaeat</groupId>
     <artifactId>GottaEat</artifactId>
-    <version>${revision}</version>
+     <version>1.0.0</version>
   </parent>
   <artifactId>delivery-time-estimator</artifactId>
   <name>GottaEat :: Delivery Time Estimator</name>
@@ -11,9 +11,9 @@
   <build>
 	<plugins>
 		<plugin>
-			<groupId>org.apache.nifi</groupId>
-			<artifactId>nifi-nar-maven-plugin</artifactId>
-		</plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-shade-plugin</artifactId>
+        </plugin>
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-compiler-plugin</artifactId>
@@ -35,7 +35,7 @@
 	<dependency>
     	<groupId>org.jpmml</groupId>
     	<artifactId>pmml-evaluator</artifactId>
-    	<version>1.5.11</version>
+    	<version>${pmml-evaluator.version}</version>
 	</dependency>
 	
 	<dependency>
@@ -53,9 +53,14 @@
 	<dependency>
     	<groupId>jakarta.xml.bind</groupId>
     	<artifactId>jakarta.xml.bind-api</artifactId>
-    	<version>2.3.2</version>
+    	<version>${jakarta.xml.bind-api.version}</version>
 	</dependency>
 	
+	<dependency>
+  		<groupId>org.apache.commons</groupId>
+  		<artifactId>commons-lang3</artifactId>
+  		<version>${commons-lang3.version}</version>
+	</dependency>
 	
   </dependencies>
 	

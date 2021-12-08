@@ -25,17 +25,17 @@ protocol OrderProtocol {
   }
   
   record ValidatedFoodOrder {
-    FoodOrderMeta meta;
-    com.gottaeat.domain.restaurant.SolicitationResponse food;
-    com.gottaeat.domain.geography.Address delivery_location;
-    com.gottaeat.domain.payment.AuthorizedPayment payment;
+    union { null, FoodOrderMeta } meta = null;
+    union { null, com.gottaeat.domain.restaurant.SolicitationResponse } food = null;
+    union { null, com.gottaeat.domain.geography.GeoEncodedAddress } delivery_location = null;
+    union { null, com.gottaeat.domain.payment.AuthorizedPayment } payment = null;
   }
   
   record FoodOrderML {
     long assignedDriverId;
     ValidatedFoodOrder validatedOrder;
     com.gottaeat.features.restaurant.RestaurantFeatures restaurantFeatures;
-    long estimatedArrival;
+    union { null, long } estimatedArrival = null;
   }
   
 }

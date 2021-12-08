@@ -27,9 +27,12 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.gottaeat.domain.geography.Address;
 import com.gottaeat.domain.order.FoodOrder;
+import com.gottaeat.domain.order.FoodOrderMeta;
+import com.gottaeat.domain.order.OrderStatus;
 import com.gottaeat.domain.payment.CardType;
 import com.gottaeat.domain.payment.CreditCard;
 import com.gottaeat.domain.payment.Payment;
+import com.gottaeat.domain.payment.PaymentAmount;
 import com.gottaeat.domain.payment.PaymentMethod;
 import com.gottaeat.domain.restaurant.FoodOrderDetail;
 import com.gottaeat.domain.restaurant.MenuItem;
@@ -37,7 +40,7 @@ import com.gottaeat.domain.restaurant.MenuItem;
 
 public class FoodOrderGenerator implements DataGenerator<FoodOrder> {
 	
-	private Random rnd = new Random();
+	private static Random rnd = new Random();
 	
 	private static List<Address> ADDRESSES = new ArrayList<Address> ();
 	private static List<CreditCard> CREDIT_CARDS = new ArrayList<CreditCard> ();
@@ -45,16 +48,18 @@ public class FoodOrderGenerator implements DataGenerator<FoodOrder> {
 	private static List<List<String>> CUSTOMIZATIONS = new ArrayList<List<String>>();
 	private static List<String> DRINKS = new ArrayList<String> ();
 	
+	private static long orderIdSequence = rnd.nextInt(75000) + 5678;
+	
 	static {
-		ADDRESSES.add(Address.newBuilder().setCity("Chicago").setState("IL").setStreet("123 Main St").setZip("66011").build());
-		ADDRESSES.add(Address.newBuilder().setCity("Chicago").setState("IL").setStreet("709 W 18th St").setZip("66012").build());
-		ADDRESSES.add(Address.newBuilder().setCity("Chicago").setState("IL").setStreet("3422 Central Park Ave").setZip("66013").build());
-		ADDRESSES.add(Address.newBuilder().setCity("Chicago").setState("IL").setStreet("844 W Cermark Rd").setZip("66014").build());
-		ADDRESSES.add(Address.newBuilder().setCity("Chicago").setState("IL").setStreet("651 S Pulaski St").setZip("66015").build());
-		CREDIT_CARDS.add(CreditCard.newBuilder().setAccountNumber("1234 5678 9012 3456").setBillingZip("66011").setCardType(CardType.AMEX).setCcv("000").build());
-		CREDIT_CARDS.add(CreditCard.newBuilder().setAccountNumber("1111 2222 3333 4444").setBillingZip("66012").setCardType(CardType.DISCOVER).setCcv("789").build());
-		CREDIT_CARDS.add(CreditCard.newBuilder().setAccountNumber("5555 6666 7777 8888").setBillingZip("66011").setCardType(CardType.MASTERCARD).setCcv("123").build());
-		CREDIT_CARDS.add(CreditCard.newBuilder().setAccountNumber("9999 0000 1111 2222").setBillingZip("66013").setCardType(CardType.VISA).setCcv("555").build());
+		ADDRESSES.add(Address.newBuilder().setCity("Chicago").setState("IL").setCountry("USA").setStreet("123 Main St").setZip("66011").build());
+		ADDRESSES.add(Address.newBuilder().setCity("Chicago").setState("IL").setCountry("USA").setStreet("709 W 18th St").setZip("66012").build());
+		ADDRESSES.add(Address.newBuilder().setCity("Chicago").setState("IL").setCountry("USA").setStreet("3422 Central Park Ave").setZip("66013").build());
+		ADDRESSES.add(Address.newBuilder().setCity("Chicago").setState("IL").setCountry("USA").setStreet("844 W Cermark Rd").setZip("66014").build());
+		ADDRESSES.add(Address.newBuilder().setCity("Chicago").setState("IL").setCountry("USA").setStreet("651 S Pulaski St").setZip("66015").build());
+		CREDIT_CARDS.add(CreditCard.newBuilder().setAccountNumber("1234 5678 9012 3456").setBillingZip("66011").setCardType(CardType.AMEX).setExpMonth(1).setExpYear(2025).setCcv("000").build());
+		CREDIT_CARDS.add(CreditCard.newBuilder().setAccountNumber("1111 2222 3333 4444").setBillingZip("66012").setCardType(CardType.DISCOVER).setExpMonth(1).setExpYear(2025).setCcv("789").build());
+		CREDIT_CARDS.add(CreditCard.newBuilder().setAccountNumber("5555 6666 7777 8888").setBillingZip("66011").setCardType(CardType.MASTERCARD).setExpMonth(1).setExpYear(2025).setCcv("123").build());
+		CREDIT_CARDS.add(CreditCard.newBuilder().setAccountNumber("9999 0000 1111 2222").setBillingZip("66013").setCardType(CardType.VISA).setExpMonth(1).setExpYear(2025).setCcv("555").build());
 		
 		List<MenuItem> menu = new ArrayList<MenuItem> ();
 		menu.add(MenuItem.newBuilder().setItemDescription("Beef").setItemId(1).setItemName("Burrito").setPrice(7.99f).build());
@@ -72,16 +77,16 @@ public class FoodOrderGenerator implements DataGenerator<FoodOrder> {
 		CUSTOMIZATIONS.add(customizations);
 		
 		menu = new ArrayList<MenuItem> ();
-		menu.add(MenuItem.newBuilder().setItemDescription("Single").setItemId(1).setItemName("Cheeseburger").setPrice(2.05f).build());
-		menu.add(MenuItem.newBuilder().setItemDescription("Double").setItemId(2).setItemName("Cheeseburger").setPrice(3.95f).build());
-		menu.add(MenuItem.newBuilder().setItemDescription("Single").setItemId(3).setItemName("Hamburger").setPrice(1.75f).build());
-		menu.add(MenuItem.newBuilder().setItemDescription("Double").setItemId(4).setItemName("Hamburger").setPrice(3.25f).build());
-		menu.add(MenuItem.newBuilder().setItemDescription("Chicken").setItemId(5).setItemName("Sandwich").setPrice(1.95f).build());
-		menu.add(MenuItem.newBuilder().setItemDescription("20 Piece").setItemId(6).setItemName("Nuggets").setPrice(3.95f).build());
-		menu.add(MenuItem.newBuilder().setItemDescription("Small").setItemId(7).setItemName("French Fries").setPrice(1.00f).build());
-		menu.add(MenuItem.newBuilder().setItemDescription("Large").setItemId(8).setItemName("French Fries").setPrice(2.00f).build());
-		menu.add(MenuItem.newBuilder().setItemDescription("Small").setItemId(10).setItemName("Fountain Drink").setPrice(1.00f).build());
-		menu.add(MenuItem.newBuilder().setItemDescription("Large").setItemId(11).setItemName("Fountain Drink").setPrice(2.00f).build());
+		menu.add(MenuItem.newBuilder().setItemDescription("Single").setItemId(1).setItemName("Cheeseburger").setPrice(2.05f).setTaxable(false).build());
+		menu.add(MenuItem.newBuilder().setItemDescription("Double").setItemId(2).setItemName("Cheeseburger").setPrice(3.95f).setTaxable(false).build());
+		menu.add(MenuItem.newBuilder().setItemDescription("Single").setItemId(3).setItemName("Hamburger").setPrice(1.75f).setTaxable(false).build());
+		menu.add(MenuItem.newBuilder().setItemDescription("Double").setItemId(4).setItemName("Hamburger").setPrice(3.25f).setTaxable(false).build());
+		menu.add(MenuItem.newBuilder().setItemDescription("Chicken").setItemId(5).setItemName("Sandwich").setPrice(1.95f).setTaxable(false).build());
+		menu.add(MenuItem.newBuilder().setItemDescription("20 Piece").setItemId(6).setItemName("Nuggets").setPrice(3.95f).setTaxable(false).build());
+		menu.add(MenuItem.newBuilder().setItemDescription("Small").setItemId(7).setItemName("French Fries").setPrice(1.00f).setTaxable(false).build());
+		menu.add(MenuItem.newBuilder().setItemDescription("Large").setItemId(8).setItemName("French Fries").setPrice(2.00f).setTaxable(false).build());
+		menu.add(MenuItem.newBuilder().setItemDescription("Small").setItemId(10).setItemName("Fountain Drink").setPrice(1.00f).setTaxable(false).build());
+		menu.add(MenuItem.newBuilder().setItemDescription("Large").setItemId(11).setItemName("Fountain Drink").setPrice(2.00f).setTaxable(false).build());
 		
 		MENUS.add(menu);
 		
@@ -104,9 +109,15 @@ public class FoodOrderGenerator implements DataGenerator<FoodOrder> {
 		Pair<List<FoodOrderDetail>, Float> orderDetails = getRandomOrderDetails(restaurantId, rnd.nextInt(3) + 1);
 		
 		return FoodOrder.newBuilder()
+						.setMeta(FoodOrderMeta.newBuilder()
+								.setCustomerId(rnd.nextInt(5000))
+								.setOrderId(orderIdSequence++)
+								.setOrderStatus(OrderStatus.NEW)
+								.setTimePlaced(System.currentTimeMillis() + "")
+								.build())
 						.setDeliveryLocation(getRandomAddress())
 						.setFood(orderDetails.getLeft())
-						.setPayment(getRandomCreditCard())
+						.setPayment(getRandomCreditCard(orderDetails.getRight()))
 						.build();
 	}
 	
@@ -114,9 +125,19 @@ public class FoodOrderGenerator implements DataGenerator<FoodOrder> {
 		return ADDRESSES.get(rnd.nextInt(ADDRESSES.size()));
 	}
 	
-	private Payment getRandomCreditCard() {
-		return Payment.newBuilder().setMethodOfPayment(
-				PaymentMethod.newBuilder().build())
+	private Payment getRandomCreditCard(float amount) {
+		
+		CreditCard card = CREDIT_CARDS.get(rnd.nextInt(CREDIT_CARDS.size()));
+		
+		return Payment.newBuilder()
+				  .setMethodOfPayment(PaymentMethod.newBuilder()
+					.setType(card)
+					.build())
+				  .setAmount(PaymentAmount.newBuilder()
+					.setFoodTotal(amount)
+					.setTax(0.0f)
+					.setTotal(amount)
+					.build())
 				.build();
 	}
 

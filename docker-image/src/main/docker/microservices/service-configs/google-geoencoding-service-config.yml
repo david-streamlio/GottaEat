@@ -1,0 +1,43 @@
+className: com.gottaeat.services.geoencoding.google.GoogleGeoEncodingService
+tenant: gottaeat
+namespace: services
+name: google-geo-encoding-service
+inputs:
+  - persistent://geography/encoding/google
+output: persistent://geography/encoding/aggregation
+userConfig:
+  "api-endpoint": "https://maps.googleapis.com/maps/api/geocode/json?address="
+  "api-key": "SIGN-UP-FOR-KEY"
+  "rateLimiter.name" : "google-geo-encoder-rate-limiter"
+  "rateLimiter.limitRefreshPeriod" : 1
+  "rateLimiter.limitForPeriod" : 60
+  "rateLimiter.timeoutDuration" : 1
+
+
+##################################
+# Processing
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/services/google-geo-encoding-service-log
+processingGuarantees: AT_LEAST_ONCE
+retainOrdering: false
+subName: google-geo-encoding-service-sub
+cleanupSubscription: true
+
+##################################
+# Function instance resources
+##################################
+# CPU: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3
+
+##################################
+# Security
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls:

@@ -33,6 +33,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.gottaeat.domain.geography.Address;
 import com.gottaeat.domain.geography.GeoEncodedAddress;
+import com.gottaeat.domain.geography.GeoEncodedAddress.Builder;
 import com.gottaeat.domain.geography.LatLon;
 import io.github.resilience4j.decorators.Decorators;
 import io.github.resilience4j.ratelimiter.RateLimiter;
@@ -53,6 +54,9 @@ public class GoogleGeoEncodingService implements Function<Address, Void> {
 	
 	private static List<String> TRANSIENT_ERRORS = Arrays.asList("UNKNOWN_ERROR");
 	private static List<String> NON_TRANSIENT_ERRORS = Arrays.asList("OVER_DAILY_LIMIT", "OVER_QUERY_LIMIT", "REQUEST_DENIED");
+	
+	private String apiEndpoint;
+	private String apiKey;
 	private boolean initalized = false;
 	private RateLimiterConfig config;
 	private RateLimiterRegistry rateLimiterRegistry;
@@ -65,40 +69,54 @@ public class GoogleGeoEncodingService implements Function<Address, Void> {
 			init(ctx);
 		}
 		
-		CheckedFunction0<String> decoratedFunction = Decorators.ofCheckedSupplier(getFunction(addr))
+		CheckedFunction0<String> decoratedFunction =
+			Decorators.ofCheckedSupplier(getFunction(addr))
 				.withRateLimiter(rateLimiter)
 				.decorate();
 		
-		LatLon geo = getLocation(
-				Try.of(decoratedFunction)
-			   .onFailure((Throwable t) -> ctx.getLogger().error(t.getMessage()))
-			   .getOrNull());
+		LatLon geo = getLocation(Try.of(decoratedFunction)
+			 .onFailure((Throwable t) -> ctx.getLogger().error(t.getMessage()))
+			 .getOrNull());
 
-		if (geo != null) {
-			GeoEncodedAddress result = GeoEncodedAddress.newBuilder()
-					.setAddress(addr)
-					.setGeo(geo).build();
-			
-			ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))
-				.properties(ctx.getCurrentRecord().getProperties())
-				.value(result)
-				.send();
-		} else {
-			// We made a valid call, but didn't get a valid geo back
-		}
+		Builder result = GeoEncodedAddress.newBuilder()
+			.setAddress(addr);
 		
+		if (geo != null) {
+			result.setGeo(geo);
+		} 
+		
+		ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))
+		  .properties(ctx.getCurrentRecord().getProperties())
+		  .value(result.build())
+		  .send();
+	
 		return null;
 	}
 
 	private void init(Context ctx) {
+		
+		int refrshPeriod = Integer.parseInt(ctx.getUserConfigValueOrDefault(
+			"rateLimiter.limitRefreshPeriod", "1").toString());
+				
+		int limitForPeriod = Integer.parseInt(ctx.getUserConfigValueOrDefault(
+			"rateLimiter.limitForPeriod", "60").toString());
+					
+		int timeout = Integer.parseInt(ctx.getUserConfigValueOrDefault(
+			"rateLimiter.timeoutDuration", "1").toString());
+		
 		config = RateLimiterConfig.custom()
-				  .limitRefreshPeriod(Duration.ofMinutes(1))
-				  .limitForPeriod(60)
-				  .timeoutDuration(Duration.ofSeconds(1))
-				  .build();
+			.limitRefreshPeriod(Duration.ofMinutes(refrshPeriod))
+			.limitForPeriod(limitForPeriod)
+			.timeoutDuration(Duration.ofSeconds(timeout))
+			.build();
 		
 		rateLimiterRegistry = RateLimiterRegistry.of(config);
-		rateLimiter = rateLimiterRegistry.rateLimiter("name");
+		rateLimiter = rateLimiterRegistry.rateLimiter(ctx.getUserConfigValueOrDefault(
+			"rateLimiter.name", "name").toString());
+		
+		apiEndpoint = ctx.getUserConfigValue("api-Endpoint").get().toString();
+		apiKey = ctx.getUserConfigValue("api-key").get().toString();
+		
 		initalized = true;
 	}
 	
@@ -106,14 +124,14 @@ public class GoogleGeoEncodingService implements Function<Address, Void> {
 		CheckedFunction0<String> fn = () -> { 
 			OkHttpClient client = new OkHttpClient();
 			StringBuilder sb = new StringBuilder()
-				.append("https://maps.googleapis.com/maps/api/geocode/json?address=")
+				.append(apiEndpoint)
 				.append(URLEncoder.encode(addr.getStreet().toString(), 
 						StandardCharsets.UTF_8.toString())).append(",")
 				.append(URLEncoder.encode(addr.getCity().toString(), 
 						StandardCharsets.UTF_8.toString())).append(",")
 				.append(URLEncoder.encode(addr.getState().toString(), 
 						StandardCharsets.UTF_8.toString()))
-				.append("&key=").append("SIGN-UP-FOR-KEY");
+				.append("&key=").append(apiKey);
 
 			Request request = new Request.Builder()
 					.url(sb.toString())

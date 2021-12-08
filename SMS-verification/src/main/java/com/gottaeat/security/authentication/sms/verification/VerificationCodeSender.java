@@ -22,7 +22,7 @@ import com.gottaeat.domain.user.ActiveUser;
 
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
-import org.apache.pulsar.shade.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

@@ -1,16 +1,27 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package com.gottaeat.services.ordervalidation;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.pulsar.client.impl.schema.AvroSchema;
-import org.apache.pulsar.common.functions.ConsumerConfig;
-import org.apache.pulsar.common.functions.FunctionConfig;
-import org.apache.pulsar.functions.LocalRunner;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
+import org.slf4j.Logger;
 
 import com.gottaeat.domain.geography.Address;
 import com.gottaeat.domain.order.FoodOrder;
@@ -26,6 +37,7 @@ import com.gottaeat.domain.payment.Payment;
  */
 public class OrderValidationService implements Function<FoodOrder, Void> {
 	
+	private Logger logger;
 	private boolean initalized;
 	private String geoEncoderTopic;
 	private String paymentTopic;
@@ -34,9 +46,12 @@ public class OrderValidationService implements Function<FoodOrder, Void> {
 
 	@Override
 	public Void process(FoodOrder order, Context ctx) throws Exception {
+	  
 	  if (!initalized) {
 	    init(ctx);
 	  }
+	  
+	  logger.info("Validating Food Order " + order.getMeta().getOrderId());
 			
 	  ctx.newOutputMessage(geoEncoderTopic, AvroSchema.of(Address.class))
 		  .property("order-id", order.getMeta().getOrderId() + "")
@@ -58,48 +73,19 @@ public class OrderValidationService implements Function<FoodOrder, Void> {
 	}
 	
 	private void init(Context ctx) {
-	  geoEncoderTopic = ctx.getUserConfigValue("geo-topic").toString();
-	  paymentTopic = ctx.getUserConfigValue("payment-topic").toString();
-	  restaurantTopic = ctx.getUserConfigValue("restaurant-topic").toString();
-	  orderTopic = ctx.getUserConfigValue("aggregator-topic").toString();
+	  logger = ctx.getLogger();
+	  geoEncoderTopic = (String) ctx.getUserConfigValue("geo-topic").get();
+	  paymentTopic = (String) ctx.getUserConfigValue("payment-topic").get();
+	  restaurantTopic = (String) ctx.getUserConfigValue("restaurant-topic").get();
+	  orderTopic = (String) ctx.getUserConfigValue("order-topic").get();
+	  
+	  logger.info("Initalized");
+	  logger.info("geoEncoderTopic = " + geoEncoderTopic);
+	  logger.info("paymentTopic = " + paymentTopic);
+	  logger.info("restaurantTopic = " + restaurantTopic);
+	  logger.info("orderTopic = " + orderTopic);
+	  
 	  initalized = true;
-	}
-
-	public static void main(String[] args) throws Exception {
-		
-		Map<String, ConsumerConfig> inputSpecs = new HashMap<String, ConsumerConfig> ();
-	    inputSpecs.put("persistent://orders/inbound/food-orders", 
-	    		ConsumerConfig.builder().schemaType("avro").build());
-		
-	    FunctionConfig functionConfig = 
-	    	FunctionConfig.builder()
-	    	.className(OrderValidationService.class.getName())
-	    	.inputs(Collections.singleton("persistent://orders/inbound/food-orders"))
-	    	.inputSpecs(inputSpecs)
-	    	.name("order-validation")
-	    	.output("persistent://orders/inbound/valid-food-orders")
-	    	.outputSchemaType("avro")
-	    	.runtime(FunctionConfig.Runtime.JAVA)
-	    	.build();
-	    
-	    // Assumes you started docker container with --volume=${HOME}/exchange:/pulsar/manning/dropbox 
-	    String credentials_path = System.getProperty("user.home") + File.separator 
-	    		+ "exchange" + File.separator;
-
-	    LocalRunner localRunner = 
-	    	LocalRunner.builder()
-	    		.brokerServiceUrl("pulsar+ssl://localhost:6651")
-	    		.clientAuthPlugin("org.apache.pulsar.client.impl.auth.AuthenticationTls")
-	    		.clientAuthParams("tlsCertFile:" + credentials_path + "admin.cert.pem,tlsKeyFile:"
-	    				+ credentials_path + "admin-pk8.pem")
-	    		.tlsTrustCertFilePath(credentials_path + "ca.cert.pem")
-	    		.functionConfig(functionConfig)
-	    		.build();
-	    
-	    localRunner.start(false);
-	    Thread.sleep(30 * 1000);
-	    localRunner.stop();
-	    System.exit(0);
 	}
 
 }

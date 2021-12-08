@@ -18,7 +18,6 @@
  */
 package com.gottaeat.functions.ordervalidation.translator;
 
-
 import org.apache.pulsar.client.impl.schema.AvroSchema;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
@@ -28,11 +27,15 @@ import com.gottaeat.domain.restaurant.SolicitationResponse;
 
 public class FoodOrderAdapter implements Function<SolicitationResponse, Void> {
 
-
 	@Override
 	public Void process(SolicitationResponse food, Context ctx) throws Exception {
-		ValidatedFoodOrder result = new ValidatedFoodOrder();
-		result.setFood(food);
+		
+		ctx.getLogger().info("Received solicitation response for order # " + 
+			ctx.getCurrentRecord().getProperties().get("order-id"));
+		
+		ValidatedFoodOrder result = ValidatedFoodOrder.newBuilder()
+		  .setFood(food)
+		  .build();
 		
 		ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(ValidatedFoodOrder.class))
 		.properties(ctx.getCurrentRecord().getProperties())

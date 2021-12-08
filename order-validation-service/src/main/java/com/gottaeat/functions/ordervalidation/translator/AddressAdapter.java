@@ -22,20 +22,25 @@ import org.apache.pulsar.client.impl.schema.AvroSchema;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
-import com.gottaeat.domain.geography.Address;
+import com.gottaeat.domain.geography.GeoEncodedAddress;
 import com.gottaeat.domain.order.ValidatedFoodOrder;
 
-public class AddressAdapter implements Function<Address, Void> {
+public class AddressAdapter implements Function<GeoEncodedAddress, Void> {
 
 	@Override
-	public Void process(Address addr, Context ctx) throws Exception {
-		ValidatedFoodOrder result = new ValidatedFoodOrder();
-		result.setDeliveryLocation(addr);
+	public Void process(GeoEncodedAddress addr, Context ctx) throws Exception {
+		
+		ctx.getLogger().info("Adapting address for order id : "+ 
+		  ctx.getCurrentRecord().getProperties().get("order-id"));
+		
+		ValidatedFoodOrder result = ValidatedFoodOrder.newBuilder()
+		   .setDeliveryLocation(addr)
+		   .build();
 		
 		ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(ValidatedFoodOrder.class))
-		.properties(ctx.getCurrentRecord().getProperties())
-		.value(result)
-		.send();
+		  .properties(ctx.getCurrentRecord().getProperties())
+		  .value(result)
+		  .send();
 		
 		return null;
 	}

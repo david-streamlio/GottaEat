@@ -3,25 +3,25 @@
   <parent>
     <groupId>com.gottaeat</groupId>
     <artifactId>GottaEat</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0</version>
   </parent>
   <artifactId>grid-tracking-service</artifactId>
   <name>GottaEat :: Gird Tracking Service</name>
   
   <build>
     <plugins>
-	  <plugin>
-		<groupId>org.apache.nifi</groupId>
-		<artifactId>nifi-nar-maven-plugin</artifactId>
-	</plugin>
-	<plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-compiler-plugin</artifactId>
-	</plugin>
-	<plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-resources-plugin</artifactId>
-	</plugin>
+		<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-shade-plugin</artifactId>
+        </plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+		</plugin>
    </plugins>
   </build>
   
@@ -44,18 +44,24 @@
   		<artifactId>ignite-spring</artifactId>
   		<version>${ignite.version}</version>
 	</dependency>
+
+    <dependency>
+    	<groupId>io.netty</groupId>
+    	<artifactId>netty-codec-dns</artifactId>
+    	<version>${netty-codec-dns.version}</version>
+	</dependency>
+	
+	<dependency>
+  		<groupId>org.apache.commons</groupId>
+  		<artifactId>commons-lang3</artifactId>
+  		<version>${commons-lang3.version}</version>
+	</dependency>
 	
     <dependency>
    		<groupId>org.apache.pulsar</groupId>
    		<artifactId>pulsar-functions-local-runner-original</artifactId>
    		<version>${pulsar.version}</version>
    		<scope>test</scope>
-	</dependency>
-	
-    <dependency>
-    	<groupId>io.netty</groupId>
-    	<version>4.1.54.Final</version>
-    	<artifactId>netty-codec-dns</artifactId>
 	</dependency>
 	
   </dependencies>

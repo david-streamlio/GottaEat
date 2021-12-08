@@ -1,0 +1,42 @@
+className: com.gottaeat.services.geoencoding.google.GoogleMapsFunction
+tenant: gottaeat
+namespace: services
+name: google-maps-service
+inputs:
+  - persistent://geography/google/non-encoded
+output: 
+userConfig:
+  "failure-notification-topic": "persistent://geography/google/circuit-breaker-failures"
+  "result-topic": "persistent://geography/inbound/encoded-aggregate"
+  "service-api-key": ""
+  "service-max-retries": "3"
+  "service-retry-timeout-ms": "3000"
+
+
+##################################
+# Processing
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/services/google-maps-service-log
+processingGuarantees: AT_LEAST_ONCE
+retainOrdering: false
+subName: google-maps-service-sub
+cleanupSubscription: true
+
+##################################
+# Function instance resources
+##################################
+# CPU: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3
+
+##################################
+# Security
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls:

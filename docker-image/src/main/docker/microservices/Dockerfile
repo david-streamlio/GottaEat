@@ -33,7 +33,14 @@ COPY conf/standalone.conf $PULSAR_HOME/conf/standalone.conf
 # Add all of our Pulsar Functions and IO Connectors
 #############################################################################
 
-COPY maven/ /connectors 
+COPY maven/*.jar /connectors/
+COPY maven/*.yml /service-configs/
+
+#############################################################################
+# Add all automation scripts
+#############################################################################
+COPY scripts/*.sh /scripts/
+RUN chmod a+x /scripts/*.sh
 
 ##############################################################################
 # Start Pulsar in Standalone mode

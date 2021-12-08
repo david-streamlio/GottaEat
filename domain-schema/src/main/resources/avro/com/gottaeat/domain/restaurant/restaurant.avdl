@@ -10,7 +10,7 @@ protocol RestaurantsProtocol {
     string item_description;
     array<string> customizations = [""];
     float price;
-    boolean taxable;
+    boolean taxable = false;
   }
   
   record Restaurant {

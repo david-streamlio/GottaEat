@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.gottaeat</groupId>
     <artifactId>GottaEat</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0</version>
   </parent>
   
   <artifactId>geo-encoding</artifactId>
@@ -13,14 +13,15 @@
     
   <properties>
 	 <google.version>0.11.0</google.version>
+	 <slf4j-simple.version>1.7.25</slf4j-simple.version>
   </properties>
   
   <build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.nifi</groupId>
-				<artifactId>nifi-nar-maven-plugin</artifactId>
-			</plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-shade-plugin</artifactId>
+        	</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -44,6 +45,7 @@
    					<artifactId>grpc-all</artifactId>
    				</exclusion>
    			</exclusions>
+   			<scope>provided</scope>
 		</dependency>
 		
 		<dependency>
@@ -53,14 +55,21 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.gottaeat</groupId>
+    		<artifactId>commons</artifactId>
+    		<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
   			<groupId>com.google.maps</groupId>
   			<artifactId>google-maps-services</artifactId>
   			<version>${google.version}</version>
 		</dependency>
+		
 		<dependency>
   			<groupId>org.slf4j</groupId>
   			<artifactId>slf4j-simple</artifactId>
-  			<version>1.7.25</version>
+  			<version>${slf4j-simple.version}</version>
 		</dependency>
 		
 	</dependencies>

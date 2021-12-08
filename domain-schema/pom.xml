@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.gottaeat</groupId>
     <artifactId>GottaEat</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0</version>
   </parent>
   
   <artifactId>domain-schema</artifactId>
@@ -114,7 +114,7 @@
 	  <plugin>
     	<groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>${maven-assembly-plugin.version}</version>
 
         <configuration>
             <descriptorRefs>
@@ -156,7 +156,7 @@
 	<dependency>
   		<groupId>org.apache.avro</groupId>
   		<artifactId>avro</artifactId>
-  		<version>1.9.1</version>
+  		<version>${avro.version}</version>
   	</dependency>
   	
   </dependencies>

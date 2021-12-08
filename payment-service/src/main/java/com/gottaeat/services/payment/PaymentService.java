@@ -29,6 +29,7 @@ import org.apache.pulsar.common.functions.FunctionConfig;
 import org.apache.pulsar.functions.LocalRunner;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
+import org.slf4j.Logger;
 
 import com.gottaeat.domain.payment.ApplePay;
 import com.gottaeat.domain.payment.CreditCard;
@@ -44,9 +45,11 @@ import com.gottaeat.domain.payment.Payment;
  */
 public class PaymentService implements Function<Payment, Void> {
 
+	private Logger logger;
 	private boolean initalized = false;
 	private String applePayTopic, creditCardTopic, echeckTopic, paypalTopic;
 	
+	@SuppressWarnings("rawtypes")
 	public Void process(Payment pay, Context ctx) throws Exception {
 		
 		if (!initalized) {
@@ -54,24 +57,26 @@ public class PaymentService implements Function<Payment, Void> {
 		}
 		
 		Class paymentType = pay.getMethodOfPayment().getType().getClass();
-		Object payment = pay.getMethodOfPayment().getType();
+		
+		logger.info("Processing " + paymentType);
+		
 		
 		if (paymentType == ApplePay.class) {
-			ctx.newOutputMessage(applePayTopic, AvroSchema.of(ApplePay.class))
+			ctx.newOutputMessage(applePayTopic, AvroSchema.of(Payment.class))
 			    .properties(ctx.getCurrentRecord().getProperties())
-			    .value((ApplePay) payment).sendAsync();			
+			    .value(pay).sendAsync();			
 		} else if (paymentType == CreditCard.class) {
-			ctx.newOutputMessage(creditCardTopic, AvroSchema.of(CreditCard.class))
+			ctx.newOutputMessage(creditCardTopic, AvroSchema.of(Payment.class))
 				.properties(ctx.getCurrentRecord().getProperties())
-				.value((CreditCard) payment).sendAsync();
+				.value(pay).sendAsync();
 		} else if (paymentType == ElectronicCheck.class) {
-			ctx.newOutputMessage(echeckTopic, AvroSchema.of(ElectronicCheck.class))
+			ctx.newOutputMessage(echeckTopic, AvroSchema.of(Payment.class))
 				.properties(ctx.getCurrentRecord().getProperties())
-				.value((ElectronicCheck) payment).sendAsync();
+				.value(pay).sendAsync();
 		} else if (paymentType == PayPal.class) {
-			ctx.newOutputMessage(paypalTopic, AvroSchema.of(PayPal.class))
+			ctx.newOutputMessage(paypalTopic, AvroSchema.of(Payment.class))
 			   .properties(ctx.getCurrentRecord().getProperties())
-			   .value((PayPal) payment).sendAsync();
+			   .value(pay).sendAsync();
 		} else {
 			ctx.getCurrentRecord().fail();
 		}
@@ -80,10 +85,17 @@ public class PaymentService implements Function<Payment, Void> {
 	}
 	
 	private void init(Context ctx) {
+		logger = ctx.getLogger();
 		applePayTopic = (String) ctx.getUserConfigValue("apple-pay-topic").get();
 		creditCardTopic = (String) ctx.getUserConfigValue("credit-card-topic").get();
 		echeckTopic = (String) ctx.getUserConfigValue("e-check-topic").get();
 		paypalTopic = (String) ctx.getUserConfigValue("paypal-topic").get();
+		
+		logger.info("Initalized");
+		logger.info("applePayTopic = " + applePayTopic);
+		logger.info("creditCardTopic = " + creditCardTopic);
+		logger.info("echeckTopic = " + echeckTopic);
+		logger.info("paypalTopic = " + paypalTopic);
 		initalized = true;
 	}
 	

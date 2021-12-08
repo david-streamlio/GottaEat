@@ -26,7 +26,10 @@ import org.apache.pulsar.client.api.PulsarClientException;
 import org.apache.pulsar.client.impl.schema.AvroSchema;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
+import org.slf4j.Logger;
 
+import com.gottaeat.commons.state.LRUCacheStateStore;
+import com.gottaeat.commons.state.StateStore;
 import com.gottaeat.domain.geography.Address;
 import com.gottaeat.services.geoencoding.CircuitStatus;
 
@@ -45,9 +48,14 @@ import com.gottaeat.services.geoencoding.CircuitStatus;
  */
 public class GoogleCircuitBreakerFunction implements Function<Address, Void> {
 
+	static final String CONSECUTIVE_FAILURES = "consecutive-failures";
+	static final String CONSECUTIVE_SUCCESSES = "consecutive-successes";
+	
 	static final BigInteger ZERO = new BigInteger("0");
 	static final BigInteger ONE = new BigInteger("1");
 	
+	private Logger logger;
+	private StateStore storage;
 	CircuitStatus status = CircuitStatus.CLOSED;
 	int threshold = Integer.MAX_VALUE;
 	int resetTimer = 2; // How long to remain in closed state (in minutes)
@@ -63,15 +71,17 @@ public class GoogleCircuitBreakerFunction implements Function<Address, Void> {
 			init(context);
 		}
 		
+		logger.info("Encoding address for order # " + 
+		  context.getCurrentRecord().getProperties().get("order-id"));
+		
 		if (context.getCurrentRecord().getTopicName().get().equals(failureNotificationTopic)) {
 			handleFailureMsg(context);
-		} else { 
+		} else {
 			if (status == CircuitStatus.HALF_OPEN) {
 				handleHalfOpenMsg(context);
 			}
 			// Forward Address to Geo-Encoding service
-			context.newOutputMessage(context.getInputTopics().iterator().next(), 
-					AvroSchema.of(Address.class))
+			context.newOutputMessage(context.getOutputTopic(), AvroSchema.of(Address.class))
 			.properties(context.getCurrentRecord().getProperties()) // Pass gather-addr, correlationId
 			.send();
 		}
@@ -80,9 +90,9 @@ public class GoogleCircuitBreakerFunction implements Function<Address, Void> {
 	}
 
 	private void handleFailureMsg(Context context) throws PulsarClientException {
-		BigInteger count = new BigInteger(context.getState("consecutive-failures").array()).add(ONE);
-		context.putState("consecutive-failures", ByteBuffer.wrap(count.toByteArray()));
-		context.putState("consecutive-successes", ByteBuffer.wrap(ZERO.toByteArray()));
+		BigInteger count = new BigInteger(storage.getState(CONSECUTIVE_FAILURES).array()).add(ONE);
+		storage.putState(CONSECUTIVE_FAILURES, ByteBuffer.wrap(count.toByteArray()));
+		storage.putState(CONSECUTIVE_SUCCESSES, ByteBuffer.wrap(ZERO.toByteArray()));
 		
 		if (count.intValue() >= threshold) {
 			closeCircuit(context);
@@ -90,21 +100,23 @@ public class GoogleCircuitBreakerFunction implements Function<Address, Void> {
 	}
 
 	private void handleHalfOpenMsg(Context context) throws PulsarClientException {
-		BigInteger count = new BigInteger(context.getState("consecutive-successes").array()).add(ONE);
-		context.putState("consecutive-successes", ByteBuffer.wrap(count.toByteArray()));
+		BigInteger count = new BigInteger(storage.getState(CONSECUTIVE_SUCCESSES).array()).add(ONE);
+		storage.putState(CONSECUTIVE_SUCCESSES, ByteBuffer.wrap(count.toByteArray()));
 		if (count.intValue() >= resetThreshold) {
 			openCircuit(context);
 		}
 	}
 	
 	private void init(Context context) throws PulsarClientException {
-		resetTimer = Integer.parseInt(context.getUserConfigValue("reset-timer").toString());
-		threshold = Integer.parseInt(context.getUserConfigValue("failure-threshold").toString());
-		sourceControlTopic = context.getUserConfigValue("source-control-topic").toString();
-		failureNotificationTopic = context.getUserConfigValue("failure-notification-topic").toString();
+		logger = context.getLogger();
+		storage = new LRUCacheStateStore();
+		resetTimer = Integer.parseInt((String) context.getUserConfigValue("reset-timer").get());
+		threshold = Integer.parseInt((String) context.getUserConfigValue("failure-threshold").get());
+		sourceControlTopic = (String) context.getUserConfigValue("source-control-topic").get();
+		failureNotificationTopic = (String) context.getUserConfigValue("failure-notification-topic").get();
 		
-		context.putState("consecutive-failures", ByteBuffer.wrap(ZERO.toByteArray()));
-		context.putState("consecutive-successes", ByteBuffer.wrap(ZERO.toByteArray()));
+		storage.putState(CONSECUTIVE_FAILURES, ByteBuffer.wrap(ZERO.toByteArray()));
+		storage.putState(CONSECUTIVE_SUCCESSES, ByteBuffer.wrap(ZERO.toByteArray()));
 		openCircuit(context);
 		initalized = true;
 	}
@@ -131,6 +143,6 @@ public class GoogleCircuitBreakerFunction implements Function<Address, Void> {
 		.property("circuit-breaker-status", CircuitStatus.HALF_OPEN.toString())
 		.deliverAfter(resetTimer, TimeUnit.MINUTES);
 		
-		context.putState("consecutive-failures", ByteBuffer.wrap(ZERO.toByteArray()));
+		context.putState(CONSECUTIVE_FAILURES, ByteBuffer.wrap(ZERO.toByteArray()));
 	}
 }

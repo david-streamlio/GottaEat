@@ -1,0 +1,40 @@
+className: com.gottaeat.services.geoencoding.GeoEncodingService
+tenant: gottaeat
+namespace: services
+name: geo-encoding-service
+inputs:
+  - persistent://geography/inbound/non-encoded
+output:
+userConfig:
+  "control-topic": "persistent://gottaeat/services/geo-encoding-service-control"
+  "aggregator-topic": "persistent://geography/inbound/encoded-aggregate"
+  "circuit-breaker-topics": "persistent://geography/google/circuit-breaker-requests"
+  
+
+##################################
+# Processing
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/services/geo-encoding-service-log
+processingGuarantees: AT_LEAST_ONCE
+retainOrdering: false
+subName: geo-encoding-service-sub
+cleanupSubscription: true
+
+##################################
+# Function instance resources
+##################################
+CPU: 2.0
+disk: 50000
+ram: 200000000
+# parallelism: 3
+
+##################################
+# Security
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls:

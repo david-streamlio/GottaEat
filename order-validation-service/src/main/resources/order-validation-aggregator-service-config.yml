@@ -1,0 +1,40 @@
+className:  com.gottaeat.services.ordervalidation.OrderValidationAggregator
+tenant: gottaeat
+namespace: services
+name: order-validation-aggregator-service
+inputs:
+  - persistent://orders/inbound/food-orders-aggregation
+output: 
+userConfig:
+  "valid-orders-topic": "persistent://orders/inbound/valid-food-orders"
+  "invalid-orders-topic": "persistent://orders/inbound/invalid-food-orders"
+
+
+##################################
+# Processing
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/services/order-validation-aggregator-service-log
+processingGuarantees: ATLEAST_ONCE
+retainOrdering: false
+timeoutMs: 30000
+subName: order-validation-aggregator-service-sub
+cleanupSubscription: true
+
+##################################
+# Function instance resources
+##################################
+# CPU: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3
+
+##################################
+# Security
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls:
