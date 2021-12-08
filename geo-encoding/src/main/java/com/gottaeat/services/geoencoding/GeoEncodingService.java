@@ -30,6 +30,7 @@ import org.apache.pulsar.client.impl.schema.AvroSchema;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 import org.apache.pulsar.functions.api.Record;
+import org.slf4j.Logger;
 
 import com.gottaeat.domain.geography.Address;
 import com.gottaeat.domain.geography.GeoEncodedAddress;
@@ -52,17 +53,23 @@ import com.gottaeat.domain.geography.GeoEncodedAddress;
  */
 public class GeoEncodingService implements Function<Address, Void> {
 
+	private Logger logger;
+	private boolean initalized = false;
+	private String controlTopic;
+	private String gatherTopic;
+	private String[] circuitBreakerTopics;
 	
-	boolean initalized = false;
-	String controlTopic;
-	String gatherTopic;
-	Map<String, CircuitStatus> statusMap = new HashMap<String, CircuitStatus> ();
+	private Map<String, CircuitStatus> statusMap;
 	
 	@Override
 	public Void process(Address addr, Context context) throws Exception {
+		
 		if (!initalized) {
 			init(context);
 		}
+		
+		logger.info("Encoding delivery address for order # " + 
+			context.getCurrentRecord().getProperties().get("order-id"));
 		
 		if (context.getCurrentRecord().getTopicName().get().equals(controlTopic)) {
 			handleControlMsg(context.getCurrentRecord());
@@ -76,7 +83,7 @@ public class GeoEncodingService implements Function<Address, Void> {
 				context.getCurrentRecord().fail();
 			}
 			
-			// These all go to the CircuitBreakers then on to the Web services
+			// These all go to the CircuitBreakers and then on to the Web services
 			statusMap.forEach( (topic, status) -> {
 				if ((status == CircuitStatus.OPEN) || 
 					(status == CircuitStatus.HALF_OPEN && sendToHalfOpen)) {
@@ -94,8 +101,8 @@ public class GeoEncodingService implements Function<Address, Void> {
 			});
 			
 			// Send a 'times up" message in case all requests timeout, etc.
-			context.newOutputMessage("aggregator-topic", AvroSchema.of(GeoEncodedAddress.class))
-				.value(null)
+			context.newOutputMessage(gatherTopic, AvroSchema.of(GeoEncodedAddress.class))
+				.value(GeoEncodedAddress.newBuilder().setAddress(addr).build())
 				.property("correlation-ID", correlationId)
 				.deliverAfter(1, TimeUnit.MINUTES);
 		}
@@ -104,7 +111,21 @@ public class GeoEncodingService implements Function<Address, Void> {
 	}
 	
 	private void init(Context context) {
-		controlTopic = context.getUserConfigValue("control-topic").toString();
+		logger = context.getLogger();
+		statusMap = new HashMap<String, CircuitStatus> ();
+		controlTopic = (String) context.getUserConfigValue("control-topic").get();
+		gatherTopic = (String) context.getUserConfigValue("aggregator-topic").get();
+		circuitBreakerTopics = ((String)context.getUserConfigValue("circuit-breaker-topics")
+		   .get()).split(",");
+		
+		for (String cb : circuitBreakerTopics) {
+		  statusMap.put(cb, CircuitStatus.OPEN);
+		}
+		
+		
+		logger.info("circuitBreakerTopics = " + circuitBreakerTopics);
+		logger.info("controlTopic = " + controlTopic);
+		logger.info("gatherTopic = " + gatherTopic);
 		initalized = true;
 	}
 	

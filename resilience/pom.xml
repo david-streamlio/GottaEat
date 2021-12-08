@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.gottaeat</groupId>
     <artifactId>GottaEat</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0</version>
   </parent>
   
   <artifactId>resilience</artifactId>
@@ -13,9 +13,9 @@
   <build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.nifi</groupId>
-				<artifactId>nifi-nar-maven-plugin</artifactId>
-			</plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-shade-plugin</artifactId>
+        	</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

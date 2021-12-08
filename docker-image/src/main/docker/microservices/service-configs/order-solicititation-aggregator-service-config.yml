@@ -1,0 +1,37 @@
+className: com.gottaeat.service.order.solicititation.OrderSolicititationAggregator
+tenant: gottaeat
+namespace: services
+name: order-solicititation-aggregator-service
+inputs:
+- persistent://restaurants/solicited/accepted
+output: persistent://restaurants/inbound/assigned
+userConfig: 
+
+
+##################################
+# Processing 
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/services/order-solicititation-aggregator-service-log
+processingGuarantees: EFFECTIVELY_ONCE
+retainOrdering: false
+subName: order-solicititation-aggregator-service-sub
+cleanupSubscription: true
+
+##################################
+# Function instance resources
+##################################
+# CPU: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3
+
+##################################
+# Security 
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls: 

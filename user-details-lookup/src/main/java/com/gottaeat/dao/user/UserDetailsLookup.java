@@ -28,7 +28,7 @@ import java.sql.SQLException;
 
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
-import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class UserDetailsLookup implements Function<Long, UserDetails> {
 	

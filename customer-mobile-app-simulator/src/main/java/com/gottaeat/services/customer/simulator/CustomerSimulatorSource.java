@@ -27,12 +27,16 @@ import org.apache.pulsar.functions.LocalRunner;
 import org.apache.pulsar.functions.api.Record;
 import org.apache.pulsar.io.core.Source;
 import org.apache.pulsar.io.core.SourceContext;
+import org.slf4j.Logger;
 
 import com.gottaeat.domain.order.FoodOrder;
 
 public class CustomerSimulatorSource implements Source<FoodOrder> {
 
+	static final String PUBLISH_DEPLAY_KEY = "publish-delay-millis";
+	private long delay = 30000;
 	private DataGenerator<FoodOrder> generator = new FoodOrderGenerator();
+	private Logger logger;
 	
 	@Override
 	public void close() throws Exception {
@@ -41,13 +45,23 @@ public class CustomerSimulatorSource implements Source<FoodOrder> {
 
 	@Override
 	public void open(Map<String, Object> map, SourceContext ctx) throws Exception {
-		// TODO Auto-generated method stub
+		logger = ctx.getLogger();
+		
+		if (map != null && map.containsKey(PUBLISH_DEPLAY_KEY)) {
+			logger.info("Setting publish delay to " + map.get(PUBLISH_DEPLAY_KEY));
+			delay = Long.parseLong(map.get(PUBLISH_DEPLAY_KEY).toString());
+		}
+		
+		logger.info("Initialization Complete");
 	}
 
 	@Override
 	public Record<FoodOrder> read() throws Exception {
-		Thread.sleep(500);
-		return new CustomerRecord<FoodOrder>(generator.generate());
+		Thread.sleep(delay);
+		FoodOrder order = generator.generate();
+		logger.info("Publishing Order # " + order.getMeta().getOrderId());
+		
+		return new CustomerRecord<FoodOrder>(order);
 	}
 	
 	static private class CustomerRecord<V> implements Record<FoodOrder> {

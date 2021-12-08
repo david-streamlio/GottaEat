@@ -5,7 +5,7 @@
   <parent>
     <artifactId>GottaEat</artifactId>
     <groupId>com.gottaeat</groupId>
-    <version>${revision}</version>
+    <version>1.0.0</version>
   </parent>
   
   <artifactId>user-details-lookup</artifactId>
@@ -14,9 +14,9 @@
   <build>
 	<plugins>
 		<plugin>
-			<groupId>org.apache.nifi</groupId>
-			<artifactId>nifi-nar-maven-plugin</artifactId>
-		</plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-shade-plugin</artifactId>
+        </plugin>
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-compiler-plugin</artifactId>
@@ -46,6 +46,12 @@
     	<artifactId>mysql-connector-java</artifactId>
     	<version>${mysql.version}</version>
     </dependency>
+
+	<dependency>
+  		<groupId>org.apache.commons</groupId>
+  		<artifactId>commons-lang3</artifactId>
+  		<version>${commons-lang3.version}</version>
+	</dependency>
     
     <dependency>
    		<groupId>org.apache.pulsar</groupId>
@@ -56,8 +62,8 @@
 	
 	<dependency>
       <groupId>io.netty</groupId>
-      <version>4.1.54.Final</version>
       <artifactId>netty-codec-dns</artifactId>
+      <version>${netty-codec-dns.version}</version>
 	</dependency>
 	
   </dependencies>

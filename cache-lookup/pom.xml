@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.gottaeat</groupId>
     <artifactId>GottaEat</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0</version>
   </parent>
   
   <artifactId>cache-lookup</artifactId>
@@ -19,9 +19,9 @@
     <build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.nifi</groupId>
-				<artifactId>nifi-nar-maven-plugin</artifactId>
-			</plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-shade-plugin</artifactId>
+        	</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -34,6 +34,14 @@
 	</build>
 
 	<dependencies>
+	
+	 	<dependency>
+			<groupId>org.apache.pulsar</groupId>
+			<artifactId>pulsar-client</artifactId>
+			<version>${pulsar.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<dependency>
     		<groupId>io.github.resilience4j</groupId>
     		<artifactId>resilience4j-all</artifactId>

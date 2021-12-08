@@ -1,0 +1,41 @@
+className: com.gottaeat.services.payment.creditcard.CreditCardAuthorizationService
+tenant: gottaeat
+namespace: services
+name: credit-card-authorization-service
+inputs:
+- persistent://payments/inbound/creditCard
+output: persistent://payments/inbound/processed
+userConfig: 
+  "authorizer-classname": "com.gottaeat.services.payment.creditcard.authorization.RandomAuthorizationStrategy"
+  "simulation.approval.percentage": "99"
+#  "api-host": "noodlio-pay.p.rapidapi.com"
+#  "api-key" : "SIGN-UP-FOR-KEY"
+#  "api-endpoint": "https://noodlio-pay.p.rapidapi.com/tokens/create"
+
+##################################
+# Processing 
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/services/credit-card-authorization-service-log
+processingGuarantees: EFFECTIVELY_ONCE
+retainOrdering: false
+subName: credit-card-auth-service-sub
+cleanupSubscription: true
+
+##################################
+# Function instance resources
+##################################
+# CPU: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3
+
+##################################
+# Security 
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls: 

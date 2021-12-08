@@ -23,7 +23,7 @@ import java.net.UnknownHostException;
 
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
-import org.apache.pulsar.shade.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.hash.Hashing;
 import com.gottaeat.domain.fraud.OrderScoringData;
@@ -82,8 +82,8 @@ public class FraudScoringService implements Function<OrderScoringData, Transacti
 			httpBuilder.addQueryParameter("credit_card_hash", Hashing.sha256()
 					  .hashString(cc.getAccountNumber().toString(), StandardCharsets.UTF_8)
 					  .toString());
-			httpBuilder.addQueryParameter("credit_card_expiration_month", cc.getExpMonth().toString());
-			httpBuilder.addQueryParameter("credit_card_expiration_year", cc.getExpYear().toString());
+			httpBuilder.addQueryParameter("credit_card_expiration_month", cc.getExpMonth() + "");
+			httpBuilder.addQueryParameter("credit_card_expiration_year", cc.getExpYear() + "");
 		}
 		
 		Request request = new Request.Builder().url(httpBuilder.build()).build();

@@ -28,11 +28,13 @@ import com.gottaeat.domain.order.ValidatedFoodOrder;
 
 public class OrderMetaAdapter implements Function<FoodOrderMeta, Void> {
 
-
 	@Override
 	public Void process(FoodOrderMeta meta, Context ctx) throws Exception {
-		ValidatedFoodOrder result = new ValidatedFoodOrder();
-		result.setMeta(meta);
+		
+		ctx.getLogger().info("Processing order id " + meta.getOrderId());
+		
+		ValidatedFoodOrder result = ValidatedFoodOrder
+			.newBuilder().setMeta(meta).build();
 		
 		ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(ValidatedFoodOrder.class))
 		.properties(ctx.getCurrentRecord().getProperties())

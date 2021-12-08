@@ -1,0 +1,50 @@
+className:  com.gottaeat.services.ordervalidation.OrderValidationService
+tenant: gottaeat
+namespace: services
+name: order-validation-service
+inputs:
+  - persistent://orders/inbound/food-orders
+output: persistent://orders/inbound/valid-food-orders
+logTopic: persistent://gottaeat/services/order-validation-service-log
+userConfig:
+  "geo-topic": "persistent://geography/inbound/non-encoded"
+  "payment-topic": "persistent://payments/inbound/pending"
+  "restaurant-topic": "persistent://restaurants/inbound/unassigned"
+  "order-topic": "persistent://orders/inbound/food-orders-meta"
+
+
+##################################
+# Consumer Behavior
+##################################
+autoAck: true
+processingGuarantees: ATLEAST_ONCE
+retainOrdering: false
+timeoutMs: 30000
+subsName: order-validation-service-sub
+cleanupSubscription: true
+
+
+##################################
+# Schemas
+##################################
+customSchemaInputs: 
+  "persistent://orders/inbound/food-orders": "com.gottaeat.domain.order.FoodOrder"
+
+
+##################################
+# Function instance resources
+##################################
+# CPU: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3
+
+##################################
+# Security
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls:

@@ -1,0 +1,39 @@
+className:  com.gottaeat.services.payment.paypal.PaypalAuthorizationService
+tenant: gottaeat
+namespace: services
+name: paypay-authorization-service
+inputs:
+  - persistent://payments/inbound/paypal
+output: persistent://gottaeat/payments/authorized
+userConfig:
+  "authorizer-classname": "com.gottaeat.services.payment.paypal.authorization.RandomAuthorizationStrategy"
+  "simulation.approval.percentage": "99"
+  
+
+##################################
+# Processing
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/services/paypay-authorization-service-log
+processingGuarantees: EFFECTIVELY_ONCE
+retainOrdering: false
+subName: paypay-authorization-service-sub
+cleanupSubscription: true
+
+##################################
+# Function instance resources
+##################################
+# CPU: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3
+
+##################################
+# Security
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls:

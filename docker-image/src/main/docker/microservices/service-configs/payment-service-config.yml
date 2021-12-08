@@ -1,0 +1,41 @@
+className:  com.gottaeat.services.payment.PaymentService
+tenant: gottaeat
+namespace: services
+name: payment-service
+inputs:
+  - persistent://payments/inbound/pending
+output: persistent://orders/inbound/valid-food-orders
+userConfig:
+  "apple-pay-topic": "persistent://payments/inbound//applePay"
+  "credit-card-topic": "persistent://payments/inbound/creditCard"
+  "e-check-topic": "persistent://payments/inbound/eCheck"
+  "paypal-topic": "persistent://payments/inbound/paypal"
+
+
+##################################
+# Processing
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/services/payment-service-log
+processingGuarantees: EFFECTIVELY_ONCE
+retainOrdering: false
+subName: payment-service-sub
+cleanupSubscription: true
+
+##################################
+# Function instance resources
+##################################
+CPU: 2.0
+disk: 50000
+ram: 200000000
+# parallelism: 3
+
+##################################
+# Security
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls:

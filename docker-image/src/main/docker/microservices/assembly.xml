@@ -5,8 +5,8 @@
   
   <fileSets>
     <fileSet>
-      <directory>${project.basedir}/src/main/docker/service-configs</directory>
-      <outputDirectory>service-configs/</outputDirectory>
+      <directory>${project.basedir}/src/main/docker/microservices/service-configs</directory>
+      <outputDirectory>.</outputDirectory>
       <filtered>true</filtered>
       <includes>
         <include>*.yml</include>
@@ -16,20 +16,14 @@
   </fileSets>
   
   <dependencySets>
+  
+  	<!-- 
      <dependencySet>
         <includes>
            <include>${parent.groupId}:cache-lookup</include>
         </includes>
         <outputDirectory>.</outputDirectory>
-        <outputFileNameMapping>cache-lookup.nar</outputFileNameMapping>
-    </dependencySet>
-                             
-    <dependencySet>
-      <includes>
-         <include>${parent.groupId}:credit-card-authorization-service</include>
-      </includes>
-      <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>credit-card-authorization-service.nar</outputFileNameMapping>
+        <outputFileNameMapping>cache-lookup-full.jar</outputFileNameMapping>
     </dependencySet>
     
     <dependencySet>
@@ -37,7 +31,7 @@
          <include>${parent.groupId}:customer-features-lookup</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>customer-features-lookup.nar</outputFileNameMapping>
+      <outputFileNameMapping>customer-features-lookup-service-full.jar</outputFileNameMapping>
     </dependencySet>
     
     <dependencySet>
@@ -45,7 +39,7 @@
          <include>${parent.groupId}:device-validation-service</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>device-validation-service.nar</outputFileNameMapping>
+      <outputFileNameMapping>device-validation-service-full.jar</outputFileNameMapping>
     </dependencySet>
     
     <dependencySet>
@@ -53,7 +47,7 @@
          <include>${parent.groupId}:fraud-detection</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>fraud-detection.nar</outputFileNameMapping>
+      <outputFileNameMapping>fraud-detection-service-full.jar</outputFileNameMapping>
     </dependencySet>
     
     <dependencySet>
@@ -61,31 +55,15 @@
          <include>${parent.groupId}:fraud-scoring</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>fraud-scoring.nar</outputFileNameMapping>
-    </dependencySet>
-                             
-    <dependencySet>
-      <includes>
-         <include>${parent.groupId}:geo-encoding</include>
-      </includes>
-      <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>geo-encoding.nar</outputFileNameMapping>
-    </dependencySet>
-                             
-    <dependencySet>
-      <includes>
-         <include>${parent.groupId}:google-geoencoding-service</include>
-      </includes>
-      <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>google-geoencoding-service.nar</outputFileNameMapping>
+      <outputFileNameMapping>fraud-scoring-service-full.jar</outputFileNameMapping>
     </dependencySet>
     
-    <dependencySet>
+   <dependencySet>
       <includes>
          <include>${parent.groupId}:grid-tracking-service</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>grid-tracking-service.nar</outputFileNameMapping>
+      <outputFileNameMapping>grid-tracking-service-full.jar</outputFileNameMapping>
     </dependencySet>
     
     <dependencySet>
@@ -93,47 +71,16 @@
          <include>${parent.groupId}:location-tracking-service</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>location-tracking-service.nar</outputFileNameMapping>
+      <outputFileNameMapping>location-tracking-service-full.jar</outputFileNameMapping>
     </dependencySet>
-                             
-    <dependencySet>
-      <includes>
-         <include>${parent.groupId}:order-solicitation-service</include>
-      </includes>
-      <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>order-solicitation-service.nar</outputFileNameMapping>
-    </dependencySet>
-                             
-    <dependencySet>
-      <includes>
-         <include>${parent.groupId}:order-validation-service</include>
-      </includes>
-      <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>order-validation-service.nar</outputFileNameMapping>
-    </dependencySet>
-                                       
-    <dependencySet>
-      <includes>
-         <include>${parent.groupId}:payment-service</include>
-      </includes>
-      <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>payment-service.nar</outputFileNameMapping>
-    </dependencySet>
-                                       
-    <dependencySet>
-      <includes>
-         <include>${parent.groupId}:paypal-authorization-service</include>
-      </includes>
-      <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>paypal-authorization-service.nar</outputFileNameMapping>
-    </dependencySet>
+    
                                        
     <dependencySet>
       <includes>
          <include>${parent.groupId}:resilience</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>resilience.nar</outputFileNameMapping>
+      <outputFileNameMapping>resilience-full.jar</outputFileNameMapping>
     </dependencySet>
     
     <dependencySet>
@@ -141,7 +88,7 @@
          <include>${parent.groupId}:restaurant-features-lookup</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>restaurant-features-lookup.nar</outputFileNameMapping>
+      <outputFileNameMapping>restaurant-features-lookup-service-full.jar</outputFileNameMapping>
     </dependencySet>
     
     <dependencySet>
@@ -149,7 +96,7 @@
          <include>${parent.groupId}:SMS-verification</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>SMS-verification.nar</outputFileNameMapping>
+      <outputFileNameMapping>SMS-verification-service-full.jar</outputFileNameMapping>
     </dependencySet>
     
     <dependencySet>
@@ -157,7 +104,96 @@
          <include>${parent.groupId}:user-details-lookup</include>
       </includes>
       <outputDirectory>.</outputDirectory>
-      <outputFileNameMapping>user-details-lookup.nar</outputFileNameMapping>
+      <outputFileNameMapping>user-details-lookup-service-full.jar</outputFileNameMapping>
+    </dependencySet>
+     -->
+                             
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:credit-card-authorization-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>credit-card-authorization-service-full.jar</outputFileNameMapping>
+    </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:customer-mobile-app-simulator</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>customer-mobile-app-simulator-full.jar</outputFileNameMapping>
+    </dependencySet>
+                             
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:geo-encoding</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>geo-encoding-service-full.jar</outputFileNameMapping>
+    </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:geo-encoding</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>geo-encoding-aggregator-service-full.jar</outputFileNameMapping>
+    </dependencySet>
+                             
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:google-geoencoding-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>google-geoencoding-service-full.jar</outputFileNameMapping>
+    </dependencySet>
+                             
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:order-solicititation-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>order-solicititation-service-full.jar</outputFileNameMapping>
+    </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:order-solicititation-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>order-solicititation-aggregator-service-full.jar</outputFileNameMapping>
+    </dependencySet>
+                             
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:order-validation-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>order-validation-service-full.jar</outputFileNameMapping>
+    </dependencySet>
+    
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:order-validation-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>order-validation-aggregator-service-full.jar</outputFileNameMapping>
+    </dependencySet>
+                                       
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:payment-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>payment-service-full.jar</outputFileNameMapping>
+    </dependencySet>
+                                       
+    <dependencySet>
+      <includes>
+         <include>${parent.groupId}:paypal-authorization-service</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>paypal-authorization-service-full.jar</outputFileNameMapping>
     </dependencySet>
                         
   </dependencySets>

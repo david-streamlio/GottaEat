@@ -1,0 +1,38 @@
+className: com.gottaeat.service.order.solicititation.OrderSolicititationService
+tenant: gottaeat
+namespace: services
+name: order-solicititation-service
+inputs:
+- persistent://restaurants/inbound/unassigned
+output: 
+userConfig: 
+  "rendevous-topic": "persistent://restaurants/solicited/accepted"
+
+
+##################################
+# Processing 
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/services/order-solicititation-service-log
+processingGuarantees: EFFECTIVELY_ONCE
+retainOrdering: false
+subName: order-solicititation-service-sub
+cleanupSubscription: true
+
+##################################
+# Function instance resources
+##################################
+# CPU: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3
+
+##################################
+# Security 
+##################################
+# clientAuthParams:
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls: 

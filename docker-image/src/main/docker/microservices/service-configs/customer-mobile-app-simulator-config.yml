@@ -1,0 +1,27 @@
+##################################
+# Deployment 
+##################################
+className: com.gottaeat.services.customer.simulator.CustomerSimulatorSource
+tenant: gottaeat
+namespace: simulators
+name: customer-simulator
+topicName: persistent://orders/inbound/food-orders
+sourceConfigs:
+  "publish-delay-millis": "5000"
+  
+
+##################################
+# Processing 
+##################################
+processingGuarantees: AT_MOST_ONCE
+schemaType: AVRO
+
+# deserialization-classname 
+
+##################################
+# Source instance resources
+##################################
+# cpu: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3

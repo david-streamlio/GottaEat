@@ -19,7 +19,7 @@
 FROM openjdk:8
 
 # Ignite version
-ENV IGNITE_VERSION 2.10.0
+ENV IGNITE_VERSION 2.11.0
 
 # Ignite home
 ENV IGNITE_HOME /opt/ignite/apache-ignite-${IGNITE_VERSION}-bin

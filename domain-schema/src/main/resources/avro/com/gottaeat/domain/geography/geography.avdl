@@ -17,7 +17,7 @@ protocol GeographyProtocol {
 
   record GeoEncodedAddress {
     Address address;
-    union { null, LatLon } geo;
+    union { null, LatLon } geo = null;
   }
   
 }

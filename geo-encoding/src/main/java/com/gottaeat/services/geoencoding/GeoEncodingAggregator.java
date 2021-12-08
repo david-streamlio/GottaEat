@@ -22,58 +22,66 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.apache.pulsar.client.impl.schema.AvroSchema;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
-import com.gottaeat.domain.geography.Address;
+import com.gottaeat.domain.geography.GeoEncodedAddress;
 
-public class GeoEncodingAggregator implements Function<Address, Void> {
+public class GeoEncodingAggregator implements Function<GeoEncodedAddress, Void> {
 
-	private Map<UUID, List<Address>> responses = new HashMap<UUID, List<Address>> ();
+	private Map<String, List<GeoEncodedAddress>> responses = 
+		new HashMap<String, List<GeoEncodedAddress>> ();
 	
 	@Override
-	public Void process(Address addr, Context ctx) throws Exception {
+	public Void process(GeoEncodedAddress addr, Context ctx) throws Exception {
 		
-		UUID correlationId = UUID.fromString(ctx.getCurrentRecord().getProperties().get("correlation-ID"));
-		Address best = null;
+		String orderId = ctx.getCurrentRecord().getProperties().get("order-id");
+		ctx.getLogger().info("Processing encoded address for order id : " + orderId);
+		
+		GeoEncodedAddress best = null;
 		
 		if (addr == null) {
 			// We received the "times up" message, so pick the best from what we have
-			best = winner(correlationId);
+			best = winner(orderId);
 		} else {
 			best = addToResponses(ctx.getCurrentRecord().getProperties(), addr);
 		}
 		
 		if (best != null) {
-			ctx.newOutputMessage("", AvroSchema.of(Address.class))
+			ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))
 				.value(best)
-				.property("correlation-ID", correlationId.toString())
+				.property("order-id", orderId.toString())
 				.sendAsync();
+			
+			// Clear out the cache
+			responses.remove(orderId);
 		}
 		
 		return null;
 	}
 	
-	private Address winner(UUID correlationId) {
+	private GeoEncodedAddress winner(String correlationId) {
 		
 		if (responses.containsKey(correlationId)) {
 			return responses.get(correlationId).get(0);
 		}
+		
 		return null;
 	}
 
-	private Address addToResponses(Map<String, String> map, Address addr) {
-		UUID uuid = UUID.fromString(map.get("correlation-ID"));
-		int expectedResponses = Integer.parseInt(map.get("requests-sent"));
+	private GeoEncodedAddress addToResponses(Map<String, String> map, GeoEncodedAddress addr) {
 		
-		if (!responses.containsKey(uuid)) {
-			responses.put(uuid, new ArrayList<Address>());
+		int expectedResponses = map.containsKey("requests-snet") ?
+			Integer.parseInt(map.get("requests-sent")) : 1;
+		String orderId = map.get("order-id");
+		
+		if (!responses.containsKey(orderId)) {
+			responses.put(orderId, new ArrayList<GeoEncodedAddress>());
 		}
-		responses.get(uuid).add(addr);
-		return (responses.get(uuid).size() >= expectedResponses) ? winner(uuid) : null;
+		responses.get(orderId).add(addr);
+		return (responses.get(orderId).size() >= expectedResponses) ? winner(orderId) : null;
 	}
 
 }

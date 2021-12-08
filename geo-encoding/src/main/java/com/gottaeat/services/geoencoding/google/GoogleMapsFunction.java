@@ -18,7 +18,6 @@
  */
 package com.gottaeat.services.geoencoding.google;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.pulsar.client.impl.schema.AvroSchema;
@@ -26,8 +25,6 @@ import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 
 import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
-import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.Geometry;
 import com.google.maps.model.LocationType;
@@ -40,8 +37,11 @@ public class GoogleMapsFunction implements Function<Address, Void> {
 
 	boolean initalized = false;
 	String apiKey;
-	GeoApiContext geoContext;
+	String resultTopic;
 	String failureNotificationTopic;
+	int maxRetries, retryTimeout;
+	
+	GeoApiContext geoContext;
 	
 	@Override
 	public Void process(Address addr, Context context) throws Exception {
@@ -53,8 +53,8 @@ public class GoogleMapsFunction implements Function<Address, Void> {
 				.setAddress(addr);
 				
 		try {
-			GeocodingResult[] results = 
-				GeocodingApi.geocode(geoContext, formatAddress(addr)).await();
+			GeocodingResult[] results = null;
+//				GeocodingApi.geocode(geoContext, formatAddress(addr)).await();
 
 			Geometry geo = getMostPrecise(results);
 			
@@ -65,12 +65,12 @@ public class GoogleMapsFunction implements Function<Address, Void> {
 				result.setGeo(ll);
 			}
 			
-			context.newOutputMessage(context.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))
+			context.newOutputMessage(resultTopic, AvroSchema.of(GeoEncodedAddress.class))
 				.value(result.build())
 				.properties(context.getCurrentRecord().getProperties())
 				.send();
 			
-		} catch (InterruptedException | IOException | ApiException ex) {
+		} catch (Exception ex) {
 			context.getCurrentRecord().fail();
 			context.getLogger().error(ex.getMessage());
 			context.newOutputMessage(failureNotificationTopic, AvroSchema.of(Address.class)).send();
@@ -80,16 +80,28 @@ public class GoogleMapsFunction implements Function<Address, Void> {
 	}
 
 	private void init(Context context) {
-		apiKey = context.getUserConfigValue("apiKey").toString();
+		
+		failureNotificationTopic = (String) context.getUserConfigValue("failure-notification-topic").get();
+		resultTopic = (String) context.getUserConfigValue("success-topic").get();
+		apiKey = (String) context.getUserConfigValue("service-api-key").get();
+		
+		maxRetries = Integer.parseInt((String) 
+			context.getUserConfigValue("service-max-retries").get());
+		
+		
+		retryTimeout = Integer.parseInt( (String)
+			context.getUserConfigValue("service-retry-timeout-ms").get());
+		
 		geoContext = new GeoApiContext.Builder()
 			    .apiKey(apiKey)
-			    .maxRetries(3)
-			    .retryTimeout(3000, TimeUnit.MILLISECONDS)
+			    .maxRetries(maxRetries)
+			    .retryTimeout(retryTimeout, TimeUnit.MILLISECONDS)
 			    .build();
-		failureNotificationTopic = context.getUserConfigValue("failure-notification-topic").toString();
+		
 		initalized = true;
 	}
 
+	@SuppressWarnings("unused")
 	private String formatAddress(Address addr) {
 		return new StringBuilder()
 				.append(addr.getStreet())

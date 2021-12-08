@@ -21,7 +21,7 @@ package com.gottaeat.services.order.fraud;
 import org.apache.pulsar.client.api.Schema;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
-import org.apache.pulsar.shade.org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottaeat.domain.fraud.TransactionScreeningResult;

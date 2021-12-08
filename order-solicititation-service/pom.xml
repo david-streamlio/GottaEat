@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+   <parent>
+    <groupId>com.gottaeat</groupId>
+    <artifactId>GottaEat</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>order-solicititation-service</artifactId>
+  <name>GottaEat :: Order Solicititation Service</name>
+
+	<build>
+		<plugins>
+			<plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-shade-plugin</artifactId>
+        	</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		
+		<dependency>
+   			<groupId>org.apache.pulsar</groupId>
+   			<artifactId>pulsar-functions-local-runner-original</artifactId>
+   			<version>${pulsar.version}</version>
+   			<exclusions>
+   				<exclusion>
+   					<groupId>io.grpc</groupId>
+   					<artifactId>grpc-all</artifactId>
+   				</exclusion>
+   			</exclusions>
+   			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.gottaeat</groupId>
+    		<artifactId>domain-schema</artifactId>
+    		<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.gottaeat</groupId>
+    		<artifactId>commons</artifactId>
+    		<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson-core.version}</version>
+		</dependency>
+		
+	</dependencies>
+
+</project>

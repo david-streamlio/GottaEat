@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.gottaeat</groupId>
     <artifactId>GottaEat</artifactId>
-    <version>${revision}</version>
+     <version>1.0.0</version>
   </parent>
   
 
@@ -88,6 +88,12 @@
      
      <dependency>
          <groupId>${parent.groupId}</groupId>
+         <artifactId>customer-mobile-app-simulator</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
          <artifactId>domain-schema</artifactId>
          <version>${parent.version}</version>
      </dependency>
@@ -136,7 +142,7 @@
      
      <dependency>
          <groupId>${parent.groupId}</groupId>
-         <artifactId>order-solicitation-service</artifactId>
+         <artifactId>order-solicititation-service</artifactId>
          <version>${parent.version}</version>
      </dependency>
      

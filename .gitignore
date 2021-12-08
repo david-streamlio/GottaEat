@@ -34,6 +34,7 @@ target/
 */target
 */bin
 
+*/dependency-reduced-pom.xml
 # Whatever this is
 */.factorypath
 */.apt_generated
