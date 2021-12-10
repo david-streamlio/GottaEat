@@ -2,41 +2,41 @@ version: '2'
 
 services:
  
-  mysql_database:
-    image: pia/gotta-eat-db:latest
-    hostname: db.gottaeat.com
-    container_name: database
-    ports:
-      - "3306:3306"
+#  mysql_database:
+#    image: pia/gotta-eat-db:latest
+#    hostname: db.gottaeat.com
+#    container_name: database
+#    ports:
+#      - "3306:3306"
       
-  ignite:
-    image: pia/gotta-eat-datagrid:latest
-    hostname: dg.gottaeat.com
-    container_name: datagrid
-    ports:
-      - "10800:10800"
-      - "11211:11211"
-      - "47100:47100"
-      - "47500:47500"
-      - "49112:49112"
-    environment:
-      - IGNITE_VERSION=2.9.0
+#  ignite:
+#    image: pia/gotta-eat-datagrid:latest
+#    hostname: dg.gottaeat.com
+#    container_name: datagrid
+#    ports:
+#      - "10800:10800"
+#      - "11211:11211"
+#      - "47100:47100"
+#      - "47500:47500"
+#      - "49112:49112"
+#    environment:
+#      - IGNITE_VERSION=2.9.0
       
-  ScyllaDB:
-    image: pia/gotta-eat-feature-store:latest
-    hostname: scylladb.gottaeat.com 
-    container_name: feature_store
-    ports:
-      - "9042:9042"
+#  ScyllaDB:
+#    image: pia/gotta-eat-feature-store:latest
+#    hostname: scylladb.gottaeat.com 
+#    container_name: feature_store
+#    ports:
+#      - "9042:9042"
     
   pulsar:
-    depends_on:
-      - mysql_database
-      - ignite
+ #   depends_on:
+ #     - mysql_database
+ #     - ignite
     image: pia/gotta-eat:latest
     hostname: pulsar.gottaeat.com
     container_name: pulsar
     ports:
       - "8080:8080"
       - "6650:6650"
-      - "4181:4181"
+ #     - "4181:4181"

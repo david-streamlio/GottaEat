@@ -67,6 +67,7 @@
       <module>docker-image</module>
       <module>delivery-time-estimator</module>
       <module>commons</module>
+      <module>restaurant-simulator</module>
     </modules>
     
     <dependencies>

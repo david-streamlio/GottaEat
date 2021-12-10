@@ -5,6 +5,11 @@ name: geo-encoding-service
 inputs:
   - persistent://geography/inbound/non-encoded
 output:
+schemaType: AVRO
+
+##################################
+# User Configs
+##################################
 userConfig:
   "control-topic": "persistent://gottaeat/services/geo-encoding-service-control"
   "aggregator-topic": "persistent://geography/inbound/encoded-aggregate"
@@ -24,9 +29,9 @@ cleanupSubscription: true
 ##################################
 # Function instance resources
 ##################################
-CPU: 2.0
-disk: 50000
-ram: 200000000
+# CPU: 2.0
+# disk: 50000
+# ram: 200000000
 # parallelism: 3
 
 ##################################

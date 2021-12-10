@@ -58,7 +58,8 @@ public class PaymentService implements Function<Payment, Void> {
 		
 		Class paymentType = pay.getMethodOfPayment().getType().getClass();
 		
-		logger.info("Processing " + paymentType);
+		logger.info("Processing " + paymentType + " for order #" +
+		   ctx.getCurrentRecord().getProperties().get("order-id"));
 		
 		
 		if (paymentType == ApplePay.class) {

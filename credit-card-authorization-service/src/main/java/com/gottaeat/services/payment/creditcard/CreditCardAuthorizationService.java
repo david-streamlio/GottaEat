@@ -30,7 +30,9 @@ import com.gottaeat.services.payment.creditcard.authorization.AuthorizationStrat
 
 public class CreditCardAuthorizationService implements Function<Payment, Void> {
 	
-	private static final String DEFAULT_STRATEGY = "com.gottaeat.services.payment.creditcard.authorization.RandomAuthorizationStrategy";
+	private static final String DEFAULT_STRATEGY = 
+		"com.gottaeat.services.payment.creditcard.authorization.RandomAuthorizationStrategy";
+	
 	private Logger logger;
 	private boolean initalized = false;
 	private AuthorizationStrategy authorizer;

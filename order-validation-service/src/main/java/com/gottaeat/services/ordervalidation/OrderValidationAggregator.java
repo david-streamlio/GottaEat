@@ -20,14 +20,11 @@ package com.gottaeat.services.ordervalidation;
 
 import java.util.Map;
 
+import org.apache.commons.collections4.map.LRUMap;
 import org.apache.pulsar.client.impl.schema.AvroSchema;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 import org.slf4j.Logger;
-
-import com.gottaeat.commons.state.ByteBufferSerDe;
-import com.gottaeat.commons.state.LRUCacheStateStore;
-import com.gottaeat.commons.state.StateStore;
 
 import com.gottaeat.domain.order.ValidatedFoodOrder;
 import com.gottaeat.domain.payment.PaymentStatus;
@@ -38,8 +35,7 @@ public class OrderValidationAggregator implements Function<ValidatedFoodOrder, V
 	private boolean initalized = false;
 	private String validOrdersTopic;
 	private String invalidOrdersTopic;
-	private StateStore storage;
-	private ByteBufferSerDe<ValidatedFoodOrder> serDe = new ByteBufferSerDe<ValidatedFoodOrder> ();
+	private LRUMap<String, ValidatedFoodOrder> lruCache = new LRUMap<String, ValidatedFoodOrder>(200);
 
 	@Override
 	public Void process(ValidatedFoodOrder in, Context ctx) throws Exception {
@@ -49,30 +45,31 @@ public class OrderValidationAggregator implements Function<ValidatedFoodOrder, V
 		}
 		
 		Map<String, String> props = ctx.getCurrentRecord().getProperties();
-		String correlationId = props.get("order-id");
+		String orderId = props.get("order-id");
 		
-		logger.info("Received part of order # " + correlationId);
+		logger.info("Received part of order # " + orderId);
 		
 		ValidatedFoodOrder order;
-		if (storage.getState(correlationId.toString()) == null) {
-			order = new ValidatedFoodOrder();
+		if (lruCache.get(orderId) == null) {
+			order = ValidatedFoodOrder.newBuilder().build();
 		} else {
-			order = serDe.deserialize(ctx.getState(correlationId.toString()));
+			order = lruCache.get(orderId);
 		}
 		
 		updateOrder(order, in);
 		
 		if (isComplete(order)) {
-			 
+			
+			logger.info("Order # " + orderId + " is " + (isValid(order) ? "valid" : "invalid") );
 			ctx.newOutputMessage(isValid(order) ? validOrdersTopic :  invalidOrdersTopic, 
 				    AvroSchema.of(ValidatedFoodOrder.class))
 				.properties(props)
 				.value(order)
 				.sendAsync();
 			
-			storage.deleteState(correlationId.toString());
+			lruCache.remove(orderId);
 		} else {
-			storage.putState(correlationId.toString(), serDe.serialize(order));
+			lruCache.put(orderId, order);
 		}
 		
 		return null;
@@ -81,7 +78,6 @@ public class OrderValidationAggregator implements Function<ValidatedFoodOrder, V
 	private void init(Context ctx) {
 		logger = ctx.getLogger();
 		
-		storage = new LRUCacheStateStore();
 		validOrdersTopic = ctx.getUserConfigValue("valid-orders-topic").get().toString();
 		invalidOrdersTopic = ctx.getUserConfigValue("invalid-orders-topic").get().toString();
 		

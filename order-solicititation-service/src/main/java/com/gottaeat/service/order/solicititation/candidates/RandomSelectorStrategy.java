@@ -2,7 +2,6 @@ package com.gottaeat.service.order.solicititation.candidates;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.gottaeat.domain.geography.Address;
 import com.gottaeat.domain.order.FoodOrder;
@@ -14,11 +13,9 @@ import com.gottaeat.domain.order.FoodOrder;
  */
 public class RandomSelectorStrategy implements CandidateSelectorStrategy {
 
-	private Random rnd;
-	
 	@Override
 	public List<String> getCandidates(FoodOrder order, Address deliveryAddr) {
-		int numCandidates = rnd.nextInt(4)+1;
+		int numCandidates = 1;
 		List<String> restaurants = new ArrayList<String> (numCandidates);
 		
 		for (int idx = 0; idx < numCandidates; idx++) {
@@ -29,7 +26,7 @@ public class RandomSelectorStrategy implements CandidateSelectorStrategy {
 	}
 	
 	private String generateRandomTopic() {
-		return "persistent://restaurants/solicitations/restaurant-" + (rnd.nextInt(100)+1);
+		return "persistent://restaurants/solicitations/restaurant123";
 	}
 
 }

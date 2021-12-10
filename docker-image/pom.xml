@@ -174,7 +174,13 @@
          <groupId>${parent.groupId}</groupId>
          <artifactId>restaurant-features-lookup</artifactId>
          <version>${parent.version}</version>
-     </dependency>     
+     </dependency>    
+     
+      <dependency>
+         <groupId>${parent.groupId}</groupId>
+         <artifactId>restaurant-simulator</artifactId>
+         <version>${parent.version}</version>
+     </dependency>       
          
      <dependency>
          <groupId>${parent.groupId}</groupId>

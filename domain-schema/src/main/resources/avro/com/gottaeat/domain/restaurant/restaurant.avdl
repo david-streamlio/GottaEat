@@ -23,10 +23,10 @@ protocol RestaurantsProtocol {
   }
   
   record SolicitationResponse {
-  	array<FoodOrderDetail> food;
-  	Restaurant restaurant;
-  	timestamp_ms eta;
-  	string notificationTopic;
+  	union { null, array<FoodOrderDetail> } food = null;
+  	union { null, Restaurant } restaurant = null;
+  	union { null, timestamp_ms } eta = null;
+    union { null, string } notificationTopic = null;
   }
   
 }

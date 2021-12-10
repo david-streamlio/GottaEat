@@ -80,10 +80,13 @@ public class GoogleCircuitBreakerFunction implements Function<Address, Void> {
 			if (status == CircuitStatus.HALF_OPEN) {
 				handleHalfOpenMsg(context);
 			}
+			
+			logger.info("Sending address to " + context.getOutputTopic());
 			// Forward Address to Geo-Encoding service
 			context.newOutputMessage(context.getOutputTopic(), AvroSchema.of(Address.class))
-			.properties(context.getCurrentRecord().getProperties()) // Pass gather-addr, correlationId
-			.send();
+			  .properties(context.getCurrentRecord().getProperties()) 
+			  .value(addr)
+			  .send();
 		}
 		
 		return null;

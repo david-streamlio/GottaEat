@@ -5,6 +5,7 @@ name: order-solicititation-aggregator-service
 inputs:
 - persistent://restaurants/solicited/accepted
 output: persistent://restaurants/inbound/assigned
+schemaType: AVRO
 userConfig: 
 
 
