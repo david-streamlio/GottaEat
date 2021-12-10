@@ -4,11 +4,16 @@ namespace: services
 name: google-maps-service
 inputs:
   - persistent://geography/google/non-encoded
-output: 
+output: persistent://geography/inbound/encoded-aggregate
+schemaType: AVRO
+
+##################################
+# User Configs
+##################################
 userConfig:
   "failure-notification-topic": "persistent://geography/google/circuit-breaker-failures"
   "result-topic": "persistent://geography/inbound/encoded-aggregate"
-  "service-api-key": ""
+  "service-api-key": "<GET YOUR OWN KEY>"
   "service-max-retries": "3"
   "service-retry-timeout-ms": "3000"
 

@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.pulsar.client.impl.schema.AvroSchema;
 import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
+import org.slf4j.Logger;
 
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.GeocodingResult;
@@ -35,19 +36,24 @@ import com.gottaeat.domain.geography.LatLon;
 
 public class GoogleMapsFunction implements Function<Address, Void> {
 
+	private Logger logger;
 	boolean initalized = false;
 	String apiKey;
-	String resultTopic;
+//	String resultTopic;
 	String failureNotificationTopic;
 	int maxRetries, retryTimeout;
 	
 	GeoApiContext geoContext;
 	
 	@Override
-	public Void process(Address addr, Context context) throws Exception {
+	public Void process(Address addr, Context ctx) throws Exception {
+		
 		if (!initalized) {
-			init(context);
+			init(ctx);
 		}
+		
+		logger.info("Encoding address for order # " + 
+			ctx.getCurrentRecord().getProperties().get("order-id"));
 		
 		Builder result = GeoEncodedAddress.newBuilder()
 				.setAddress(addr);
@@ -65,32 +71,34 @@ public class GoogleMapsFunction implements Function<Address, Void> {
 				result.setGeo(ll);
 			}
 			
-			context.newOutputMessage(resultTopic, AvroSchema.of(GeoEncodedAddress.class))
+			ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))
 				.value(result.build())
-				.properties(context.getCurrentRecord().getProperties())
+				.properties(ctx.getCurrentRecord().getProperties())
 				.send();
 			
 		} catch (Exception ex) {
-			context.getCurrentRecord().fail();
-			context.getLogger().error(ex.getMessage());
-			context.newOutputMessage(failureNotificationTopic, AvroSchema.of(Address.class)).send();
+			ctx.getCurrentRecord().fail();
+			ctx.getLogger().error(ex.getMessage());
+			ctx.newOutputMessage(failureNotificationTopic, AvroSchema.of(Address.class)).send();
 		}
 		
 		return null;
 	}
 
-	private void init(Context context) {
+	private void init(Context ctx) {
 		
-		failureNotificationTopic = (String) context.getUserConfigValue("failure-notification-topic").get();
-		resultTopic = (String) context.getUserConfigValue("success-topic").get();
-		apiKey = (String) context.getUserConfigValue("service-api-key").get();
+		logger = ctx.getLogger();
+		
+		failureNotificationTopic = (String) ctx.getUserConfigValue("failure-notification-topic").get();
+//		resultTopic = (String) ctx.getUserConfigValue("result-topic").get();
+		apiKey = (String) ctx.getUserConfigValue("service-api-key").get();
 		
 		maxRetries = Integer.parseInt((String) 
-			context.getUserConfigValue("service-max-retries").get());
+			ctx.getUserConfigValue("service-max-retries").get());
 		
 		
 		retryTimeout = Integer.parseInt( (String)
-			context.getUserConfigValue("service-retry-timeout-ms").get());
+			ctx.getUserConfigValue("service-retry-timeout-ms").get());
 		
 		geoContext = new GeoApiContext.Builder()
 			    .apiKey(apiKey)

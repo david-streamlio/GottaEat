@@ -4,7 +4,9 @@ namespace: services
 name: geo-encoding-aggregator-service
 inputs:
   - persistent://geography/inbound/encoded-aggregate
-output: persistent://orders/inbound/encoded
+output: persistent://geography/inbound/encoded
+schemaType: AVRO
+
 # userConfig:
 
 

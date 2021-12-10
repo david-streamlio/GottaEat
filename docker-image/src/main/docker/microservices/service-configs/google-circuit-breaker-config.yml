@@ -6,6 +6,11 @@ inputs:
   - persistent://geography/google/circuit-breaker-requests
   - persistent://geography/google/circuit-breaker-failures
 output: persistent://geography/google/non-encoded
+schemaType: AVRO
+
+##################################
+# User Configs
+##################################
 userConfig:
   "reset-timer": "2"
   "failure-threshold": "10"

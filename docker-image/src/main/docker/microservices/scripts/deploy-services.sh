@@ -44,14 +44,16 @@ echo "Deploying Adapters"
   --classname com.gottaeat.functions.ordervalidation.translator.AddressAdapter \
   --inputs persistent://geography/inbound/encoded \
   --output persistent://orders/inbound/food-orders-aggregation \
-  --tenant gottaeat --namespace services
+  --tenant gottaeat --namespace services \
+  --schema-type AVRO
   
 /pulsar/bin/pulsar-admin functions create \
   --jar /connectors/order-validation-service-full.jar \
   --classname com.gottaeat.functions.ordervalidation.translator.PaymentAdapter \
   --inputs persistent://payments/inbound/processed \
   --output persistent://orders/inbound/food-orders-aggregation \
-  --tenant gottaeat --namespace services
+  --tenant gottaeat --namespace services \
+  --schema-type AVRO
 
 /pulsar/bin/pulsar-admin functions create \
   --jar /connectors/order-validation-service-full.jar \
@@ -59,4 +61,12 @@ echo "Deploying Adapters"
   --inputs persistent://orders/inbound/food-orders-meta \
   --output persistent://orders/inbound/food-orders-aggregation \
   --tenant gottaeat --namespace services \
-  --schema-type com.gottaeat.domain.order.FoodOrderMeta
+  --schema-type AVRO
+  
+ /pulsar/bin/pulsar-admin functions create \
+  --jar /connectors/order-validation-service-full.jar \
+  --classname com.gottaeat.functions.ordervalidation.translator.FoodOrderAdapter \
+  --inputs persistent://restaurants/inbound/assigned \
+  --output persistent://orders/inbound/food-orders-aggregation \
+  --tenant gottaeat --namespace services \
+  --schema-type AVRO

@@ -1,11 +1,22 @@
+##################################
+# Basic Configuration
+##################################
 className:  com.gottaeat.services.ordervalidation.OrderValidationService
 tenant: gottaeat
 namespace: services
+
+##################################
+# Input / Output
+##################################
 name: order-validation-service
 inputs:
   - persistent://orders/inbound/food-orders
 output: persistent://orders/inbound/valid-food-orders
 logTopic: persistent://gottaeat/services/order-validation-service-log
+
+##################################
+# User configuration
+##################################
 userConfig:
   "geo-topic": "persistent://geography/inbound/non-encoded"
   "payment-topic": "persistent://payments/inbound/pending"
@@ -22,7 +33,6 @@ retainOrdering: false
 timeoutMs: 30000
 subsName: order-validation-service-sub
 cleanupSubscription: true
-
 
 ##################################
 # Schemas

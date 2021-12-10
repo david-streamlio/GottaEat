@@ -34,7 +34,7 @@ import com.gottaeat.domain.order.FoodOrder;
 public class CustomerSimulatorSource implements Source<FoodOrder> {
 
 	static final String PUBLISH_DEPLAY_KEY = "publish-delay-millis";
-	private long delay = 30000;
+	private long delay = 10000;
 	private DataGenerator<FoodOrder> generator = new FoodOrderGenerator();
 	private Logger logger;
 	

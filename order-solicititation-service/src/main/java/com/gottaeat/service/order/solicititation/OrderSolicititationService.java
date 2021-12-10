@@ -46,7 +46,7 @@ import com.gottaeat.service.order.solicititation.candidates.RandomSelectorStrate
  */
 public class OrderSolicititationService implements Function<FoodOrder, Void> {
 	
-	public static final SolicitationResponse NO_WINNER = SolicitationResponse.newBuilder().build();;
+	public static final SolicitationResponse NO_WINNER = SolicitationResponse.newBuilder().build();
 	
 	private boolean initialized = false;
 	private String rendevous;
@@ -57,26 +57,31 @@ public class OrderSolicititationService implements Function<FoodOrder, Void> {
 	@Override
 	public Void process(FoodOrder order, Context ctx) throws Exception {
 	
-		logger.warn("Processing incoming FoodOrder " + order.getMeta().getOrderId());
-		
 		if (!initialized) {
 			init(ctx);
 		}
+		
+		String orderId = ctx.getCurrentRecord().getProperties().get("order-id");
+		
+		logger.info("Processing incoming FoodOrder " + orderId);
 		
 		List<String> cand = selector.getCandidates(order, order.getDeliveryLocation());
 		
 		if (CollectionUtils.isNotEmpty(cand)) {
 			String all = StringUtils.join(cand, ",");
-			int delay = 0;
+			
 			for (String topic: cand) {
 				try {
+					logger.info("Sending order # " + orderId + " to " + topic);
 					ctx.newOutputMessage(topic, AvroSchema.of(FoodOrder.class))
-					.property("order-id", order.getMeta().getOrderId() + "")
-					.property("all-restaurants", all)
-					.property("return-addr", rendevous)
-					.value(order).deliverAfter((delay++ * 10), TimeUnit.SECONDS);
+					  .property("order-id", orderId)
+					  .property("all-restaurants", all)
+					  .property("return-addr", rendevous)
+					  .value(order)
+					  .send();
+					
 				} catch (PulsarClientException e) {
-					e.printStackTrace();
+					logger.error("Boom", e);
 				}
 			}
 			
@@ -88,6 +93,7 @@ public class OrderSolicititationService implements Function<FoodOrder, Void> {
 						
 		} else {
 			// TODO Handle the case where we have no candidates
+			logger.info("No restauratns available for order # to ");
 			ctx.newOutputMessage(rendevous, AvroSchema.of(SolicitationResponse.class))
 			   .value(NO_WINNER)
 			   .property("order-id", order.getMeta().getOrderId() + "");
@@ -98,7 +104,7 @@ public class OrderSolicititationService implements Function<FoodOrder, Void> {
 	
 	private void init(Context ctx) {
 		logger = ctx.getLogger();
-		rendevous = ctx.getUserConfigValue("rendevous-topic").get().toString();
+		rendevous = (String) ctx.getUserConfigValue("rendevous-topic").get();
 		initialized = true;
 		logger.warn("Initialization Complete");
 	}

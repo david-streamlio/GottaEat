@@ -51,22 +51,24 @@ public class OrderValidationService implements Function<FoodOrder, Void> {
 	    init(ctx);
 	  }
 	  
-	  logger.info("Validating Food Order " + order.getMeta().getOrderId());
+	  String orderId = Long.toString(order.getMeta().getOrderId());
+	  
+	  logger.info("Validating Food Order " + orderId);
 			
 	  ctx.newOutputMessage(geoEncoderTopic, AvroSchema.of(Address.class))
-		  .property("order-id", order.getMeta().getOrderId() + "")
+		  .property("order-id", orderId)
 	      .value(order.getDeliveryLocation()).sendAsync();
 		
 	  ctx.newOutputMessage(paymentTopic, AvroSchema.of(Payment.class))
-		  .property("order-id", order.getMeta().getOrderId() + "")
+		  .property("order-id", orderId)
 		  .value(order.getPayment()).sendAsync();
 
 	  ctx.newOutputMessage(orderTopic, AvroSchema.of(FoodOrderMeta.class))
-		  .property("order-id", order.getMeta().getOrderId() + "")
+		  .property("order-id", orderId)
 		  .value(order.getMeta()).sendAsync();
 
 	  ctx.newOutputMessage(restaurantTopic, AvroSchema.of(FoodOrder.class))
-		  .property("order-id", order.getMeta().getOrderId() + "")
+		  .property("order-id", orderId)
 		  .value(order).sendAsync();
 
 	  return null;

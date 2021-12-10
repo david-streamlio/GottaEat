@@ -1,0 +1,37 @@
+##################################
+# Deployment 
+##################################
+className: com.gottaeat.simulators.restaurant.RestaurantSolicititationSimulator
+tenant: gottaeat
+namespace: simulators
+name: restaurant-simulator
+inputs:
+ - persistent://restaurants/solicitations/restaurant123
+#topicsPattern: persistent://restaurants/solicitations/restaurant-.*
+output: persistent://restaurants/solicited/accepted
+schemaType: AVRO 
+
+##################################
+# User Configs
+##################################
+# userConfig: 
+
+  
+##################################
+# Processing 
+##################################
+autoAck: true
+logTopic: persistent://gottaeat/simulators/restaurant-simulator-log
+processingGuarantees: AT_LEAST_ONCE
+retainOrdering: false
+subName: restaurant-simulator-sub
+cleanupSubscription: true
+
+
+##################################
+# Source instance resources
+##################################
+# cpu: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3

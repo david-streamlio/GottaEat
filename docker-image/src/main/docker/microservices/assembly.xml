@@ -195,6 +195,14 @@
       <outputDirectory>.</outputDirectory>
       <outputFileNameMapping>paypal-authorization-service-full.jar</outputFileNameMapping>
     </dependencySet>
+    
+   <dependencySet>
+      <includes>
+         <include>${parent.groupId}:restaurant-simulator</include>
+      </includes>
+      <outputDirectory>.</outputDirectory>
+      <outputFileNameMapping>restaurant-simulator-full.jar</outputFileNameMapping>
+    </dependencySet>
                         
   </dependencySets>
                            
