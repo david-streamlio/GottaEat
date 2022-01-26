@@ -26,10 +26,10 @@ import org.apache.pulsar.functions.api.Context;
 import org.apache.pulsar.functions.api.Function;
 import org.apache.commons.lang3.StringUtils;
 
-import com.gottaeat.domain.driver.DriverGridLocation;
+import com.gottaeat.domain.driver.DriverH3Location;
 import com.gottaeat.domain.geography.LatLon;
 
-public class GridTrackingService implements Function<DriverGridLocation, Void> {
+public class GridTrackingService implements Function<DriverH3Location, Void> {
 
     static final String DATAGRID_KEY = "datagridUrl";
     
@@ -37,17 +37,18 @@ public class GridTrackingService implements Function<DriverGridLocation, Void> {
 	private String datagridUrl;
 	
 	@Override
-	public Void process(DriverGridLocation input, Context ctx) throws Exception {
+	public Void process(DriverH3Location input, Context ctx) throws Exception {
 		if (!initalized()) {
 			datagridUrl = ctx.getUserConfigValue(DATAGRID_KEY).orElse("localhost:10800").toString();
 		}
-		getCache(input.getCellId()).put(input.getDriverLocation().getDriverId(), input.getDriverLocation().getLocation());
+		getCache(String.valueOf(input.getLocation().getH3Address())).put(
+			input.getDriverId(), 
+			input.getLocation().getGeo().getLatLong());
 		return null;
 	}
 	
 	// Each cache is <driverId, LatLon>
-	private ClientCache<Long, LatLon> getCache(int cellID) {
-		
+	private ClientCache<Long, LatLon> getCache(String cellID) {
 		return getClient().getOrCreateCache("drivers-cell-" + cellID);
 	}
 	
