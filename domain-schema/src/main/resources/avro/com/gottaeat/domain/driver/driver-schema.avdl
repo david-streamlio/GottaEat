@@ -4,13 +4,14 @@ protocol DriverProtocol {
 	
 	import idl "../geography/geography.avdl";
 
+    // Drivers emit these from their mobile devices
     record DriverLocation {
       long driverId;
       com.gottaeat.domain.geography.LatLon location;
     }	
     
-    record DriverGridLocation {
-      DriverLocation driverLocation;
-      int cellId;
+    record DriverH3Location {
+      long driverId;
+      com.gottaeat.domain.geography.H3EncodedAddress location;
     }
 }

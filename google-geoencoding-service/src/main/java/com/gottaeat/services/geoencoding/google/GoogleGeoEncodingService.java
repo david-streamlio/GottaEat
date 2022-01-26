@@ -74,15 +74,15 @@ public class GoogleGeoEncodingService implements Function<Address, Void> {
 				.withRateLimiter(rateLimiter)
 				.decorate();
 		
-		LatLon geo = getLocation(Try.of(decoratedFunction)
+		LatLon ll = getLocation(Try.of(decoratedFunction)
 			 .onFailure((Throwable t) -> ctx.getLogger().error(t.getMessage()))
 			 .getOrNull());
 
 		Builder result = GeoEncodedAddress.newBuilder()
 			.setAddress(addr);
 		
-		if (geo != null) {
-			result.setGeo(geo);
+		if (ll != null) {
+			result.setLatLong(ll);
 		} 
 		
 		ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))

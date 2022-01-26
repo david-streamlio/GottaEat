@@ -21,13 +21,13 @@
         <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
         <nifi-nar-maven-plugin.version>1.2.0</nifi-nar-maven-plugin.version>
         
-        <avro.version>1.9.2</avro.version>
+        <avro.version>1.11.0</avro.version>
         <com-google-gson.version>RELEASE113</com-google-gson.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <guava.version>20.0</guava.version>
         <httpclient.version>4.5.10</httpclient.version>
         <ignite.version>2.9.0</ignite.version>
-        <jackson-core.version>2.10.1</jackson-core.version>
+        <jackson-core.version>2.12.3</jackson-core.version>
         <jakarta.xml.bind-api.version>2.3.2</jakarta.xml.bind-api.version>
         <jsr311-api.version>1.1.1</jsr311-api.version>
         <junit.version>4.13.1</junit.version>
@@ -68,6 +68,7 @@
       <module>delivery-time-estimator</module>
       <module>commons</module>
       <module>restaurant-simulator</module>
+      <module>hexagon-encoding-service</module>
     </modules>
     
     <dependencies>

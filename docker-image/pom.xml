@@ -130,6 +130,12 @@
      
      <dependency>
          <groupId>${parent.groupId}</groupId>
+         <artifactId>hexagon-encoding-service</artifactId>
+         <version>${parent.version}</version>
+     </dependency>
+     
+     <dependency>
+         <groupId>${parent.groupId}</groupId>
          <artifactId>grid-tracking-service</artifactId>
          <version>${parent.version}</version>
      </dependency>

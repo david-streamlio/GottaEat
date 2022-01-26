@@ -68,7 +68,7 @@ public class GoogleMapsFunction implements Function<Address, Void> {
 				LatLon ll = new LatLon();
 				ll.setLatitude(geo.location.lat);
 				ll.setLongitude(geo.location.lng);
-				result.setGeo(ll);
+				result.setLatLong(ll);
 			}
 			
 			ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))

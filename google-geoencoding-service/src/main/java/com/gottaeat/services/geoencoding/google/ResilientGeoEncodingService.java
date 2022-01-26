@@ -81,12 +81,13 @@ public class ResilientGeoEncodingService implements Function<Address, Void> {
 			    .withRetry(retry)
 			    .decorate();
 		
-		LatLon geo = getLocation(Try.of(() -> resilientFunction.apply(addr.toString())).get());
+		LatLon ll = getLocation(Try.of(() -> resilientFunction.apply(addr.toString())).get());
 
-		if (geo != null) {
+		if (ll != null) {
 			GeoEncodedAddress result = GeoEncodedAddress.newBuilder()
 					.setAddress(addr)
-					.setGeo(geo).build();
+					.setLatLong(ll)
+					.build();
 			
 			ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))
 				.properties(ctx.getCurrentRecord().getProperties())

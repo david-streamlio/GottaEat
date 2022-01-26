@@ -65,12 +65,14 @@ public class GeoEncodingServiceWithCache implements Function<Address, Void> {
 			    .withCache(cacheContext)
 			    .decorate();
 		
-		LatLon geo = getLocation(Try.of(() -> cachedFunction.apply(addr.toString())).get());
+		LatLon ll = getLocation(Try.of(() -> cachedFunction.apply(addr.toString())).get());
 
-		if (geo != null) {
-			GeoEncodedAddress result = GeoEncodedAddress.newBuilder()
+		if (ll != null) {
+			GeoEncodedAddress result = 
+				GeoEncodedAddress.newBuilder()
 					.setAddress(addr)
-					.setGeo(geo).build();
+					.setLatLong(ll)
+					.build();
 			
 			ctx.newOutputMessage(ctx.getOutputTopic(), AvroSchema.of(GeoEncodedAddress.class))
 				.properties(ctx.getCurrentRecord().getProperties())
