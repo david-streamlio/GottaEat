@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.gottaeat</groupId>
+    <artifactId>GottaEat</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <artifactId>driver-mobile-app-simulator</artifactId>
+  <description>GottaEat :: Driver Mobile App Simulator</description>
+  
+  <dependencies>
+  	<dependency>
+    	<groupId>org.apache.pulsar</groupId>
+        <artifactId>pulsar-client-original</artifactId>
+        <version>${pulsar.version}</version>
+  	</dependency>
+  	
+  	<dependency>
+		<groupId>com.gottaeat</groupId>
+    	<artifactId>domain-schema</artifactId>
+    	<version>${project.version}</version>
+	</dependency>
+	
+	<dependency>
+  		<groupId>org.slf4j</groupId>
+  		<artifactId>slf4j-simple</artifactId>
+  		<version>1.7.25</version>
+	</dependency>
+	
+	<dependency>
+       <groupId>org.glassfish.jaxb</groupId>
+       <artifactId>jaxb-xjc</artifactId>
+       <version>2.3.2</version>
+    </dependency>
+		
+  </dependencies>
+  
+  <build>
+  	<plugins>
+  		<plugin>
+    		<groupId>org.codehaus.mojo</groupId>
+    		<artifactId>jaxb2-maven-plugin</artifactId>
+    		<version>2.4</version>
+    		<executions>
+        		<execution>
+            		<id>xjc</id>
+            		<goals>
+                		<goal>xjc</goal>
+            		</goals>
+        		</execution>
+    		</executions>
+    		<configuration>
+        		<sources>
+            		<source>src/main/resources/gpx.xsd</source>
+        		</sources>
+        		<outputDirectory>${basedir}/src/main/java</outputDirectory>
+        		<clearOutputDir>false</clearOutputDir>
+    		</configuration>
+    		<dependencies>
+          <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+            <version>2.3.2</version>
+          </dependency>
+          <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+            <version>1.2.1</version>
+          </dependency>
+        </dependencies>
+		</plugin>
+  	</plugins>
+  </build>
+</project>
