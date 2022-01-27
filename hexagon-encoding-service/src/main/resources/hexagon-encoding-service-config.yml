@@ -1,0 +1,46 @@
+className:  com.gottaeat.service.location.hexagon.HexagonEncodingService
+tenant: gottaeat
+namespace: services
+name: hexagon-encoding-service
+inputs:
+  - persistent://orders/inbound/food-orders
+output:  
+logTopic: persistent://gottaeat/services/hexagon-encoding-service-log
+userConfig:
+  "resolution": "9"
+
+
+##################################
+# Consumer Behavior
+##################################
+autoAck: true
+processingGuarantees: ATLEAST_ONCE
+retainOrdering: false
+timeoutMs: 30000
+subsName: hexagon-encoding-service-sub
+cleanupSubscription: true
+
+
+##################################
+# Schemas
+##################################
+# customSchemaInputs: expects "string": "JSON config"
+
+
+##################################
+# Function instance resources
+##################################
+# CPU: 2.0
+# disk: 50000
+# ram: 200000000
+# parallelism: 3
+
+##################################
+# Security
+##################################
+# clientAuthParams: 
+# clientAuthPlugin:
+# hostnameVerificationEnabled: false
+# tlsAllowInsecure:
+# tlsTrustCertPath:
+# useTls:
