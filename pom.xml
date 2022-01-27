@@ -69,6 +69,7 @@
       <module>commons</module>
       <module>restaurant-simulator</module>
       <module>hexagon-encoding-service</module>
+      <module>driver-mobile-app-simulator</module>
     </modules>
     
     <dependencies>
